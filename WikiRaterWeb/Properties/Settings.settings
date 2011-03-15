@@ -12,7 +12,7 @@
       <Value Profile="(Default)">Rate on WikiRater</Value>
     </Setting>
     <Setting Name="Bookmarklet" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">javascript:(function(){{f='{0}/Vote.aspx?url='+encodeURIComponent(window.location.href);a=function(){{if(!window.open(f+'noui=1&amp;jump=doclose','wikivoter','location=yes,links=no,scrollbars=no,toolbar=no,width=550,height=370'))location.href=f+'jump=yes'}};if(/Firefox/.test(navigator.userAgent)){{setTimeout(a,0)}}else{{a()}}}})()
+      <Value Profile="(Default)">javascript:(function(){{f='{0}/Vote.aspx?Article='+encodeURIComponent(window.location.href);a=function(){{if(!window.open(f+'noui=1&amp;jump=doclose','wikivoter','location=yes,links=no,scrollbars=no,toolbar=no,width=550,height=370'))location.href=f+'jump=yes'}};if(/Firefox/.test(navigator.userAgent)){{setTimeout(a,0)}}else{{a()}}}})()
 
 </Value>
     </Setting>

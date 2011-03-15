@@ -15,53 +15,55 @@ namespace WikiRaterWeb
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
-
-			try
+			if (!Page.IsPostBack)
 			{
-				Regex reg = new Regex("^.*(wiki/|index.php\\?title=)([\\w\\.\\(\\)'%,/!\\-]+)(noui)?.*?$");
-				string urlmatch = reg.Match(Request["URL"]).Groups[2].Value;
-				if (urlmatch.EndsWith("noui"))
-					urlmatch = urlmatch.Substring(0, urlmatch.Length - 4);
-
-				Guid session = new Guid();
-				//we've never seen this user before or they've cleared their cookies
-				if (Request.Cookies["session"] != null && Guid.TryParse(Request.Cookies["session"].Value, out session))
+				try
 				{
-					int userID = Auth.checkSession(session);
-					if (userID != 0)
+					Regex reg = new Regex(Settings.Default.WikiTitleRegex);
+					string urlmatch = reg.Match(Request["Article"]).Groups[2].Value;
+					if (urlmatch.EndsWith("noui"))
+						urlmatch = urlmatch.Substring(0, urlmatch.Length - 4);
+
+					Guid session = new Guid();
+					//we've never seen this user before or they've cleared their cookies
+					if (Request.Cookies["session"] != null && Guid.TryParse(Request.Cookies["session"].Value, out session))
 					{
-						if (urlmatch.Length > 0)
+						int userID = Auth.checkSession(session);
+						if (userID != 0)
 						{
-							url.Text = Server.HtmlEncode(urlmatch);
-							if (Settings.Default.LogAllURLs)
-								Auth.CreateEvent("URL to Match", "by: " + Auth.LookupUserName(userID) + " \r\n" + Request["URL"], Request.UserHostAddress);
+							if (urlmatch.Length > 0)
+							{
+								url.Text = Server.HtmlEncode(urlmatch);
+								if (Settings.Default.LogAllURLs)
+									Auth.CreateEvent("URL to Match", "by: " + Auth.LookupUserName(userID) + " \r\n" + Request["Article"], Request.UserHostAddress);
+							}
+							else
+							{
+								VotePanel.Visible = false;
+								InvalidPage.Visible = true;
+							}
 						}
 						else
 						{
-							VotePanel.Visible = false;
-							InvalidPage.Visible = true;
+							Auth.CreateEvent("Invalid ", "by: " + Auth.LookupUserName(userID) + " \r\n" + "Cookie Value: " + Request.Cookies["session"].Value, Request.UserHostAddress);
+							Response.Redirect("Login.aspx?URL=" + Server.UrlEncode(urlmatch));
 						}
 					}
 					else
 					{
-						Auth.CreateEvent("Invalid ", "by: " + Auth.LookupUserName(userID) + " \r\n" + "Cookie Value: " + Request.Cookies["session"].Value, Request.UserHostAddress);
+						Auth.CreateEvent("Could Not Parse Session Cookie", "Cookie Value: " + Request.Cookies["session"].Value, Request.UserHostAddress);
 						Response.Redirect("Login.aspx?URL=" + Server.UrlEncode(urlmatch));
 					}
 				}
-				else
+				catch (ThreadAbortException)
 				{
-					Auth.CreateEvent("Could Not Parse Session Cookie", "Cookie Value: " + Request.Cookies["session"].Value, Request.UserHostAddress);
-					Response.Redirect("Login.aspx?URL=" + Server.UrlEncode(urlmatch));
-				}
-			}
-			catch (ThreadAbortException)
-			{
 
-			}
-			catch (Exception ex)
-			{
-				Auth.CreateEvent("Could Not Add Rating:" + ex.Message, ex.ToString() + "\r\nPage: " + Request["URL"], Request.UserHostAddress);
-				Response.Redirect("Login.aspx");
+				}
+				catch (Exception ex)
+				{
+					Auth.CreateEvent("Could Not Add Rating:" + ex.Message, ex.ToString() + "\r\nPage: " + Request["Article"], Request.UserHostAddress);
+					Response.Redirect("Login.aspx");
+				}
 			}
 		}
 		private void MakeVote(int votes)
@@ -80,6 +82,7 @@ namespace WikiRaterWeb
 							DataClassesDataContext dc = new DataClassesDataContext();
 							dc.AddRating(userID, url.Text, votes);
 							Auth.CreateEvent("New Vote Added", Auth.LookupUserName(userID) + " rated " + url.Text + " a " + votes, Request.UserHostAddress);
+							UserRating.Text = votes.ToString();
 							try
 							{
 								Article art = new Article("http://en.wikipedia.org/wiki/" + url.Text);
@@ -87,7 +90,6 @@ namespace WikiRaterWeb
 									WikiRaterRating.Text = "WikiRater would have rated this article: " + art.rating.ToString() + "<br />";
 								else
 									WikiRaterRating.Visible = false;
-								UserRating.Text = votes.ToString();
 							}
 							catch (Exception ex)
 							{

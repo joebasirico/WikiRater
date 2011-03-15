@@ -11,7 +11,8 @@
 		to your browser. When you're on a wikipedia article you'd like to rate just click
 		the bookmarklet and a little window will popup that will let you rate that article,
 		simple and easy!<br />
-		Try it out on a <a href="http://en.wikipedia.org/wiki/Special:Random">Random Wikipedia Article</a>
+		Try it out on a <a href="http://en.wikipedia.org/wiki/Special:Random">Random Wikipedia Article</a><br />
+		Or go rate what other people have rated and help give me more data! <a href="CurrentRatings.aspx">Current Ratings</a>
 		<br />
 		<br />
 		<strong>Bookmarklet</strong><br />

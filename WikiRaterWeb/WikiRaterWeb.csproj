@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="AllRatings.aspx" />
     <Content Include="CurrentRatings.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="default.css" />
@@ -76,6 +77,13 @@
     </Compile>
     <Compile Include="About.aspx.designer.cs">
       <DependentUpon>About.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AllRatings.aspx.cs">
+      <DependentUpon>AllRatings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AllRatings.aspx.designer.cs">
+      <DependentUpon>AllRatings.aspx</DependentUpon>
     </Compile>
     <Compile Include="Auth.cs" />
     <Compile Include="CurrentRatings.aspx.cs">

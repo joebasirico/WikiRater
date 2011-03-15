@@ -46,9 +46,9 @@ namespace WikiRaterWeb
 						Response.Cookies["session"].Expires = DateTime.Now.AddMonths(1);
 
 					//if they've been redirected here from Vote we'll register their vote now.
-					if (!(string.IsNullOrEmpty(Request["URL"])))
+					if (!(string.IsNullOrWhiteSpace(Request["Article"])))
 					{
-						string url = Request["URL"];
+						string url = Request["Article"];
 						Response.Redirect("Vote.aspx?URL=" + Server.UrlEncode("http://en.wikipedia.org/wiki/" + Server.UrlDecode(url)));
 					}
 

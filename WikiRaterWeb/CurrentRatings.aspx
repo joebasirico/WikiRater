@@ -22,7 +22,7 @@
 			<ItemTemplate>
 				<tr>
 					<td>
-						<%# Eval("Article")%>
+						<a href='http://en.wikipedia.org/wiki/<%# Eval("Article")%>'><%# Eval("Article")%></a>
 					</td>
 					<td>
 						<%# Eval("Rating")%>

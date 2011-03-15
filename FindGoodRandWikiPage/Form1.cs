@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using RatingEngine;
 
 namespace FindGoodRandWikiPage
 {
@@ -29,15 +30,23 @@ namespace FindGoodRandWikiPage
             }
         }
 
-        private void PrintArticleStats(Article art)
-        {
-            ArtStats.Text += art.title + ": " + art.rating + "\r\n\t" + art.url + "\r\n";
-        }
+		private void PrintArticleStats(Article art)
+		{
+			ArtStats.Text += art.title + ": " + art.rating + "\r\n\t" + art.url + "\r\n"; 
+		}
+
 
         private void ArtStats_TextChanged(object sender, EventArgs e)
         {
             ArtStats.Select(ArtStats.Text.Length, 0);
             ArtStats.ScrollToCaret();
         }
+
+		private void Rate_Click(object sender, EventArgs e)
+		{
+			Article art = new Article(ArticleURL.Text);
+			PrintArticleStats(art);
+			ArtStats.Refresh();
+		}
     }
 }

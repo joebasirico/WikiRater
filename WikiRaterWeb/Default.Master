@@ -1,0 +1,27 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Default.master.cs" Inherits="WikiRaterWeb.Default" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+		<link rel="stylesheet" type="text/css" href="default.css">
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+	<h1>
+		<asp:HyperLink ID="TitleLink" runat="server">WikiRater</asp:HyperLink></h1>
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+		<div class="footer">
+		<asp:Label ID="footerStuff" runat="server"></asp:Label>
+
+		<br /><br /><a href="http://www.whoisjoe.net">created by joe</a></div>
+    </div>
+    </form>
+</body>
+</html>

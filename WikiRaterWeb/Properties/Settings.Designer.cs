@@ -52,10 +52,49 @@ namespace WikiRaterWeb.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"javascript:(function(){f='http://{0}/Vote.aspx?url='+encodeURIComponent(window.location.href);a=function(){if(!window.open(f+'noui=1&jump=doclose','wikivoter','location=yes,links=no,scrollbars=no,toolbar=no,width=550,height=370'))location.href=f+'jump=yes'};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"javascript:(function(){{f='{0}/Vote.aspx?url='+encodeURIComponent(window.location.href);a=function(){{if(!window.open(f+'noui=1&jump=doclose','wikivoter','location=yes,links=no,scrollbars=no,toolbar=no,width=550,height=370'))location.href=f+'jump=yes'}};if(/Firefox/.test(navigator.userAgent)){{setTimeout(a,0)}}else{{a()}}}})()
+
+")]
         public string Bookmarklet {
             get {
                 return ((string)(this["Bookmarklet"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("TikiHead")]
+        public string RegCode {
+            get {
+                return ((string)(this["RegCode"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("^[a-zA-Z0-9_\\.\\-]{3,}$")]
+        public string UsernameRegex {
+            get {
+                return ((string)(this["UsernameRegex"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Usernames must be greater than three characters and only contain only a-z 0-9, _," +
+            " -, .")]
+        public string UsernameFailedMatchMessage {
+            get {
+                return ((string)(this["UsernameFailedMatchMessage"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool LogAllURLs {
+            get {
+                return ((bool)(this["LogAllURLs"]));
             }
         }
     }

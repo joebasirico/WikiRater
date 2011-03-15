@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Text.RegularExpressions;
 using RatingEngine;
+using WikiRaterWeb.Properties;
 
 namespace WikiRaterWeb
 {
@@ -28,7 +29,8 @@ namespace WikiRaterWeb
 						if (urlmatch.EndsWith("noui"))
 							urlmatch = urlmatch.Substring(0, urlmatch.Length - 4);
 						url.Text = Server.HtmlEncode(urlmatch);
-						Auth.CreateEvent("URL to Match", "by: " + Auth.LookupUserName(userID) + " \r\n" + Request["URL"], Request.UserHostAddress);
+						if(Settings.Default.LogAllURLs)
+							Auth.CreateEvent("URL to Match", "by: " + Auth.LookupUserName(userID) + " \r\n" + Request["URL"], Request.UserHostAddress);
 					}
 					else
 					{
@@ -59,12 +61,12 @@ namespace WikiRaterWeb
 					int userID = Auth.checkSession(session);
 					if (userID != 0)
 					{
-						Article art = new Article(Request["URL"]);
+						Article art = new Article("http://en.wikipedia.org/wiki/" + url.Text);
 						WikiRaterRating.Text = art.rating.ToString();
 						UserRating.Text = votes.ToString();
 						DataClassesDataContext dc = new DataClassesDataContext();
 						dc.AddRating(userID, url.Text, votes);
-						Auth.CreateEvent("New Vote Added", "by: " + Auth.LookupUserName(userID) + " \r\n" + Auth.LookupUserName(userID) + " rated " + url.Text + " a " + votes, Request.UserHostAddress);
+						Auth.CreateEvent("New Vote Added", Auth.LookupUserName(userID) + " rated " + url.Text + " a " + votes, Request.UserHostAddress);
 						VotePanel.Visible = false;
 						VoteCompletedPanel.Visible = true;
 					}

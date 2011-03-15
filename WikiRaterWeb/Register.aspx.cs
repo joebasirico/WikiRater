@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Text.RegularExpressions;
 using System.Text;
 using System.Security.Cryptography;
+using WikiRaterWeb.Properties;
 
 namespace WikiRaterWeb
 {
@@ -22,12 +23,12 @@ namespace WikiRaterWeb
 
 			try
 			{
-				if (RegCode.Text == "TikiHead")
+				if (RegCode.Text == Settings.Default.RegCode)
 				{
 					if (!Auth.UserExists(UsernameBox.Text))
 					{
-						if (!new Regex("^[a-zA-Z0-9_\\.\\-]{3,}$").IsMatch(UsernameBox.Text))
-							Message.Text = "Usernames must be greater than three characters and only contain only a-z 0-9, _, -, .";
+						if (!new Regex(Settings.Default.UsernameRegex).IsMatch(UsernameBox.Text))
+							Message.Text = Settings.Default.UsernameFailedMatchMessage;
 						else
 						{
 							Auth.registerUser(UsernameBox.Text,
@@ -59,7 +60,7 @@ namespace WikiRaterWeb
 						Message.Text = "That username is already in use, please select another. May I suggest: \"" + Auth.GenerateRandomUserName() + "\"?";
 				}
 				else
-					Auth.CreateEvent("Registration Attepmt", "User failed to supply correct Registration Code", Request.UserHostAddress);
+					Auth.CreateEvent("Registration Attempt", "User failed to supply correct Registration Code", Request.UserHostAddress);
 			}
 			catch (Exception ex)
 			{

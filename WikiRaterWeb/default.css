@@ -85,3 +85,9 @@ a:visited
   cursor: pointer;
   width: 18px;
 }
+
+.leaderboard td
+{
+	padding: 5px;
+	border-bottom: 1px solid #828282;
+}

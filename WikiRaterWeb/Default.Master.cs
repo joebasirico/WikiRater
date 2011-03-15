@@ -26,6 +26,9 @@ namespace WikiRaterWeb
 				footerStuff.Text = "";
 
 			TitleLink.NavigateUrl = Settings.Default.CurrentDomain;
+
+			Bookmarklet.Text = Settings.Default.RateOnWikiRaterText;
+			Bookmarklet.NavigateUrl = String.Format(Settings.Default.Bookmarklet, Settings.Default.CurrentDomain);
 		}
 	}
 }

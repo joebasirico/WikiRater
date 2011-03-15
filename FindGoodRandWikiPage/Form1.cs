@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using RatingEngine;
+using System.IO;
 
 namespace FindGoodRandWikiPage
 {
@@ -32,7 +33,8 @@ namespace FindGoodRandWikiPage
 
 		private void PrintArticleStats(Article art)
 		{
-			ArtStats.Text += art.title + ": " + art.rating + "\r\n\t" + art.url + "\r\n"; 
+			ArtStats.Text += art.title + ": " + art.rating + "\r\n\t" + art.url + "\r\n";
+			File.AppendAllText("output.txt", art.title.PadRight(80) + art.rating.ToString().PadRight(10) + art.url + "\r\n"); 
 		}
 
 

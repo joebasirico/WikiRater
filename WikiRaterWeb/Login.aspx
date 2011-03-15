@@ -43,7 +43,7 @@
 	<asp:Panel ID="LoginCompletePanel" runat="server" Visible="false">
 		<div class="contentSmall">
 			<strong>Login Complete</strong><br />
-			You have been logged in and now may begin rating wikipedia articles.
+			You have been logged in and now may begin rating wikipedia articles. Don't forget the bookmarlet (in the footer if you need it)!
 			<br />
 			<br />
 			<em>note: if you were redirected to the login page, by attempting to vote you'll need

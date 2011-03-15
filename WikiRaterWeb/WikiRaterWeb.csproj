@@ -51,10 +51,12 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="About.aspx" />
     <Content Include="CurrentRatings.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="default.css" />
     <Content Include="EventLog.aspx" />
+    <Content Include="Leaderboards.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Logout.aspx" />
     <Content Include="Register.aspx" />
@@ -68,6 +70,13 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="About.aspx.cs">
+      <DependentUpon>About.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="About.aspx.designer.cs">
+      <DependentUpon>About.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Auth.cs" />
     <Compile Include="CurrentRatings.aspx.cs">
       <DependentUpon>CurrentRatings.aspx</DependentUpon>
@@ -101,6 +110,13 @@
     </Compile>
     <Compile Include="EventLog.aspx.designer.cs">
       <DependentUpon>EventLog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Leaderboards.aspx.cs">
+      <DependentUpon>Leaderboards.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Leaderboards.aspx.designer.cs">
+      <DependentUpon>Leaderboards.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

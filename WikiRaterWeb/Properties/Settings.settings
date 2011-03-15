@@ -12,7 +12,21 @@
       <Value Profile="(Default)">Rate on WikiRater</Value>
     </Setting>
     <Setting Name="Bookmarklet" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">javascript:(function(){f='http://{0}/Vote.aspx?url='+encodeURIComponent(window.location.href);a=function(){if(!window.open(f+'noui=1&amp;jump=doclose','wikivoter','location=yes,links=no,scrollbars=no,toolbar=no,width=550,height=370'))location.href=f+'jump=yes'};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()</Value>
+      <Value Profile="(Default)">javascript:(function(){{f='{0}/Vote.aspx?url='+encodeURIComponent(window.location.href);a=function(){{if(!window.open(f+'noui=1&amp;jump=doclose','wikivoter','location=yes,links=no,scrollbars=no,toolbar=no,width=550,height=370'))location.href=f+'jump=yes'}};if(/Firefox/.test(navigator.userAgent)){{setTimeout(a,0)}}else{{a()}}}})()
+
+</Value>
+    </Setting>
+    <Setting Name="RegCode" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">TikiHead</Value>
+    </Setting>
+    <Setting Name="UsernameRegex" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">^[a-zA-Z0-9_\.\-]{3,}$</Value>
+    </Setting>
+    <Setting Name="UsernameFailedMatchMessage" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Usernames must be greater than three characters and only contain only a-z 0-9, _, -, .</Value>
+    </Setting>
+    <Setting Name="LogAllURLs" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

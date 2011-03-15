@@ -18,8 +18,8 @@
         
         </asp:ContentPlaceHolder>
 		<div class="footer">
+		Bookmarklet: <asp:Hyperlink ID="Bookmarklet" runat="server"></asp:Hyperlink><br />
 		<asp:Label ID="footerStuff" runat="server"></asp:Label>
-
 		<br /><br /><a href="http://www.whoisjoe.net">created by joe</a></div>
     </div>
     </form>

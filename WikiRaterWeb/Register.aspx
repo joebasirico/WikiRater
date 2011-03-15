@@ -54,10 +54,28 @@
 			Thank you for registering with WikiRater. You have been logged in and now may begin
 			rating wikipedia articles.<br />
 			<br />
-			For easy rating may I suggest you install this bookmarklet: <a href="javascript:(function(){f='http://wikirater.whoisjoe.com/Vote.aspx?url='+encodeURIComponent(window.location.href);a=function(){if(!window.open(f+'noui=1&jump=doclose','wikivoter','location=yes,links=no,scrollbars=no,toolbar=no,width=550,height=370'))location.href=f+'jump=yes'};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()">
-				Rate on WikiRater</a>?
+			For easy rating may I suggest you install this bookmarklet
+			<asp:HyperLink ID="Bookmarklet" runat="server"></asp:HyperLink>?
 			<br />
 			Just drag it to the toolbar or bookmarks bar on your browser.
+		</div>
+	</asp:Panel>
+	<asp:Panel ID="AlreadyLoggedIn" runat="server" Visible="false">
+		<div class="contentSmall">
+			<strong>Already Logged In</strong><br />
+			It looks like you're already registered and logged in. Grab the bookmarklet (in
+			the footer) and start rating articles!<br /><br />
+			Maybe you want to start with a <a href="http://en.wikipedia.org/wiki/Special:Random">Random Wikipedia Article</a>
+			<br />
+			If you need to <a href="Logout.aspx">logout</a>, you can do that too.
+		</div>
+	</asp:Panel>
+	<asp:Panel ID="ErrorPanel" runat="server" Visible="false">
+		<div class="contentSmall">
+			<strong>Something went wrong</strong><br />
+			We're sorry there was an issue logging you in after you signed up. You can try to
+			<a href="Login.aspx">login</a>, or <a href="mailto:wikirater@whoisjoe.com">notify me</a>
+			and I'll work to fix the error.
 		</div>
 	</asp:Panel>
 </asp:Content>

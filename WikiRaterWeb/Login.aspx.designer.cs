@@ -49,6 +49,15 @@ namespace WikiRaterWeb {
         protected global::System.Web.UI.WebControls.TextBox PasswordBox;
         
         /// <summary>
+        /// RememberMe control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox RememberMe;
+        
+        /// <summary>
         /// DoLogin control.
         /// </summary>
         /// <remarks>
@@ -65,5 +74,14 @@ namespace WikiRaterWeb {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel LoginCompletePanel;
+        
+        /// <summary>
+        /// AlreadyLoggedIn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel AlreadyLoggedIn;
     }
 }

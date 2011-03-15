@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Text.RegularExpressions;
 using RatingEngine;
 using WikiRaterWeb.Properties;
+using System.Threading;
 
 namespace WikiRaterWeb
 {
@@ -17,6 +18,11 @@ namespace WikiRaterWeb
 
 			try
 			{
+				Regex reg = new Regex("^.*(wiki/|index.php\\?title=)([\\w\\.\\(\\)'%,/!\\-]+)(noui)?.*?$");
+				string urlmatch = reg.Match(Request["URL"]).Groups[2].Value;
+				if (urlmatch.EndsWith("noui"))
+					urlmatch = urlmatch.Substring(0, urlmatch.Length - 4);
+
 				Guid session = new Guid();
 				//we've never seen this user before or they've cleared their cookies
 				if (Request.Cookies["session"] != null && Guid.TryParse(Request.Cookies["session"].Value, out session))
@@ -24,25 +30,33 @@ namespace WikiRaterWeb
 					int userID = Auth.checkSession(session);
 					if (userID != 0)
 					{
-						Regex reg = new Regex("^.*(wiki/|index.php\\?title=)([\\w\\.\\(\\)'%,/!\\-]+)(noui)?.*?$");
-						string urlmatch = reg.Match(Request["URL"]).Groups[2].Value;
-						if (urlmatch.EndsWith("noui"))
-							urlmatch = urlmatch.Substring(0, urlmatch.Length - 4);
-						url.Text = Server.HtmlEncode(urlmatch);
-						if(Settings.Default.LogAllURLs)
-							Auth.CreateEvent("URL to Match", "by: " + Auth.LookupUserName(userID) + " \r\n" + Request["URL"], Request.UserHostAddress);
+						if (urlmatch.Length > 0)
+						{
+							url.Text = Server.HtmlEncode(urlmatch);
+							if (Settings.Default.LogAllURLs)
+								Auth.CreateEvent("URL to Match", "by: " + Auth.LookupUserName(userID) + " \r\n" + Request["URL"], Request.UserHostAddress);
+						}
+						else
+						{
+							VotePanel.Visible = false;
+							InvalidPage.Visible = true;
+						}
 					}
 					else
 					{
 						Auth.CreateEvent("Invalid ", "by: " + Auth.LookupUserName(userID) + " \r\n" + "Cookie Value: " + Request.Cookies["session"].Value, Request.UserHostAddress);
-						Response.Redirect("Login.aspx");
+						Response.Redirect("Login.aspx?URL=" + Server.UrlEncode(urlmatch));
 					}
 				}
 				else
 				{
 					Auth.CreateEvent("Could Not Parse Session Cookie", "Cookie Value: " + Request.Cookies["session"].Value, Request.UserHostAddress);
-					Response.Redirect("Login.aspx");
+					Response.Redirect("Login.aspx?URL=" + Server.UrlEncode(urlmatch));
 				}
+			}
+			catch (ThreadAbortException)
+			{
+
 			}
 			catch (Exception ex)
 			{
@@ -61,16 +75,37 @@ namespace WikiRaterWeb
 					int userID = Auth.checkSession(session);
 					if (userID != 0)
 					{
-						Article art = new Article("http://en.wikipedia.org/wiki/" + url.Text);
-						WikiRaterRating.Text = art.rating.ToString();
-						UserRating.Text = votes.ToString();
-						DataClassesDataContext dc = new DataClassesDataContext();
-						dc.AddRating(userID, url.Text, votes);
-						Auth.CreateEvent("New Vote Added", Auth.LookupUserName(userID) + " rated " + url.Text + " a " + votes, Request.UserHostAddress);
+						try
+						{
+							DataClassesDataContext dc = new DataClassesDataContext();
+							dc.AddRating(userID, url.Text, votes);
+							Auth.CreateEvent("New Vote Added", Auth.LookupUserName(userID) + " rated " + url.Text + " a " + votes, Request.UserHostAddress);
+							try
+							{
+								Article art = new Article("http://en.wikipedia.org/wiki/" + url.Text);
+								if (art.rating > 0)
+									WikiRaterRating.Text = "WikiRater would have rated this article: " + art.rating.ToString() + "<br />";
+								else
+									WikiRaterRating.Visible = false;
+								UserRating.Text = votes.ToString();
+							}
+							catch (Exception ex)
+							{
+								Auth.CreateEvent("Could Not Rate Article: " + ex.Message, "by: " + Auth.LookupUserName(userID) + "\r\n" + ex.ToString(), Request.UserHostAddress);
+							}
+						}
+						catch (Exception ex)
+						{
+							Auth.CreateEvent("Could Not Add Rating: " + ex.Message, "by: " + Auth.LookupUserName(userID) + "\r\n" + ex.ToString(), Request.UserHostAddress);
+						}
 						VotePanel.Visible = false;
 						VoteCompletedPanel.Visible = true;
 					}
 				}
+			}
+			catch (ThreadAbortException)
+			{
+
 			}
 			catch (Exception ex)
 			{

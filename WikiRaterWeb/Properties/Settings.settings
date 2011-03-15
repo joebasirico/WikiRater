@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="CurrentDomain" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://wikirater.whoisjoe.com</Value>
+      <Value Profile="(Default)">http://localhost:13800</Value>
     </Setting>
     <Setting Name="WikiTitleRegex" Type="System.String" Scope="Application">
       <Value Profile="(Default)">^.*(wiki/|index.php\?title=)([\w\.'%,/!\-]+)(noui)?.*?$</Value>

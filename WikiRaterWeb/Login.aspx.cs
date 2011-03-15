@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Text;
 using System.Security.Cryptography;
+using System.Threading;
 
 namespace WikiRaterWeb
 {
@@ -13,7 +14,17 @@ namespace WikiRaterWeb
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
-
+			Guid session = new Guid();
+				//we've never seen this user before or they've cleared their cookies
+			if (Request.Cookies["session"] != null && Guid.TryParse(Request.Cookies["session"].Value, out session))
+			{
+				int userID = Auth.checkSession(session);
+				if (userID != 0)
+				{
+					LoginPanel.Visible = false;
+					AlreadyLoggedIn.Visible = true;
+				}
+			}
 		}
 
 		protected void DoLogin_Click(object sender, EventArgs e)
@@ -29,17 +40,16 @@ namespace WikiRaterWeb
 					Guid session = Guid.NewGuid();
 					Auth.createSession(userID, session);
 					Auth.CreateEvent("Successful Login", "By user: " + UsernameBox.Text, Request.UserHostAddress);
+
 					Response.Cookies.Add(new HttpCookie("session", session.ToString()));
+					if(RememberMe.Checked)
+						Response.Cookies["session"].Expires = DateTime.Now.AddMonths(1);
 
 					//if they've been redirected here from Vote we'll register their vote now.
-					if (!(string.IsNullOrEmpty(Request["URL"]) || string.IsNullOrEmpty(Request["Rating"])))
+					if (!(string.IsNullOrEmpty(Request["URL"])))
 					{
 						string url = Request["URL"];
-						int votes = 0;
-						int.TryParse(Request["Rating"], out votes);
-
-						DataClassesDataContext dc = new DataClassesDataContext();
-						dc.AddRating(userID, url, votes);
+						Response.Redirect("Vote.aspx?URL=" + Server.UrlEncode("http://en.wikipedia.org/wiki/" + Server.UrlDecode(url)));
 					}
 
 					LoginPanel.Visible = false;
@@ -50,6 +60,10 @@ namespace WikiRaterWeb
 					Message.Text = "Incorrect username or password, please try again.<br/>";
 					Auth.CreateEvent("Failed Login Attempt", "By user: " + UsernameBox.Text, Request.UserHostAddress);
 				}
+			}
+			catch (ThreadAbortException)
+			{
+
 			}
 			catch (Exception ex)
 			{

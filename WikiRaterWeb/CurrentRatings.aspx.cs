@@ -28,7 +28,8 @@ namespace WikiRaterWeb
 			foreach (var ratingValue in query1)
 			{
 				DataRow dr = dt.NewRow();
-				dr["Article"] = ratingValue.Article; 
+				//encode
+				dr["Article"] = Server.HtmlEncode(ratingValue.Article); 
 				dr["Rating"] = ratingValue.Average;
 				
 				dt.Rows.Add(dr);

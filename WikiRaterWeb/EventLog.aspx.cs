@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Threading;
 
 namespace WikiRaterWeb
 {
@@ -25,6 +26,10 @@ namespace WikiRaterWeb
 						Response.Redirect("Login.aspx");
 					}
 				}
+			}
+			catch (ThreadAbortException)
+			{
+
 			}
 			catch (Exception ex)
 			{

@@ -27,9 +27,16 @@
 	<asp:Panel runat="server" ID="VoteCompletedPanel" Visible="false">
 		<div class="contentSmall">
 			<strong>Thank you for voting, Your vote has been recorded!</strong><br />
-			WikiRater would have rated this article: 
 			<asp:Label runat="server" ID="WikiRaterRating" />
-			<br />(you rated it a: <asp:Label runat="server" ID="UserRating" />)
+			(You rated it a: <asp:Label runat="server" ID="UserRating" />)
 		</div>
 	</asp:Panel>
+	<asp:Panel runat="server" ID="InvalidPage" Visible="false">
+		<div class="contentSmall">
+			<strong>Couldn't find a wiki article</strong><br />
+			Sorry, it doesn't look like you're on a wikipedia article. If you think you've arrived on this page
+			in error <a href="mailto:wikirater@whoisjoe.com">please let me know</a>.
+		</div>
+	</asp:Panel>
+	
 </asp:Content>

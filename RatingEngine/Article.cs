@@ -57,75 +57,76 @@ namespace RatingEngine
 		/// </summary>
 		public void Rate()
 		{
-			///rating = (linksInWeight * linksIn) + 
-			///         (linksOutWeight * linksOut) + 
-			///         (minutesSinceLastEditWeight * minutesSinceLastEdit * -1) + 
-			///         (totalEditsWeight * totalEdits) + 
-			///         (totalMinorEditsWeight * totalMinorEdits) + 
-			///         (isFeaturedWeight * isFeatured) + 
-			///         (totalLengthWeight * totalLength) + 
-			///         (viewsInLast30DaysWeight * viewsInLast30Days)
-			int linksToWeight = 10;
-			int linksFromWeight = 5;
-			int minutesSinceLastEditWeight = 0;
-			int totalEditsWeight = 5;
-			int totalMinorEditsWeight = 2;
-			int isFeaturedWeight = 300;
-			int totalLengthWeight = 1;
-			int viewsInLast30DaysWeight = 2;
-
-			int CurLinksTo = GetLinksTo();
-			int CurLinksFrom = GetLinksFrom();
-			int CurMinutesSinceLastEdit = GetMinSinceLastEdit();
-			int CurTotalEdits = GetTotalEdits();
-			int CurTotalMinorEdits = GetTotalMinEdits();
-			int CurIsFeatured = GetIsFeatured();
-			int CurTotalLength = GetTotalLength();
-			int CurViewsInLast30Days = GetViewsInLast30Days();
-
-
-
-			int internalRating = (linksToWeight * CurLinksTo) +
-						(linksFromWeight * CurLinksFrom) +
-						(minutesSinceLastEditWeight * CurMinutesSinceLastEdit) +
-						(totalEditsWeight * CurTotalEdits) +
-						(totalMinorEditsWeight * CurTotalMinorEdits) +
-						(isFeaturedWeight * CurIsFeatured) +
-						(totalLengthWeight * CurTotalLength) +
-						(viewsInLast30DaysWeight * CurViewsInLast30Days);
-
-			//Thresholds
-			//1:      0 - 300
-			//2:    301 - 1000
-			//3:   1001 - 2500
-			//4:   2501 - 4500
-			//5:   4501 - 7000
-			//6:   7001 - 10000
-			//7:  10001 - 12000
-			//8:  12001 - 15000
-			//9:  15001 - 20000
-			//10: 20001 - 
-
-			if (internalRating <= 300)
+			//is disambiguation page, automatically a 1
+			if (body.Contains("This <a href=\"/wiki/Help:Disambiguation\" title=\"Help:Disambiguation\">disambiguation</a>"))
+			{
 				rating = 1;
-			else if (internalRating > 300 && internalRating <= 1000)
-				rating = 2;
-			else if (internalRating > 1000 && internalRating <= 2500)
-				rating = 3;
-			else if (internalRating > 2500 && internalRating <= 4500)
-				rating = 4;
-			else if (internalRating > 4500 && internalRating <= 7000)
-				rating = 5;
-			else if (internalRating > 7000 && internalRating <= 10000)
-				rating = 6;
-			else if (internalRating > 10000 && internalRating <= 12000)
-				rating = 7;
-			else if (internalRating > 12000 && internalRating <= 15000)
-				rating = 8;
-			else if (internalRating > 15000 && internalRating <= 20000)
-				rating = 9;
-			else if (internalRating > 20000)
-				rating = 10;
+			}
+			else
+			{
+				///rating = (linksInWeight * linksIn) + 
+				///         (linksOutWeight * linksOut) + 
+				///         (minutesSinceLastEditWeight * minutesSinceLastEdit * -1) + 
+				///         (totalEditsWeight * totalEdits) + 
+				///         (totalMinorEditsWeight * totalMinorEdits) + 
+				///         (isFeaturedWeight * isFeatured) + 
+				///         (totalLengthWeight * totalLength) + 
+				///         (viewsInLast30DaysWeight * viewsInLast30Days)
+
+				int linksToWeight = 50;
+				int linksFromWeight = 25;
+				int minutesSinceLastEditWeight = 0;
+				int totalEditsWeight = 5;
+				int totalMinorEditsWeight = 2;
+				//if something is featured it's probably pretty good, this will
+				//push it up into the 7 Range, plus the other pieces it's close to being a 10
+				int isFeaturedWeight = 10000;
+				//reduce the total length weight by a decent amount
+				double totalLengthWeight = 1.0 / 200.0;
+				int viewsInLast30DaysWeight = 2;
+
+				int CurLinksTo = GetLinksTo();
+				int CurLinksFrom = GetLinksFrom();
+				int CurMinutesSinceLastEdit = GetMinSinceLastEdit();
+				int CurTotalEdits = GetTotalEdits();
+				int CurTotalMinorEdits = GetTotalMinEdits();
+				int CurIsFeatured = GetIsFeatured();
+				//25000 bytes is about what the wiki cruft is
+				int CurTotalLength = GetTotalLength() - 25000;
+				int CurViewsInLast30Days = GetViewsInLast30Days();
+
+
+
+				int internalRating = (linksToWeight * CurLinksTo) +
+							(linksFromWeight * CurLinksFrom) +
+							(minutesSinceLastEditWeight * CurMinutesSinceLastEdit) +
+							(totalEditsWeight * CurTotalEdits) +
+							(totalMinorEditsWeight * CurTotalMinorEdits) +
+							(isFeaturedWeight * CurIsFeatured) +
+							(int)(totalLengthWeight * (double)CurTotalLength) +
+							(viewsInLast30DaysWeight * CurViewsInLast30Days);
+
+				if (internalRating <= 300)
+					rating = 1;
+				else if (internalRating > 300 && internalRating <= 1000)
+					rating = 2;
+				else if (internalRating > 1000 && internalRating <= 2500)
+					rating = 3;
+				else if (internalRating > 2500 && internalRating <= 4500)
+					rating = 4;
+				else if (internalRating > 4500 && internalRating <= 7000)
+					rating = 5;
+				else if (internalRating > 7000 && internalRating <= 10000)
+					rating = 6;
+				else if (internalRating > 10000 && internalRating <= 12000)
+					rating = 7;
+				else if (internalRating > 12000 && internalRating <= 15000)
+					rating = 8;
+				else if (internalRating > 15000 && internalRating <= 20000)
+					rating = 9;
+				else if (internalRating > 20000)
+					rating = 10;
+			}
 		}
 
 		private int GetViewsInLast30Days()
@@ -150,7 +151,7 @@ namespace RatingEngine
 
 		private int GetTotalLength()
 		{
-			return (body.Length - 25000) / 100;
+			return body.Length;
 		}
 
 		private int GetIsFeatured()
@@ -187,7 +188,8 @@ namespace RatingEngine
 		public int GetLinksTo()
 		{
 			int linksto = 0;
-			string linkPages = "http://en.wikipedia.org/w/index.php?title=Special:WhatLinksHere&target={0}&namespace=0";
+			//http://en.wikipedia.org/w/index.php?title=Special:WhatLinksHere/Great_Neck,_New_York&namespace=0&limit=50000
+			string linkPages = "http://en.wikipedia.org/w/index.php?title=Special:WhatLinksHere&target={0}&namespace=0&limit=50000";
 			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(string.Format(linkPages, title));
 			request.Method = "GET";
 			request.UserAgent = "IE";
@@ -218,7 +220,7 @@ namespace RatingEngine
 				StreamReader inStream = new StreamReader(response.GetResponseStream());
 				body = inStream.ReadToEnd();
 			}
-			catch (WebException wex)
+			catch (WebException)
 			{
 			}
 			catch (Exception ex)

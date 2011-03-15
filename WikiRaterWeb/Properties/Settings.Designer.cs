@@ -25,7 +25,7 @@ namespace WikiRaterWeb.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://wikirater.whoisjoe.com")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:13800")]
         public string CurrentDomain {
             get {
                 return ((string)(this["CurrentDomain"]));

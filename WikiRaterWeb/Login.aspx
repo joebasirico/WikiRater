@@ -33,6 +33,11 @@
 					</td>
 				</tr>
 				<tr>
+					<td colspan="2" >
+						<asp:CheckBox ID="RememberMe" runat="server" Text="Remember for one month" />
+					</td>
+				</tr>
+				<tr>
 					<td colspan="2" align="right">
 						<asp:Button Text="Login" ID="DoLogin" runat="server" OnClick="DoLogin_Click" />
 					</td>
@@ -43,12 +48,22 @@
 	<asp:Panel ID="LoginCompletePanel" runat="server" Visible="false">
 		<div class="contentSmall">
 			<strong>Login Complete</strong><br />
-			You have been logged in and now may begin rating wikipedia articles. Don't forget the bookmarlet (in the footer if you need it)!
+			You have been logged in and now may begin rating wikipedia articles. Don't forget
+			the bookmarlet (in the footer if you need it)!
 			<br />
 			<br />
 			<em>note: if you were redirected to the login page, by attempting to vote you'll need
 				to vote again.</em><br />
 			--Joe
+		</div>
+	</asp:Panel>
+	<asp:Panel ID="AlreadyLoggedIn" runat="server" Visible="false">
+		<div class="contentSmall">
+			<strong>Already Logged In</strong><br />
+			It looks like you're already logged in. Grab the bookmarklet (in the footer) and
+			start rating articles!<br />
+			<br />
+			If you need to <a href="Logout.aspx">logout</a>, you can do that too.
 		</div>
 	</asp:Panel>
 </asp:Content>

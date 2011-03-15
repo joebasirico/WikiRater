@@ -25,7 +25,8 @@ namespace WikiRaterWeb
 			{
 				DataRow dr = dt.NewRow();
 				dr["UserID"] = uid;
-				dr["UserName"] = Auth.LookupUserName(uid);
+				//already validated, but encode anyway
+				dr["UserName"] = Server.HtmlEncode(Auth.LookupUserName(uid)); 
 				dr["Count"] =  (from c in dc.Ratings
 								where c.UserID == uid
 							select c.Value).Count();

@@ -13,17 +13,18 @@ namespace WikiRaterWeb
 		protected void Page_Load(object sender, EventArgs e)
 		{
 			DataClassesDataContext dc = new DataClassesDataContext();
-			var query1 = from rating in dc.Ratings
+			var query1 = from rating in dc.Ratings 
+						 where rating.IsLatest == true
 						 group rating by rating.Article into result
 						 select new
 						 {
 							 Article = result.Key,
-							 Average = result.Average(i => i.Value)
+							 Average = result.Average(i => (Double)i.Value)
 						 };
 
 			DataTable dt = new DataTable();
 			dt.Columns.Add("Article");
-			dt.Columns.Add("Rating", System.Type.GetType("System.Int32"));
+			dt.Columns.Add("Rating", System.Type.GetType("System.Double"));
 
 			foreach (var ratingValue in query1)
 			{

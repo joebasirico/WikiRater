@@ -9,15 +9,6 @@
       <Column Name="LogBody" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
     </Type>
   </Table>
-  <Table Name="dbo.Rating" Member="Ratings">
-    <Type Name="Rating">
-      <Column Name="RatingID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Article" Type="System.String" DbType="NVarChar(512) NOT NULL" CanBeNull="false" />
-      <Column Name="Value" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="User_Rating" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Session" Member="Sessions">
     <Type Name="Session">
       <Column Name="SessionID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -33,16 +24,21 @@
       <Column Name="PasswordHash" Type="System.String" DbType="Char(128) NOT NULL" CanBeNull="false" />
       <Column Name="TimeCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="Active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="User_Rating" Member="Ratings" ThisKey="UserID" OtherKey="UserID" Type="Rating" />
       <Association Name="User_Session" Member="Sessions" ThisKey="UserID" OtherKey="UserID" Type="Session" />
+      <Association Name="User_Rating" Member="Ratings" ThisKey="UserID" OtherKey="UserID" Type="Rating" />
     </Type>
   </Table>
-  <Function Name="dbo.AddRating" Method="AddRating">
-    <Parameter Name="UserID" Parameter="userID" Type="System.Int32" DbType="Int" />
-    <Parameter Name="Article" Parameter="article" Type="System.String" DbType="NVarChar(255)" />
-    <Parameter Name="Value" Parameter="value" Type="System.Int32" DbType="Int" />
-    <Return Type="System.Int32" />
-  </Function>
+  <Table Name="dbo.Rating" Member="Ratings">
+    <Type Name="Rating">
+      <Column Name="RatingID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Article" Type="System.String" DbType="NVarChar(512) NOT NULL" CanBeNull="false" />
+      <Column Name="Value" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="IsLatest" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="User_Rating" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Function Name="dbo.LookupUsername" Method="LookupUsername">
     <Parameter Name="UserID" Parameter="userID" Type="System.Int32" DbType="Int" />
     <ElementType Name="LookupUsernameResult">
@@ -100,6 +96,13 @@
   </Function>
   <Function Name="dbo.DestroySession" Method="DestroySession">
     <Parameter Name="Session" Parameter="session" Type="System.Guid" DbType="UniqueIdentifier" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddRating" Method="AddRating">
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Article" Parameter="article" Type="System.String" DbType="NVarChar(255)" />
+    <Parameter Name="Value" Parameter="value" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Date" Parameter="date" Type="System.DateTime" DbType="DateTime" />
     <Return Type="System.Int32" />
   </Function>
 </Database>

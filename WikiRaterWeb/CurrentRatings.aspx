@@ -25,7 +25,7 @@
 						<a href='http://en.wikipedia.org/wiki/<%# Eval("Article")%>'><%# Eval("Article")%></a>
 					</td>
 					<td>
-						<%# Eval("Rating")%>
+						<%# Eval("Rating", "{0:0.00}")%>
 					</td>
 				</tr>
 			</ItemTemplate>

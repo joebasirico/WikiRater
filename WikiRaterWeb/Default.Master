@@ -5,14 +5,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
-		<link rel="stylesheet" type="text/css" href="default.css">
+		<link rel="stylesheet" type="text/css" href="default.css" />
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
+	<script type="text/javascript">
+
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-286230-10']);
+		_gaq.push(['_trackPageview']);
+
+		(function () {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+
+</script>
 </head>
 <body>
     <form id="form1" runat="server">
     <div>
-	<h1>
+	<h1 class="siteTitle">
 		<asp:HyperLink ID="TitleLink" runat="server">WikiRater</asp:HyperLink></h1>
         <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
         
@@ -20,7 +33,7 @@
 		<div class="footer">
 		Bookmarklet: <asp:Hyperlink ID="Bookmarklet" runat="server"></asp:Hyperlink><br />
 		<asp:Label ID="footerStuff" runat="server"></asp:Label>
-		<br /><br /><a href="http://www.whoisjoe.net">created by joe</a></div>
+		<br /><a href="http://www.whoisjoe.net">created by joe</a></div>
     </div>
     </form>
 </body>

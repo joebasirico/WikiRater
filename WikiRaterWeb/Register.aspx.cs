@@ -82,7 +82,10 @@ namespace WikiRaterWeb
 						Message.Text = "That username is already in use, please select another. May I suggest: \"" + Auth.GenerateRandomUserName() + "\"?";
 				}
 				else
+				{
+					Message.Text = "Incorrect Registration Code";
 					Auth.CreateEvent("Registration Attempt", "User failed to supply correct Registration Code", Request.UserHostAddress);
+				}
 			}
 			catch (Exception ex)
 			{

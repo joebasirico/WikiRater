@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WikiRaterWeb", "WikiRaterWe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatingEngine", "RatingEngine\RatingEngine.csproj", "{54B1023B-1DB7-4828-B6A2-DDAFD378B453}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WikiParser", "WikiParser\WikiParser.csproj", "{DC842B20-C595-4575-90E6-47790532C723}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,16 @@ Global
 		{54B1023B-1DB7-4828-B6A2-DDAFD378B453}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{54B1023B-1DB7-4828-B6A2-DDAFD378B453}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{54B1023B-1DB7-4828-B6A2-DDAFD378B453}.Release|x86.ActiveCfg = Release|Any CPU
+		{DC842B20-C595-4575-90E6-47790532C723}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{DC842B20-C595-4575-90E6-47790532C723}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{DC842B20-C595-4575-90E6-47790532C723}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{DC842B20-C595-4575-90E6-47790532C723}.Debug|x86.ActiveCfg = Debug|x86
+		{DC842B20-C595-4575-90E6-47790532C723}.Debug|x86.Build.0 = Debug|x86
+		{DC842B20-C595-4575-90E6-47790532C723}.Release|Any CPU.ActiveCfg = Release|x86
+		{DC842B20-C595-4575-90E6-47790532C723}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{DC842B20-C595-4575-90E6-47790532C723}.Release|Mixed Platforms.Build.0 = Release|x86
+		{DC842B20-C595-4575-90E6-47790532C723}.Release|x86.ActiveCfg = Release|x86
+		{DC842B20-C595-4575-90E6-47790532C723}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

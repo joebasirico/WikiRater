@@ -17,13 +17,20 @@ namespace WikiRaterWeb
 		{
 			if (!Page.IsPostBack)
 			{
+				string urlmatch = "";
 				try
 				{
-					Regex reg = new Regex(Settings.Default.WikiTitleRegex);
-					string urlmatch = reg.Match(Request["Article"]).Groups[2].Value;
-					if (urlmatch.EndsWith("noui"))
-						urlmatch = urlmatch.Substring(0, urlmatch.Length - 4);
-
+					try
+					{
+						Regex reg = new Regex(Settings.Default.WikiTitleRegex);
+						urlmatch = reg.Match(Request["Article"]).Groups[2].Value;
+						if (urlmatch.EndsWith("noui"))
+							urlmatch = urlmatch.Substring(0, urlmatch.Length - 4);
+					}
+					catch (Exception ex)
+					{
+						Auth.CreateEvent("Could not Parse Article", ex.ToString(), Request.UserHostAddress);
+					}
 					Guid session = new Guid();
 					//we've never seen this user before or they've cleared their cookies
 					if (Request.Cookies["session"] != null && Guid.TryParse(Request.Cookies["session"].Value, out session))
@@ -46,13 +53,13 @@ namespace WikiRaterWeb
 						else
 						{
 							Auth.CreateEvent("Invalid ", "by: " + Auth.LookupUserName(userID) + " \r\n" + "Cookie Value: " + Request.Cookies["session"].Value, Request.UserHostAddress);
-							Response.Redirect("Login.aspx?URL=" + Server.UrlEncode(urlmatch));
+							Response.Redirect("Login.aspx?Article=" + Server.UrlEncode(urlmatch));
 						}
 					}
 					else
 					{
 						Auth.CreateEvent("Could Not Parse Session Cookie", "Cookie Value: " + Request.Cookies["session"].Value, Request.UserHostAddress);
-						Response.Redirect("Login.aspx?URL=" + Server.UrlEncode(urlmatch));
+						Response.Redirect("Login.aspx?Article=" + Server.UrlEncode(urlmatch));
 					}
 				}
 				catch (ThreadAbortException)
@@ -62,7 +69,7 @@ namespace WikiRaterWeb
 				catch (Exception ex)
 				{
 					Auth.CreateEvent("Could Not Add Rating:" + ex.Message, ex.ToString() + "\r\nPage: " + Request["Article"], Request.UserHostAddress);
-					Response.Redirect("Login.aspx");
+					Response.Redirect("Login.aspx?Article=" + Server.UrlEncode(urlmatch));
 				}
 			}
 		}
@@ -80,12 +87,12 @@ namespace WikiRaterWeb
 						try
 						{
 							DataClassesDataContext dc = new DataClassesDataContext();
-							dc.AddRating(userID, url.Text, votes);
+							dc.AddRating(userID, url.Text, votes, DateTime.Now);
 							Auth.CreateEvent("New Vote Added", Auth.LookupUserName(userID) + " rated " + url.Text + " a " + votes, Request.UserHostAddress);
 							UserRating.Text = votes.ToString();
 							try
 							{
-								Article art = new Article("http://en.wikipedia.org/wiki/" + url.Text);
+								Article art = new Article(url.Text);
 								if (art.rating > 0)
 									WikiRaterRating.Text = "WikiRater would have rated this article: " + art.rating.ToString() + "<br />";
 								else

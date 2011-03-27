@@ -17,39 +17,37 @@ namespace RatingEngine
 		public int rating = 0;
 		string statsPage = "http://toolserver.org/~soxred93/articleinfo/index.php?article={0}&lang=en&wiki=wikipedia";
 
-		/// <summary>
-		/// Get a random wiki article
-		/// </summary>
-		public Article()
-		{
-			url = "http://en.wikipedia.org/wiki/Special:Random";
-			//url = "https://secure.wikimedia.org/wikipedia/en/wiki/Ernie_Walker";
-			//url = "https://secure.wikimedia.org/wikipedia/en/wiki/Black_Friday_(1945)";
-			GetBody();
-			GetTitle();
-			Rate();
-			url = "http://en.wikipedia.org/wiki/" + title;
-		}
+		///// <summary>
+		///// Get a random wiki article
+		///// </summary>
+		//public Article()
+		//{
+		//    url = "http://en.wikipedia.org/wiki/Special:Random";
+		//    GetBody();
+		//    GetTitle();
+		//    Rate();
+		//    url = "http://en.wikipedia.org/wiki/" + title;
+		//}
 
 		/// <summary>
 		/// Get a specific wiki article
 		/// </summary>
 		/// <param name="url"></param>
-		public Article(string URL)
+		public Article(string t)
 		{
-			url = URL;
+			url = "http://en.wikipedia.org/wiki/" + t;
 			GetBody();
-			GetTitle();
+			title = t;
 			Rate();
 		}
 
 
-		private void GetTitle()
-		{
-			string titleMatch = "<h1 id=\"firstHeading\" class=\"firstHeading\">(.+)</h1>";
-			Regex titleRegex = new Regex(titleMatch);
-			title = titleRegex.Match(body).Groups[1].Value;
-		}
+		//private void GetTitle()
+		//{
+		//    string titleMatch = 
+		//    Regex titleRegex = new Regex(titleMatch);
+		//    title = titleRegex.Match(body).Groups[1].Value;
+		//}
 
 		/// <summary>
 		/// rate the current article and store it in rating
@@ -64,14 +62,13 @@ namespace RatingEngine
 			}
 			else
 			{
-				///rating = (linksInWeight * linksIn) + 
-				///         (linksOutWeight * linksOut) + 
-				///         (minutesSinceLastEditWeight * minutesSinceLastEdit * -1) + 
-				///         (totalEditsWeight * totalEdits) + 
-				///         (totalMinorEditsWeight * totalMinorEdits) + 
-				///         (isFeaturedWeight * isFeatured) + 
-				///         (totalLengthWeight * totalLength) + 
-				///         (viewsInLast30DaysWeight * viewsInLast30Days)
+
+				///Other things to use for rating input:
+				///# of images
+				///# of citations
+				///Writing Grade Level (Flesch grade level)
+				///Writing readability (Flesch-Kincaid score)
+				///# of sections of source code
 
 				int linksToWeight = 50;
 				int linksFromWeight = 25;
@@ -110,21 +107,21 @@ namespace RatingEngine
 					rating = 1;
 				else if (internalRating > 300 && internalRating <= 1000)
 					rating = 2;
-				else if (internalRating > 1000 && internalRating <= 2500)
+				else if (internalRating > 1000 && internalRating <= 3500)
 					rating = 3;
-				else if (internalRating > 2500 && internalRating <= 4500)
+				else if (internalRating > 3500 && internalRating <= 6000)
 					rating = 4;
-				else if (internalRating > 4500 && internalRating <= 7000)
+				else if (internalRating > 6000 && internalRating <= 9000)
 					rating = 5;
-				else if (internalRating > 7000 && internalRating <= 10000)
+				else if (internalRating > 9000 && internalRating <= 12000)
 					rating = 6;
-				else if (internalRating > 10000 && internalRating <= 12000)
+				else if (internalRating > 12000 && internalRating <= 20000)
 					rating = 7;
-				else if (internalRating > 12000 && internalRating <= 15000)
+				else if (internalRating > 20000 && internalRating <= 30000)
 					rating = 8;
-				else if (internalRating > 15000 && internalRating <= 20000)
+				else if (internalRating > 30000 && internalRating <= 40000)
 					rating = 9;
-				else if (internalRating > 20000)
+				else if (internalRating > 40000)
 					rating = 10;
 			}
 		}
@@ -188,7 +185,6 @@ namespace RatingEngine
 		public int GetLinksTo()
 		{
 			int linksto = 0;
-			//http://en.wikipedia.org/w/index.php?title=Special:WhatLinksHere/Great_Neck,_New_York&namespace=0&limit=50000
 			string linkPages = "http://en.wikipedia.org/w/index.php?title=Special:WhatLinksHere&target={0}&namespace=0&limit=50000";
 			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(string.Format(linkPages, title));
 			request.Method = "GET";

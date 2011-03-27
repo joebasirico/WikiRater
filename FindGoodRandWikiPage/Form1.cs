@@ -24,7 +24,7 @@ namespace FindGoodRandWikiPage
             Article art = null;
             while (rating < Int32.Parse(ThresholdBox.Text))
             {
-                art = new Article();
+                art = new Article("");
                 rating = art.rating;
                 PrintArticleStats(art);
                 ArtStats.Refresh();

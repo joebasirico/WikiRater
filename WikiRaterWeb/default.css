@@ -1,19 +1,44 @@
 ﻿body
 {
 	background-color: #333333;
-	font-family:Verdana;
+	font-family:Calibri, Verdana;
+	line-height: 200%;
 	font-size:10pt;
 	color:#828282;
 }
 
+code
+{
+	line-height: normal;
+	color: #000;
+}
+
+.siteTitle a:link
+{
+	width: 600px;
+	font-size:150%;
+	padding: 5px 0px 0px 20px;
+	line-height: 0px;
+	text-decoration:none;
+	margin: 0 auto;
+}
+
 h1
 {
-	color: #828282;
+	font-size: 180%;
+	color: #555;
 }
 
 h2
 {
-	color: #828282;
+	font-size: 140%;
+	color: #666;
+}
+
+h3
+{
+	font-size: 120%;
+	color: #777;
 }
 
 a:link
@@ -40,6 +65,11 @@ a:visited
 	background-color: #ffffff;
 	margin: 0 auto;
 	padding: 50px;
+}
+
+.paragraph
+{
+	padding-bottom: 20px;
 }
 
 .eventsTable
@@ -84,10 +114,34 @@ a:visited
   margin: 1px;
   cursor: pointer;
   width: 18px;
+  line-height: normal;
 }
 
 .leaderboard td
 {
 	padding: 5px;
 	border-bottom: 1px solid #828282;
+}
+
+img
+{
+	border: 3px solid #555;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+
+.errorContent
+{
+	width: 600px;
+	min-height: 500px;
+	background-color: #ffffff;
+	margin: 0 auto;
+	padding: 50px;
+}
+
+.errorImg
+{
+	border: none;
+	float:right;
 }

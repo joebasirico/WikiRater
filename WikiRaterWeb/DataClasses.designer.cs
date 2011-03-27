@@ -33,15 +33,15 @@ namespace WikiRaterWeb
     partial void InsertEventLog(EventLog instance);
     partial void UpdateEventLog(EventLog instance);
     partial void DeleteEventLog(EventLog instance);
-    partial void InsertRating(Rating instance);
-    partial void UpdateRating(Rating instance);
-    partial void DeleteRating(Rating instance);
     partial void InsertSession(Session instance);
     partial void UpdateSession(Session instance);
     partial void DeleteSession(Session instance);
     partial void InsertUser(User instance);
     partial void UpdateUser(User instance);
     partial void DeleteUser(User instance);
+    partial void InsertRating(Rating instance);
+    partial void UpdateRating(Rating instance);
+    partial void DeleteRating(Rating instance);
     #endregion
 		
 		public DataClassesDataContext() : 
@@ -82,14 +82,6 @@ namespace WikiRaterWeb
 			}
 		}
 		
-		public System.Data.Linq.Table<Rating> Ratings
-		{
-			get
-			{
-				return this.GetTable<Rating>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Session> Sessions
 		{
 			get
@@ -106,11 +98,12 @@ namespace WikiRaterWeb
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddRating")]
-		public int AddRating([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserID", DbType="Int")] System.Nullable<int> userID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Article", DbType="NVarChar(255)")] string article, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Value", DbType="Int")] System.Nullable<int> value)
+		public System.Data.Linq.Table<Rating> Ratings
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, article, value);
-			return ((int)(result.ReturnValue));
+			get
+			{
+				return this.GetTable<Rating>();
+			}
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.LookupUsername")]
@@ -166,6 +159,13 @@ namespace WikiRaterWeb
 		public int DestroySession([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Session", DbType="UniqueIdentifier")] System.Nullable<System.Guid> session)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), session);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddRating")]
+		public int AddRating([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserID", DbType="Int")] System.Nullable<int> userID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Article", DbType="NVarChar(255)")] string article, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Value", DbType="Int")] System.Nullable<int> value, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Date", DbType="DateTime")] System.Nullable<System.DateTime> date)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, article, value, date);
 			return ((int)(result.ReturnValue));
 		}
 	}
@@ -303,181 +303,6 @@ namespace WikiRaterWeb
 					this._LogBody = value;
 					this.SendPropertyChanged("LogBody");
 					this.OnLogBodyChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Rating")]
-	public partial class Rating : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _RatingID;
-		
-		private int _UserID;
-		
-		private string _Article;
-		
-		private int _Value;
-		
-		private EntityRef<User> _User;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnRatingIDChanging(int value);
-    partial void OnRatingIDChanged();
-    partial void OnUserIDChanging(int value);
-    partial void OnUserIDChanged();
-    partial void OnArticleChanging(string value);
-    partial void OnArticleChanged();
-    partial void OnValueChanging(int value);
-    partial void OnValueChanged();
-    #endregion
-		
-		public Rating()
-		{
-			this._User = default(EntityRef<User>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RatingID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int RatingID
-		{
-			get
-			{
-				return this._RatingID;
-			}
-			set
-			{
-				if ((this._RatingID != value))
-				{
-					this.OnRatingIDChanging(value);
-					this.SendPropertyChanging();
-					this._RatingID = value;
-					this.SendPropertyChanged("RatingID");
-					this.OnRatingIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserID", DbType="Int NOT NULL")]
-		public int UserID
-		{
-			get
-			{
-				return this._UserID;
-			}
-			set
-			{
-				if ((this._UserID != value))
-				{
-					if (this._User.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnUserIDChanging(value);
-					this.SendPropertyChanging();
-					this._UserID = value;
-					this.SendPropertyChanged("UserID");
-					this.OnUserIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Article", DbType="NVarChar(512) NOT NULL", CanBeNull=false)]
-		public string Article
-		{
-			get
-			{
-				return this._Article;
-			}
-			set
-			{
-				if ((this._Article != value))
-				{
-					this.OnArticleChanging(value);
-					this.SendPropertyChanging();
-					this._Article = value;
-					this.SendPropertyChanged("Article");
-					this.OnArticleChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Value", DbType="Int NOT NULL")]
-		public int Value
-		{
-			get
-			{
-				return this._Value;
-			}
-			set
-			{
-				if ((this._Value != value))
-				{
-					this.OnValueChanging(value);
-					this.SendPropertyChanging();
-					this._Value = value;
-					this.SendPropertyChanged("Value");
-					this.OnValueChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Rating", Storage="_User", ThisKey="UserID", OtherKey="UserID", IsForeignKey=true)]
-		public User User
-		{
-			get
-			{
-				return this._User.Entity;
-			}
-			set
-			{
-				User previousValue = this._User.Entity;
-				if (((previousValue != value) 
-							|| (this._User.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._User.Entity = null;
-						previousValue.Ratings.Remove(this);
-					}
-					this._User.Entity = value;
-					if ((value != null))
-					{
-						value.Ratings.Add(this);
-						this._UserID = value.UserID;
-					}
-					else
-					{
-						this._UserID = default(int);
-					}
-					this.SendPropertyChanged("User");
 				}
 			}
 		}
@@ -670,9 +495,9 @@ namespace WikiRaterWeb
 		
 		private bool _Active;
 		
-		private EntitySet<Rating> _Ratings;
-		
 		private EntitySet<Session> _Sessions;
+		
+		private EntitySet<Rating> _Ratings;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -692,8 +517,8 @@ namespace WikiRaterWeb
 		
 		public User()
 		{
-			this._Ratings = new EntitySet<Rating>(new Action<Rating>(this.attach_Ratings), new Action<Rating>(this.detach_Ratings));
 			this._Sessions = new EntitySet<Session>(new Action<Session>(this.attach_Sessions), new Action<Session>(this.detach_Sessions));
+			this._Ratings = new EntitySet<Rating>(new Action<Rating>(this.attach_Ratings), new Action<Rating>(this.detach_Ratings));
 			OnCreated();
 		}
 		
@@ -797,19 +622,6 @@ namespace WikiRaterWeb
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Rating", Storage="_Ratings", ThisKey="UserID", OtherKey="UserID")]
-		public EntitySet<Rating> Ratings
-		{
-			get
-			{
-				return this._Ratings;
-			}
-			set
-			{
-				this._Ratings.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Session", Storage="_Sessions", ThisKey="UserID", OtherKey="UserID")]
 		public EntitySet<Session> Sessions
 		{
@@ -820,6 +632,19 @@ namespace WikiRaterWeb
 			set
 			{
 				this._Sessions.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Rating", Storage="_Ratings", ThisKey="UserID", OtherKey="UserID")]
+		public EntitySet<Rating> Ratings
+		{
+			get
+			{
+				return this._Ratings;
+			}
+			set
+			{
+				this._Ratings.Assign(value);
 			}
 		}
 		
@@ -843,6 +668,18 @@ namespace WikiRaterWeb
 			}
 		}
 		
+		private void attach_Sessions(Session entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Sessions(Session entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
 		private void attach_Ratings(Rating entity)
 		{
 			this.SendPropertyChanging();
@@ -854,17 +691,228 @@ namespace WikiRaterWeb
 			this.SendPropertyChanging();
 			entity.User = null;
 		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Rating")]
+	public partial class Rating : INotifyPropertyChanging, INotifyPropertyChanged
+	{
 		
-		private void attach_Sessions(Session entity)
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _RatingID;
+		
+		private int _UserID;
+		
+		private string _Article;
+		
+		private int _Value;
+		
+		private System.DateTime _DateCreated;
+		
+		private bool _IsLatest;
+		
+		private EntityRef<User> _User;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnRatingIDChanging(int value);
+    partial void OnRatingIDChanged();
+    partial void OnUserIDChanging(int value);
+    partial void OnUserIDChanged();
+    partial void OnArticleChanging(string value);
+    partial void OnArticleChanged();
+    partial void OnValueChanging(int value);
+    partial void OnValueChanged();
+    partial void OnDateCreatedChanging(System.DateTime value);
+    partial void OnDateCreatedChanged();
+    partial void OnIsLatestChanging(bool value);
+    partial void OnIsLatestChanged();
+    #endregion
+		
+		public Rating()
 		{
-			this.SendPropertyChanging();
-			entity.User = this;
+			this._User = default(EntityRef<User>);
+			OnCreated();
 		}
 		
-		private void detach_Sessions(Session entity)
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RatingID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int RatingID
 		{
-			this.SendPropertyChanging();
-			entity.User = null;
+			get
+			{
+				return this._RatingID;
+			}
+			set
+			{
+				if ((this._RatingID != value))
+				{
+					this.OnRatingIDChanging(value);
+					this.SendPropertyChanging();
+					this._RatingID = value;
+					this.SendPropertyChanged("RatingID");
+					this.OnRatingIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserID", DbType="Int NOT NULL")]
+		public int UserID
+		{
+			get
+			{
+				return this._UserID;
+			}
+			set
+			{
+				if ((this._UserID != value))
+				{
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUserIDChanging(value);
+					this.SendPropertyChanging();
+					this._UserID = value;
+					this.SendPropertyChanged("UserID");
+					this.OnUserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Article", DbType="NVarChar(512) NOT NULL", CanBeNull=false)]
+		public string Article
+		{
+			get
+			{
+				return this._Article;
+			}
+			set
+			{
+				if ((this._Article != value))
+				{
+					this.OnArticleChanging(value);
+					this.SendPropertyChanging();
+					this._Article = value;
+					this.SendPropertyChanged("Article");
+					this.OnArticleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Value", DbType="Int NOT NULL")]
+		public int Value
+		{
+			get
+			{
+				return this._Value;
+			}
+			set
+			{
+				if ((this._Value != value))
+				{
+					this.OnValueChanging(value);
+					this.SendPropertyChanging();
+					this._Value = value;
+					this.SendPropertyChanged("Value");
+					this.OnValueChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateCreated", DbType="DateTime NOT NULL")]
+		public System.DateTime DateCreated
+		{
+			get
+			{
+				return this._DateCreated;
+			}
+			set
+			{
+				if ((this._DateCreated != value))
+				{
+					this.OnDateCreatedChanging(value);
+					this.SendPropertyChanging();
+					this._DateCreated = value;
+					this.SendPropertyChanged("DateCreated");
+					this.OnDateCreatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsLatest", DbType="Bit NOT NULL")]
+		public bool IsLatest
+		{
+			get
+			{
+				return this._IsLatest;
+			}
+			set
+			{
+				if ((this._IsLatest != value))
+				{
+					this.OnIsLatestChanging(value);
+					this.SendPropertyChanging();
+					this._IsLatest = value;
+					this.SendPropertyChanged("IsLatest");
+					this.OnIsLatestChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Rating", Storage="_User", ThisKey="UserID", OtherKey="UserID", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.Ratings.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.Ratings.Add(this);
+						this._UserID = value.UserID;
+					}
+					else
+					{
+						this._UserID = default(int);
+					}
+					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	

@@ -49,7 +49,7 @@ namespace WikiRaterWeb
 					if (!(string.IsNullOrWhiteSpace(Request["Article"])))
 					{
 						string url = Request["Article"];
-						Response.Redirect("Vote.aspx?URL=" + Server.UrlEncode("http://en.wikipedia.org/wiki/" + Server.UrlDecode(url)));
+						Response.Redirect("Vote.aspx?Article=" + Server.UrlEncode("http://en.wikipedia.org/wiki/" + Server.UrlDecode(url)));
 					}
 
 					LoginPanel.Visible = false;

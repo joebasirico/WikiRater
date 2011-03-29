@@ -61,7 +61,6 @@
     <Content Include="errors\GeneralError.aspx" />
     <Content Include="EventLog.aspx" />
     <Content Include="Help\Default.aspx" />
-    <Content Include="Help\foo.aspx" />
     <Content Include="Help\InstallOnIE.aspx" />
     <Content Include="Help\Mobile.aspx" />
     <Content Include="Help\ShowBookmarksBar.aspx" />
@@ -174,13 +173,6 @@
     </Compile>
     <Compile Include="Help\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Help\foo.aspx.cs">
-      <DependentUpon>foo.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Help\foo.aspx.designer.cs">
-      <DependentUpon>foo.aspx</DependentUpon>
     </Compile>
     <Compile Include="Help\Help.master.cs">
       <DependentUpon>Help.master</DependentUpon>

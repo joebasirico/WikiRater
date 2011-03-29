@@ -18,12 +18,21 @@ namespace WikiRaterWeb
 				int userID = Auth.checkSession(session);
 				string username = Auth.LookupUserName(userID);
 				if (!string.IsNullOrEmpty(username))
-					footerStuff.Text = "You are currently logged in as: " + username + " <a href=\"Logout.aspx\">click here to logout</a>";
+				{
+					footerStuff.Text = "You are currently logged in as: " + username + " <a href=\"/Logout.aspx\">click here to logout</a>";
+					loginlogout.Text = "";
+				}
 				else
+				{
 					footerStuff.Text = "";
+					loginlogout.Text = "| <a href=\"/Login.aspx\">Login</a>";
+				}
 			}
 			else
+			{
 				footerStuff.Text = "";
+				loginlogout.Text = "| <a href=\"/Login.aspx\">Login</a>";
+			}
 
 			TitleLink.NavigateUrl = Settings.Default.CurrentDomain;
 

@@ -1,9 +1,9 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Default.Master" AutoEventWireup="true" CodeBehind="Vote.aspx.cs" Inherits="WikiRaterWeb.Vote" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/DefaultNarrow.Master" AutoEventWireup="true" CodeBehind="Vote.aspx.cs" Inherits="WikiRaterWeb.Vote" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 	<asp:Panel ID="VotePanel" runat="server">
-		<div class="contentSmall">
+		<div class="contentNarrow">
 			Voting on: <strong>
 				<asp:Label ID="url" runat="server"></asp:Label></strong>
 			<br />
@@ -25,14 +25,14 @@
 		</div>
 	</asp:Panel>
 	<asp:Panel runat="server" ID="VoteCompletedPanel" Visible="false">
-		<div class="contentSmall">
+		<div class="contentNarrow">
 			<strong>Thank you for voting, Your vote has been recorded!</strong><br />
 			<asp:Label runat="server" ID="WikiRaterRating" />
 			(You rated it a: <asp:Label runat="server" ID="UserRating" />)
 		</div>
 	</asp:Panel>
 	<asp:Panel runat="server" ID="InvalidPage" Visible="false">
-		<div class="contentSmall">
+		<div class="contentNarrow">
 			<strong>Couldn't find a wiki article</strong><br />
 			Sorry, it doesn't look like you're on a wikipedia article. If you think you've arrived on this page
 			in error <a href="mailto:wikirater@whoisjoe.com">please let me know</a>.

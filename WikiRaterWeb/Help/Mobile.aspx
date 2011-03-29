@@ -1,10 +1,8 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Default.Master" AutoEventWireup="true"
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Help/Help.Master" AutoEventWireup="true"
 	CodeBehind="Mobile.aspx.cs" Inherits="WikiRaterWeb.Help.Mobile" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-	<div class="contentSmall">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolderHelp" runat="server">
+	<div class="content">
 		<h1>
 			Mobile</h1>
 		<div class="paragraph">

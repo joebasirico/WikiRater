@@ -1,11 +1,12 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Default.Master" AutoEventWireup="true"
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/DefaultNarrow.Master" AutoEventWireup="true"
 	CodeBehind="Login.aspx.cs" Inherits="WikiRaterWeb.Login" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 	<asp:Panel ID="LoginPanel" runat="server">
-		<div class="contentSmall">
+		<div class="contentNarrow">
+		<h1>Login</h1>
 			<asp:Label ID="Message" runat="server"></asp:Label>
 			<table>
 				<tr>
@@ -46,7 +47,7 @@
 		</div>
 	</asp:Panel>
 	<asp:Panel ID="LoginCompletePanel" runat="server" Visible="false">
-		<div class="contentSmall">
+		<div class="contentNarrow">
 			<strong>Login Complete</strong><br />
 			You have been logged in and now may begin rating wikipedia articles. Don't forget
 			the bookmarlet (in the footer if you need it)!
@@ -58,7 +59,7 @@
 		</div>
 	</asp:Panel>
 	<asp:Panel ID="AlreadyLoggedIn" runat="server" Visible="false">
-		<div class="contentSmall">
+		<div class="contentNarrow">
 			<strong>Already Logged In</strong><br />
 			It looks like you're already logged in. Grab the bookmarklet (in the footer) and
 			start rating articles!<br />

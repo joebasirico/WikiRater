@@ -5,7 +5,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 	<asp:Panel ID="RegisterPanel" runat="server">
-		<div class="contentSmall">
+		<div class="content">
 			<asp:Label ID="Message" runat="server"></asp:Label>
 			<table>
 				<tr>
@@ -22,6 +22,14 @@
 					</td>
 					<td>
 						<asp:TextBox runat="server" ID="UsernameBox" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						email*:
+					</td>
+					<td>
+						<asp:TextBox runat="server" ID="email" />
 					</td>
 				</tr>
 				<tr>
@@ -46,10 +54,13 @@
 					</td>
 				</tr>
 			</table>
+			<em>*a little note about e-mail. I will never sell, give away, hoc, or otherwise lose
+				your e-mail address or other data on this website. I'll keep it safe, <a href="http://www.youtube.com/watch?v=0o8XMlL8rqY">
+					front pocket</a>.</em>
 		</div>
 	</asp:Panel>
 	<asp:Panel ID="RegistrationCompletePanel" runat="server" Visible="false">
-		<div class="contentSmall">
+		<div class="content">
 			<strong>Registration Complete</strong><br />
 			Thank you for registering with WikiRater. You have been logged in and now may begin
 			rating wikipedia articles.<br />
@@ -61,17 +72,19 @@
 		</div>
 	</asp:Panel>
 	<asp:Panel ID="AlreadyLoggedIn" runat="server" Visible="false">
-		<div class="contentSmall">
+		<div class="content">
 			<strong>Already Logged In</strong><br />
 			It looks like you're already registered and logged in. Grab the bookmarklet (in
-			the footer) and start rating articles!<br /><br />
-			Maybe you want to start with a <a href="http://en.wikipedia.org/wiki/Special:Random">Random Wikipedia Article</a>
+			the footer) and start rating articles!<br />
+			<br />
+			Maybe you want to start with a <a href="http://en.wikipedia.org/wiki/Special:Random">
+				Random Wikipedia Article</a>
 			<br />
 			If you need to <a href="Logout.aspx">logout</a>, you can do that too.
 		</div>
 	</asp:Panel>
 	<asp:Panel ID="ErrorPanel" runat="server" Visible="false">
-		<div class="contentSmall">
+		<div class="content">
 			<strong>Something went wrong</strong><br />
 			We're sorry there was an issue logging you in after you signed up. You can try to
 			<a href="Login.aspx">login</a>, or <a href="mailto:wikirater@whoisjoe.com">notify me</a>

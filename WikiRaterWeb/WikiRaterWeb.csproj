@@ -51,6 +51,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin.aspx" />
     <Content Include="errors\404.aspx" />
     <Content Include="About.aspx" />
     <Content Include="AllRatings.aspx" />
@@ -60,6 +61,7 @@
     <Content Include="errors\GeneralError.aspx" />
     <Content Include="EventLog.aspx" />
     <Content Include="Help\Default.aspx" />
+    <Content Include="Help\foo.aspx" />
     <Content Include="Help\InstallOnIE.aspx" />
     <Content Include="Help\Mobile.aspx" />
     <Content Include="Help\ShowBookmarksBar.aspx" />
@@ -73,12 +75,15 @@
     <Content Include="images\Rate.PNG" />
     <Content Include="images\Register.PNG" />
     <Content Include="images\sadguy.JPG" />
+    <Content Include="ImprovementProgram.aspx" />
     <Content Include="Leaderboards.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Logout.aspx" />
     <Content Include="Register.aspx" />
     <Content Include="Vote.aspx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -87,6 +92,20 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin.aspx.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin.aspx.designer.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DefaultNarrow.Master.cs">
+      <DependentUpon>DefaultNarrow.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DefaultNarrow.Master.designer.cs">
+      <DependentUpon>DefaultNarrow.Master</DependentUpon>
+    </Compile>
     <Compile Include="errors\404.aspx.cs">
       <DependentUpon>404.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -156,6 +175,20 @@
     <Compile Include="Help\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Help\foo.aspx.cs">
+      <DependentUpon>foo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Help\foo.aspx.designer.cs">
+      <DependentUpon>foo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Help\Help.master.cs">
+      <DependentUpon>Help.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Help\Help.master.designer.cs">
+      <DependentUpon>Help.master</DependentUpon>
+    </Compile>
     <Compile Include="Help\InstallOnIE.aspx.cs">
       <DependentUpon>InstallOnIE.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -176,6 +209,13 @@
     </Compile>
     <Compile Include="Help\ShowBookmarksBar.aspx.designer.cs">
       <DependentUpon>ShowBookmarksBar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ImprovementProgram.aspx.cs">
+      <DependentUpon>ImprovementProgram.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ImprovementProgram.aspx.designer.cs">
+      <DependentUpon>ImprovementProgram.aspx</DependentUpon>
     </Compile>
     <Compile Include="Leaderboards.aspx.cs">
       <DependentUpon>Leaderboards.aspx</DependentUpon>
@@ -232,6 +272,8 @@
       <LastGenOutput>DataClasses.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
+    <Content Include="DefaultNarrow.Master" />
+    <Content Include="Help\Help.master" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

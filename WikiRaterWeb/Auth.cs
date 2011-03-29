@@ -44,10 +44,10 @@ public static class Auth
 		return foundUser;
 	}
 
-	public static void registerUser(string username, string password)
+	public static void registerUser(string username, string password, string email)
 	{
 		DataClassesDataContext dc = new DataClassesDataContext();
-		dc.CreateUser(username, password, DateTime.Now, true);
+		dc.CreateUser(username, password, DateTime.Now, true, email);
 	}
 
 	public static void createSession(int userID, Guid session)

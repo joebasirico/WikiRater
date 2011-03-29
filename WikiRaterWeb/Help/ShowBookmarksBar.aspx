@@ -1,9 +1,7 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Default.Master" AutoEventWireup="true"
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Help/Help.Master" AutoEventWireup="true"
 	CodeBehind="ShowBookmarksBar.aspx.cs" Inherits="WikiRaterWeb.Help.ShowBookmarksBar" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolderHelp" runat="server">
 	<div class="content">
 		<h1>
 			Show your bookmarks bar</h1>

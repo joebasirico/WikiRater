@@ -106,6 +106,14 @@ namespace WikiRaterWeb
 			}
 		}
 		
+		public System.Data.Linq.Table<ImprovementProgramList> ImprovementProgramLists
+		{
+			get
+			{
+				return this.GetTable<ImprovementProgramList>();
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.LookupUsername")]
 		public ISingleResult<LookupUsernameResult> LookupUsername([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserID", DbType="Int")] System.Nullable<int> userID)
 		{
@@ -148,13 +156,6 @@ namespace WikiRaterWeb
 			return ((int)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.CreateUser")]
-		public int CreateUser([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserName", DbType="NVarChar(50)")] string userName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PasswordHash", DbType="Char(128)")] string passwordHash, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="TimeCreated", DbType="DateTime")] System.Nullable<System.DateTime> timeCreated, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Active", DbType="Bit")] System.Nullable<bool> active)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userName, passwordHash, timeCreated, active);
-			return ((int)(result.ReturnValue));
-		}
-		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DestroySession")]
 		public int DestroySession([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Session", DbType="UniqueIdentifier")] System.Nullable<System.Guid> session)
 		{
@@ -166,6 +167,20 @@ namespace WikiRaterWeb
 		public int AddRating([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserID", DbType="Int")] System.Nullable<int> userID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Article", DbType="NVarChar(255)")] string article, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Value", DbType="Int")] System.Nullable<int> value, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Date", DbType="DateTime")] System.Nullable<System.DateTime> date)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, article, value, date);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddNewArticleToIP")]
+		public int AddNewArticleToIP([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Title", DbType="NVarChar(512)")] string title, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="TimeCreated", DbType="DateTime")] System.Nullable<System.DateTime> timeCreated)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), title, timeCreated);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.CreateUser")]
+		public int CreateUser([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserName", DbType="NVarChar(50)")] string userName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PasswordHash", DbType="Char(128)")] string passwordHash, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="TimeCreated", DbType="DateTime")] System.Nullable<System.DateTime> timeCreated, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Active", DbType="Bit")] System.Nullable<bool> active, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(500)")] string email)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userName, passwordHash, timeCreated, active, email);
 			return ((int)(result.ReturnValue));
 		}
 	}
@@ -912,6 +927,69 @@ namespace WikiRaterWeb
 			if ((this.PropertyChanged != null))
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ImprovementProgramList")]
+	public partial class ImprovementProgramList
+	{
+		
+		private int _ArticleID;
+		
+		private string _Title;
+		
+		private System.DateTime _DateAdded;
+		
+		public ImprovementProgramList()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ArticleID", DbType="Int NOT NULL")]
+		public int ArticleID
+		{
+			get
+			{
+				return this._ArticleID;
+			}
+			set
+			{
+				if ((this._ArticleID != value))
+				{
+					this._ArticleID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(512) NOT NULL", CanBeNull=false)]
+		public string Title
+		{
+			get
+			{
+				return this._Title;
+			}
+			set
+			{
+				if ((this._Title != value))
+				{
+					this._Title = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateAdded", DbType="DateTime NOT NULL")]
+		public System.DateTime DateAdded
+		{
+			get
+			{
+				return this._DateAdded;
+			}
+			set
+			{
+				if ((this._DateAdded != value))
+				{
+					this._DateAdded = value;
+				}
 			}
 		}
 	}

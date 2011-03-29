@@ -20,7 +20,7 @@
 				</table>
 			</LayoutTemplate>
 			<ItemTemplate>
-				<tr>
+				<tr <%# Eval("RatedStyle", "class='{0}'")%>>
 					<td>
 						<a href='http://en.wikipedia.org/wiki/<%# Eval("Article")%>'><%# Eval("Article")%></a>
 					</td>

@@ -34,15 +34,6 @@ namespace WikiRaterWeb.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("^.*(wiki/|index.php\\?title=)([\\w\\.\'%,/!\\-]+)(noui)?.*?$")]
-        public string WikiTitleRegex {
-            get {
-                return ((string)(this["WikiTitleRegex"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Rate on WikiRater")]
         public string RateOnWikiRaterText {
             get {
@@ -93,6 +84,33 @@ namespace WikiRaterWeb.Properties {
         public string Bookmarklet {
             get {
                 return ((string)(this["Bookmarklet"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("^.*(wiki/|index.php\\?title=)([\\w\\(\\)\\.\'%,/!\\-:]+)(noui)?.*?$")]
+        public string WikiTitleRegex {
+            get {
+                return ((string)(this["WikiTitleRegex"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]
+        public string emailRegex {
+            get {
+                return ((string)(this["emailRegex"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("The e-mail address you entered doesn\'t seem to be valid.")]
+        public string EmailFailedMatchMessage {
+            get {
+                return ((string)(this["EmailFailedMatchMessage"]));
             }
         }
     }

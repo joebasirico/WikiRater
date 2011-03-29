@@ -1,0 +1,12 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Default.Master" AutoEventWireup="true"
+	CodeBehind="Help.master.cs" Inherits="WikiRaterWeb.Help.Help" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+	<div class="subnavbar">
+		<a href="Default.aspx">Help Home</a> | <a href="ShowBookmarksBar.aspx">Show Bookmarks
+			Bar</a> | <a href="InstallOnIE.aspx">Internet Explorer</a> | <a href="Mobile.aspx">Mobile</a></div>
+	<asp:ContentPlaceHolder ID="ContentPlaceHolderHelp" runat="server">
+	</asp:ContentPlaceHolder>
+</asp:Content>

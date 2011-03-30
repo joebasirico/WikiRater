@@ -61,16 +61,6 @@ namespace WikiRaterWeb.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Usernames must be greater than three characters and only contain only a-z 0-9, _," +
-            " -, .")]
-        public string UsernameFailedMatchMessage {
-            get {
-                return ((string)(this["UsernameFailedMatchMessage"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool LogAllURLs {
             get {
@@ -111,6 +101,52 @@ namespace WikiRaterWeb.Properties {
         public string EmailFailedMatchMessage {
             get {
                 return ((string)(this["EmailFailedMatchMessage"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Usernames must be greater than tC:\\Users\\joe\\Dropbox\\Personal\\WikiRater\\WikiRater" +
+            "Web\\Web.confighree characters and only contain only a-z 0-9, _, -, .")]
+        public string UsernameFailedMatchMessage {
+            get {
+                return ((string)(this["UsernameFailedMatchMessage"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("WikiRater")]
+        public string WikiRaterName {
+            get {
+                return ((string)(this["WikiRaterName"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("7")]
+        public int RatingExpirationDays {
+            get {
+                return ((int)(this["RatingExpirationDays"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<div class=\"Achievement\"><img src=\"{0}\" /><strong>{1}</strong> - {2}</div>")]
+        public string AchievementFormat {
+            get {
+                return ((string)(this["AchievementFormat"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<div class=\"Achievement\"><strong>{0}</strong> - {1}</div>")]
+        public string AchievementFormatNoIcon {
+            get {
+                return ((string)(this["AchievementFormatNoIcon"]));
             }
         }
     }

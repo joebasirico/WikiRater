@@ -105,23 +105,23 @@ namespace RatingEngine
 
 				if (internalRating <= 300)
 					rating = 1;
-				else if (internalRating > 300 && internalRating <= 1000)
+				else if (internalRating > 300 && internalRating <= 5000)
 					rating = 2;
-				else if (internalRating > 1000 && internalRating <= 3500)
+				else if (internalRating > 5000 && internalRating <= 10000)
 					rating = 3;
-				else if (internalRating > 3500 && internalRating <= 6000)
+				else if (internalRating > 10000 && internalRating <= 15000)
 					rating = 4;
-				else if (internalRating > 6000 && internalRating <= 9000)
+				else if (internalRating > 15000 && internalRating <= 22000)
 					rating = 5;
-				else if (internalRating > 9000 && internalRating <= 12000)
+				else if (internalRating > 22000 && internalRating <= 30000)
 					rating = 6;
-				else if (internalRating > 12000 && internalRating <= 20000)
+				else if (internalRating > 30000 && internalRating <= 38000)
 					rating = 7;
-				else if (internalRating > 20000 && internalRating <= 30000)
+				else if (internalRating > 38000 && internalRating <= 45000)
 					rating = 8;
-				else if (internalRating > 30000 && internalRating <= 40000)
+				else if (internalRating > 45000 && internalRating <= 60000)
 					rating = 9;
-				else if (internalRating > 40000)
+				else if (internalRating > 60000)
 					rating = 10;
 			}
 		}

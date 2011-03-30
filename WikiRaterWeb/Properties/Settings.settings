@@ -14,9 +14,6 @@
     <Setting Name="UsernameRegex" Type="System.String" Scope="Application">
       <Value Profile="(Default)">^[a-zA-Z0-9_\.\-]{3,}$</Value>
     </Setting>
-    <Setting Name="UsernameFailedMatchMessage" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Usernames must be greater than three characters and only contain only a-z 0-9, _, -, .</Value>
-    </Setting>
     <Setting Name="LogAllURLs" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
@@ -31,6 +28,21 @@
     </Setting>
     <Setting Name="EmailFailedMatchMessage" Type="System.String" Scope="Application">
       <Value Profile="(Default)">The e-mail address you entered doesn't seem to be valid.</Value>
+    </Setting>
+    <Setting Name="UsernameFailedMatchMessage" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Usernames must be greater than tC:\Users\joe\Dropbox\Personal\WikiRater\WikiRaterWeb\Web.confighree characters and only contain only a-z 0-9, _, -, .</Value>
+    </Setting>
+    <Setting Name="WikiRaterName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">WikiRater</Value>
+    </Setting>
+    <Setting Name="RatingExpirationDays" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">7</Value>
+    </Setting>
+    <Setting Name="AchievementFormat" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">&lt;div class="Achievement"&gt;&lt;img src="{0}" /&gt;&lt;strong&gt;{1}&lt;/strong&gt; - {2}&lt;/div&gt;</Value>
+    </Setting>
+    <Setting Name="AchievementFormatNoIcon" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">&lt;div class="Achievement"&gt;&lt;strong&gt;{0}&lt;/strong&gt; - {1}&lt;/div&gt;</Value>
     </Setting>
   </Settings>
 </SettingsFile>

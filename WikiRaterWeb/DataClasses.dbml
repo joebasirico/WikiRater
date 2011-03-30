@@ -26,6 +26,7 @@
       <Column Name="Active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="User_Session" Member="Sessions" ThisKey="UserID" OtherKey="UserID" Type="Session" />
       <Association Name="User_Rating" Member="Ratings" ThisKey="UserID" OtherKey="UserID" Type="Rating" />
+      <Association Name="User_AchievementMap" Member="AchievementMaps" ThisKey="UserID" OtherKey="UserID" Type="AchievementMap" />
     </Type>
   </Table>
   <Table Name="dbo.Rating" Member="Ratings">
@@ -44,6 +45,24 @@
       <Column Name="ArticleID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Title" Type="System.String" DbType="NVarChar(512) NOT NULL" CanBeNull="false" />
       <Column Name="DateAdded" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Achievements" Member="Achievements">
+    <Type Name="Achievement">
+      <Column Name="ShortName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(512) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="Value" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Icon" Type="System.String" DbType="NVarChar(512) NOT NULL" CanBeNull="false" />
+      <Association Name="AchievementMap_Achievement" Member="AchievementMap" ThisKey="ShortName" OtherKey="AchievementShortName" Type="AchievementMap" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AchievementMap" Member="AchievementMaps">
+    <Type Name="AchievementMap">
+      <Column Name="AchievementShortName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="AchievementMap_Achievement" Member="Achievements" ThisKey="AchievementShortName" OtherKey="ShortName" Type="Achievement" />
+      <Association Name="User_AchievementMap" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
   <Function Name="dbo.LookupUsername" Method="LookupUsername">
@@ -116,6 +135,19 @@
     <Parameter Name="TimeCreated" Parameter="timeCreated" Type="System.DateTime" DbType="DateTime" />
     <Parameter Name="Active" Parameter="active" Type="System.Boolean" DbType="Bit" />
     <Parameter Name="email" Type="System.String" DbType="NVarChar(500)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddAchievement" Method="AddAchievement">
+    <Parameter Name="ShortName" Parameter="shortName" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="Title" Parameter="title" Type="System.String" DbType="NVarChar(512)" />
+    <Parameter Name="Description" Parameter="description" Type="System.String" DbType="Text" />
+    <Parameter Name="Value" Parameter="value" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Icon" Parameter="icon" Type="System.String" DbType="NVarChar(512)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.AddAchievementMap" Method="AddAchievementMap">
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ShortName" Parameter="shortName" Type="System.String" DbType="NVarChar(50)" />
     <Return Type="System.Int32" />
   </Function>
 </Database>

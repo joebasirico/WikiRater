@@ -1,4 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/DefaultNarrow.Master" AutoEventWireup="true" CodeBehind="Vote.aspx.cs" Inherits="WikiRaterWeb.Vote" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/DefaultNarrow.Master" AutoEventWireup="true"
+	CodeBehind="Vote.aspx.cs" Inherits="WikiRaterWeb.Vote" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -28,15 +30,25 @@
 		<div class="contentNarrow">
 			<strong>Thank you for voting, Your vote has been recorded!</strong><br />
 			<asp:Label runat="server" ID="WikiRaterRating" />
-			(You rated it a: <asp:Label runat="server" ID="UserRating" />)
+			(You rated it a:
+			<asp:Label runat="server" ID="UserRating" />)
+			<asp:Panel runat="server" ID="AchievementPanel" Visible="false">
+				<div class="VoteAchievements">
+					<h2>
+						New Achievements Awarded!</h2>
+					Nice work, you! You've won some new achievements! That means I think you're awesome!
+					<br />
+					<h3>Achievements:</h3>
+					<asp:Literal ID="AchievementList" runat="server"></asp:Literal>
+				</div>
+			</asp:Panel>
 		</div>
 	</asp:Panel>
 	<asp:Panel runat="server" ID="InvalidPage" Visible="false">
 		<div class="contentNarrow">
 			<strong>Couldn't find a wiki article</strong><br />
-			Sorry, it doesn't look like you're on a wikipedia article. If you think you've arrived on this page
-			in error <a href="mailto:wikirater@whoisjoe.com">please let me know</a>.
+			Sorry, it doesn't look like you're on a wikipedia article. If you think you've arrived
+			on this page in error <a href="mailto:wikirater@whoisjoe.com">please let me know</a>.
 		</div>
 	</asp:Panel>
-	
 </asp:Content>

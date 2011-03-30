@@ -114,6 +114,22 @@ namespace WikiRaterWeb
 			}
 		}
 		
+		public System.Data.Linq.Table<Achievement> Achievements
+		{
+			get
+			{
+				return this.GetTable<Achievement>();
+			}
+		}
+		
+		public System.Data.Linq.Table<AchievementMap> AchievementMaps
+		{
+			get
+			{
+				return this.GetTable<AchievementMap>();
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.LookupUsername")]
 		public ISingleResult<LookupUsernameResult> LookupUsername([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserID", DbType="Int")] System.Nullable<int> userID)
 		{
@@ -181,6 +197,20 @@ namespace WikiRaterWeb
 		public int CreateUser([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserName", DbType="NVarChar(50)")] string userName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PasswordHash", DbType="Char(128)")] string passwordHash, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="TimeCreated", DbType="DateTime")] System.Nullable<System.DateTime> timeCreated, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Active", DbType="Bit")] System.Nullable<bool> active, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(500)")] string email)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userName, passwordHash, timeCreated, active, email);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddAchievement")]
+		public int AddAchievement([global::System.Data.Linq.Mapping.ParameterAttribute(Name="ShortName", DbType="NVarChar(50)")] string shortName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Title", DbType="NVarChar(512)")] string title, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="Text")] string description, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Value", DbType="Int")] System.Nullable<int> value, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Icon", DbType="NVarChar(512)")] string icon)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), shortName, title, description, value, icon);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddAchievementMap")]
+		public int AddAchievementMap([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserID", DbType="Int")] System.Nullable<int> userID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ShortName", DbType="NVarChar(50)")] string shortName)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userID, shortName);
 			return ((int)(result.ReturnValue));
 		}
 	}
@@ -989,6 +1019,150 @@ namespace WikiRaterWeb
 				if ((this._DateAdded != value))
 				{
 					this._DateAdded = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Achievements")]
+	public partial class Achievement
+	{
+		
+		private string _ShortName;
+		
+		private string _Name;
+		
+		private string _Description;
+		
+		private int _Value;
+		
+		private string _Icon;
+		
+		public Achievement()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ShortName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string ShortName
+		{
+			get
+			{
+				return this._ShortName;
+			}
+			set
+			{
+				if ((this._ShortName != value))
+				{
+					this._ShortName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(512) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this._Name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="Text NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this._Description = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Value", DbType="Int NOT NULL")]
+		public int Value
+		{
+			get
+			{
+				return this._Value;
+			}
+			set
+			{
+				if ((this._Value != value))
+				{
+					this._Value = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Icon", DbType="NVarChar(512) NOT NULL", CanBeNull=false)]
+		public string Icon
+		{
+			get
+			{
+				return this._Icon;
+			}
+			set
+			{
+				if ((this._Icon != value))
+				{
+					this._Icon = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AchievementMap")]
+	public partial class AchievementMap
+	{
+		
+		private string _AchievementShortName;
+		
+		private int _UserID;
+		
+		public AchievementMap()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AchievementShortName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string AchievementShortName
+		{
+			get
+			{
+				return this._AchievementShortName;
+			}
+			set
+			{
+				if ((this._AchievementShortName != value))
+				{
+					this._AchievementShortName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserID", DbType="Int NOT NULL")]
+		public int UserID
+		{
+			get
+			{
+				return this._UserID;
+			}
+			set
+			{
+				if ((this._UserID != value))
+				{
+					this._UserID = value;
 				}
 			}
 		}

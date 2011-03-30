@@ -91,6 +91,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AchievementValidator.cs" />
     <Compile Include="Admin.aspx.cs">
       <DependentUpon>Admin.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

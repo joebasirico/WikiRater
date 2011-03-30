@@ -10,6 +10,8 @@ namespace WikiRaterWeb
 {
 	public partial class Admin : System.Web.UI.Page
 	{
+		DataClassesDataContext dc = new DataClassesDataContext();
+
 		protected void Page_Load(object sender, EventArgs e)
 		{
 			try
@@ -39,8 +41,18 @@ namespace WikiRaterWeb
 
 		protected void Submit_Click(object sender, EventArgs e)
 		{
-			DataClassesDataContext dc = new DataClassesDataContext();
 			dc.AddNewArticleToIP(ArticleTitle.Text, DateTime.Now);
+			ArticleTitle.Text = "";
+			Message.Text = "Article successfully added to IP";
+		}
+
+		protected void AddAchievement_Click(object sender, EventArgs e)
+		{
+			int value = 0;
+			int.TryParse(AchValue.Text, out value);
+			dc.AddAchievement(AchShortName.Text, AchTitle.Text, AchDescription.Text, value, AchIcon.Text);
+			AchShortName.Text = AchTitle.Text = AchDescription.Text = AchValue.Text = AchIcon.Text = "";
+			Message.Text = "Achievement Text created, make sure this is represented in the code";
 		}
 	}
 }

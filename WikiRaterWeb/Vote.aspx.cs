@@ -8,11 +8,15 @@ using System.Text.RegularExpressions;
 using RatingEngine;
 using WikiRaterWeb.Properties;
 using System.Threading;
+using System.Text;
 
 namespace WikiRaterWeb
 {
 	public partial class Vote : System.Web.UI.Page
 	{
+		DataClassesDataContext dc = new DataClassesDataContext();
+		AchievementValidator av = new AchievementValidator();
+
 		protected void Page_Load(object sender, EventArgs e)
 		{
 			if (!Page.IsPostBack)
@@ -90,23 +94,38 @@ namespace WikiRaterWeb
 							dc.AddRating(userID, url.Text, votes, DateTime.Now);
 							Auth.CreateEvent("New Vote Added", Auth.LookupUserName(userID) + " rated " + url.Text + " a " + votes, Request.UserHostAddress);
 							UserRating.Text = votes.ToString();
-							try
+							if (RatingExists(url.Text))
 							{
-								Article art = new Article(url.Text);
-								if (art.rating > 0)
-									WikiRaterRating.Text = "WikiRater would have rated this article: " + art.rating.ToString() + "<br />";
-								else
-									WikiRaterRating.Visible = false;
+								int rating = LookupRating(url.Text);
+								WikiRaterRating.Text = "WikiRater would have rated this article: " + rating + "<br />";
 							}
-							catch (Exception ex)
+							else
 							{
-								Auth.CreateEvent("Could Not Rate Article: " + ex.Message, "by: " + Auth.LookupUserName(userID) + "\r\n" + ex.ToString(), Request.UserHostAddress);
+								try
+								{
+									Article art = new Article(url.Text);
+									if (art.rating > 0)
+									{
+										WikiRaterRating.Text = "WikiRater would have rated this article: " + art.rating.ToString() + "<br />";
+										SaveRating(url.Text, art.rating);
+									}
+									else
+										WikiRaterRating.Visible = false;
+								}
+								catch (Exception ex)
+								{
+									Auth.CreateEvent("Could Not Rate Article: " + ex.Message, "by: " + Auth.LookupUserName(userID) + "\r\n" + ex.ToString(), Request.UserHostAddress);
+								}
 							}
 						}
 						catch (Exception ex)
 						{
 							Auth.CreateEvent("Could Not Add Rating: " + ex.Message, "by: " + Auth.LookupUserName(userID) + "\r\n" + ex.ToString(), Request.UserHostAddress);
 						}
+
+						CheckAndPopulateAchievements(userID);
+
+
 						VotePanel.Visible = false;
 						VoteCompletedPanel.Visible = true;
 					}
@@ -121,6 +140,75 @@ namespace WikiRaterWeb
 				Auth.CreateEvent("Could Not Add Rating:" + ex.Message, ex.ToString(), Request.UserHostAddress);
 				Response.Redirect("Login.aspx");
 			}
+		}
+
+		private void CheckAndPopulateAchievements(int userID)
+		{
+			List<Achievement> achieves = av.CheckAchievements(userID);
+
+			List<Achievement> newAchievements = CheckIfNewAchievements(achieves, userID);
+			AddNewAchievements(newAchievements, userID);
+			StringBuilder sb = new StringBuilder();
+			if (newAchievements.Count > 0)
+				AchievementPanel.Visible = true;
+			foreach (Achievement a in newAchievements)
+			{
+				if(!string.IsNullOrEmpty(a.Icon))
+					sb.AppendFormat(Settings.Default.AchievementFormat, a.Icon, a.Name, a.Description);
+				else
+					sb.AppendFormat(Settings.Default.AchievementFormatNoIcon, a.Name, a.Description);
+			}
+
+			AchievementList.Text = sb.ToString();
+		}
+
+		private void AddNewAchievements(List<Achievement> newAchievements, int userID)
+		{
+			foreach (Achievement a in newAchievements)
+				dc.AddAchievementMap(userID, a.ShortName);
+		}
+
+		private List<Achievement> CheckIfNewAchievements(List<Achievement> achivementList, int userID)
+		{
+			var currentAchievements = from am in dc.AchievementMaps
+									  where am.UserID == userID
+									  select am.AchievementShortName;
+			List<Achievement> newAchievements = new List<Achievement>();
+			foreach (Achievement a in achivementList)
+			{
+				bool found = false;
+				foreach (string ca in currentAchievements)
+				{
+					if (ca == a.ShortName)
+					{
+						found = true;
+						break;
+					}
+				}
+				if (!found)
+					newAchievements.Add(a);
+			}
+
+			return newAchievements;
+		}
+
+		private void SaveRating(string title, int value)
+		{
+			if (!dc.Users.Any(u => u.UserName == Settings.Default.WikiRaterName))
+				dc.CreateUser(Settings.Default.WikiRaterName, "DNE", DateTime.Now, false, "wikirater@example.com");
+			dc.AddRating(dc.Users.First(u => u.UserName == Settings.Default.WikiRaterName).UserID,
+				title, value, DateTime.Now);
+		}
+
+		private int LookupRating(string title)
+		{
+			return dc.Ratings.First(r => r.Article == title &&
+				r.User.UserName == Settings.Default.WikiRaterName).Value;
+		}
+
+		private bool RatingExists(string title)
+		{
+			return dc.Ratings.Any(r => r.Article == title && r.User.UserName == Settings.Default.WikiRaterName);
 		}
 
 		protected void vote1_Click(object sender, EventArgs e)

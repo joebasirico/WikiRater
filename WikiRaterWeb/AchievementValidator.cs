@@ -80,5 +80,35 @@ namespace WikiRaterWeb
 			}
 			return ratedAll;
 		}
+
+		internal void AddNewAchievements(List<Achievement> newAchievements, int userID)
+		{
+			foreach (Achievement a in newAchievements)
+				dc.AddAchievementMap(userID, a.ShortName);
+		}
+
+		internal List<Achievement> CheckIfNewAchievements(List<Achievement> achivementList, int userID)
+		{
+			var currentAchievements = from am in dc.AchievementMaps
+									  where am.UserID == userID
+									  select am.AchievementShortName;
+			List<Achievement> newAchievements = new List<Achievement>();
+			foreach (Achievement a in achivementList)
+			{
+				bool found = false;
+				foreach (string ca in currentAchievements)
+				{
+					if (ca == a.ShortName)
+					{
+						found = true;
+						break;
+					}
+				}
+				if (!found)
+					newAchievements.Add(a);
+			}
+
+			return newAchievements;
+		}
 	}
 }

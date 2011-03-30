@@ -79,6 +79,7 @@
     <Content Include="Login.aspx" />
     <Content Include="Logout.aspx" />
     <Content Include="Register.aspx" />
+    <Content Include="User.aspx" />
     <Content Include="Vote.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -244,6 +245,13 @@
     </Compile>
     <Compile Include="Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="User.aspx.cs">
+      <DependentUpon>User.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="User.aspx.designer.cs">
+      <DependentUpon>User.aspx</DependentUpon>
     </Compile>
     <Compile Include="Vote.aspx.cs">
       <DependentUpon>Vote.aspx</DependentUpon>

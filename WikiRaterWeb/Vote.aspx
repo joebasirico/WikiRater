@@ -33,7 +33,7 @@
 			(You rated it a:
 			<asp:Label runat="server" ID="UserRating" />)
 			<asp:Panel runat="server" ID="AchievementPanel" Visible="false">
-				<div class="VoteAchievements">
+				<div class="Achievements">
 					<h2>
 						New Achievements Awarded!</h2>
 					Nice work, you! You've won some new achievements! That means I think you're awesome!

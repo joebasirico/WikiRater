@@ -146,8 +146,8 @@ namespace WikiRaterWeb
 		{
 			List<Achievement> achieves = av.CheckAchievements(userID);
 
-			List<Achievement> newAchievements = CheckIfNewAchievements(achieves, userID);
-			AddNewAchievements(newAchievements, userID);
+			List<Achievement> newAchievements = av.CheckIfNewAchievements(achieves, userID);
+			av.AddNewAchievements(newAchievements, userID);
 			StringBuilder sb = new StringBuilder();
 			if (newAchievements.Count > 0)
 				AchievementPanel.Visible = true;
@@ -160,36 +160,6 @@ namespace WikiRaterWeb
 			}
 
 			AchievementList.Text = sb.ToString();
-		}
-
-		private void AddNewAchievements(List<Achievement> newAchievements, int userID)
-		{
-			foreach (Achievement a in newAchievements)
-				dc.AddAchievementMap(userID, a.ShortName);
-		}
-
-		private List<Achievement> CheckIfNewAchievements(List<Achievement> achivementList, int userID)
-		{
-			var currentAchievements = from am in dc.AchievementMaps
-									  where am.UserID == userID
-									  select am.AchievementShortName;
-			List<Achievement> newAchievements = new List<Achievement>();
-			foreach (Achievement a in achivementList)
-			{
-				bool found = false;
-				foreach (string ca in currentAchievements)
-				{
-					if (ca == a.ShortName)
-					{
-						found = true;
-						break;
-					}
-				}
-				if (!found)
-					newAchievements.Add(a);
-			}
-
-			return newAchievements;
 		}
 
 		private void SaveRating(string title, int value)

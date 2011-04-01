@@ -20,7 +20,7 @@ namespace WikiRaterWeb
 				if (!string.IsNullOrEmpty(username))
 				{
 					footerStuff.Text = "You are currently logged in as: " + username + " <a href=\"/Logout.aspx\">click here to logout</a>";
-					loginlogout.Text = "";
+					loginlogout.Text = "| <a href=\"/User.aspx\">About You</a> | <a href=\"/Logout.aspx\">Logout</a>";
 				}
 				else
 				{

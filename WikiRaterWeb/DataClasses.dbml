@@ -150,4 +150,9 @@
     <Parameter Name="ShortName" Parameter="shortName" Type="System.String" DbType="NVarChar(50)" />
     <Return Type="System.Int32" />
   </Function>
+  <Function Name="dbo.UpdatePassword" Method="UpdatePassword">
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PasswordHash" Parameter="passwordHash" Type="System.String" DbType="NVarChar(128)" />
+    <Return Type="System.Int32" />
+  </Function>
 </Database>

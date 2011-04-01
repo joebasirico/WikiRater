@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Text;
 using System.Security.Cryptography;
 using System.Threading;
+using WikiRaterWeb.Properties;
 
 namespace WikiRaterWeb
 {
@@ -15,7 +16,7 @@ namespace WikiRaterWeb
 		protected void Page_Load(object sender, EventArgs e)
 		{
 			Guid session = new Guid();
-				//we've never seen this user before or they've cleared their cookies
+			//we've never seen this user before or they've cleared their cookies
 			if (Request.Cookies["session"] != null && Guid.TryParse(Request.Cookies["session"].Value, out session))
 			{
 				int userID = Auth.checkSession(session);
@@ -31,10 +32,27 @@ namespace WikiRaterWeb
 		{
 			try
 			{
-				int userID = Auth.checkCredentials(UsernameBox.Text,
-								Encoding.ASCII.GetString(
-									SHA512Managed.Create().ComputeHash(
-										Encoding.ASCII.GetBytes(UsernameBox.Text + Auth.getSaltyGoo() + PasswordBox.Text))));
+				int userID = 0;
+
+				userID = Auth.checkCredentials(UsernameBox.Text,
+									Auth.ByteToHex(
+										SHA512Managed.Create().ComputeHash(
+											Encoding.ASCII.GetBytes(UsernameBox.Text + Auth.getSaltyGoo() + PasswordBox.Text))));
+
+				//grrr stupid mistake.
+				if (Settings.Default.AllowLegacyHash && userID == 0)
+				{
+					userID = Auth.checkCredentials(UsernameBox.Text,
+									Encoding.ASCII.GetString(
+										SHA512Managed.Create().ComputeHash(
+											Encoding.ASCII.GetBytes(UsernameBox.Text + Auth.getSaltyGoo() + PasswordBox.Text))));
+
+					//update it so we don't have to deal with this in the future
+					Auth.UpdatePassword(userID, Auth.ByteToHex(
+										SHA512Managed.Create().ComputeHash(
+											Encoding.ASCII.GetBytes(UsernameBox.Text + Auth.getSaltyGoo() + PasswordBox.Text))));
+				}
+
 				if (userID != 0)
 				{
 					Guid session = Guid.NewGuid();
@@ -42,7 +60,7 @@ namespace WikiRaterWeb
 					Auth.CreateEvent("Successful Login", "By user: " + UsernameBox.Text, Request.UserHostAddress);
 
 					Response.Cookies.Add(new HttpCookie("session", session.ToString()));
-					if(RememberMe.Checked)
+					if (RememberMe.Checked)
 						Response.Cookies["session"].Expires = DateTime.Now.AddMonths(1);
 
 					//if they've been redirected here from Vote we'll register their vote now.
@@ -58,8 +76,7 @@ namespace WikiRaterWeb
 						Response.Redirect(Server.UrlEncode(page));
 					}
 
-					LoginPanel.Visible = false;
-					LoginCompletePanel.Visible = true;
+					Response.Redirect("/Default.aspx");
 				}
 				else
 				{

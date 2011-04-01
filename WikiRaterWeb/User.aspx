@@ -4,28 +4,37 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-	<h1>
-		<asp:Label ID="UserName" runat="server"></asp:Label></h1>
-	<div class="Points">
-		<asp:Label ID="Points" runat="server"></asp:Label>
+	<div class="content">
+		<div class="Points">
+			<div class="PointValue">
+				<asp:Label ID="Points" runat="server"></asp:Label></div>
+			Points
+		</div>
+		<h1>
+			<asp:Label ID="UserName" runat="server"></asp:Label></h1>
+		Has been a member since
+		<asp:Label ID="MemberSince" runat="server"></asp:Label>. During which time he or she
+		has rated <strong>
+			<asp:Label ID="UniqueRatings" runat="server"></asp:Label></strong> unique articles
+		articles.
+		<h2>
+			Achievements</h2>
+		<asp:ListView ID="AchievementsList" runat="server">
+			<LayoutTemplate>
+				<div class="Achievements">
+					<asp:PlaceHolder runat="server" ID="itemPlaceholder"></asp:PlaceHolder>
+				</div>
+			</LayoutTemplate>
+			<ItemTemplate>
+				<div class='<%# Eval("Achieved")%>'>
+					<img src='<%# Eval("Icon")%>' style='display:<%# Eval("HasIcon")%>' />
+					<strong>
+						<%# Eval("Title")%></strong> (worth <%# Eval("Value")%> points) - 
+					<%# Eval("Description")%></div>
+			</ItemTemplate>
+			<EmptyDataTemplate>
+				No Achievements yet.
+			</EmptyDataTemplate>
+		</asp:ListView>
 	</div>
-	Member Since:
-	<asp:Label ID="MemberSince" runat="server"></asp:Label>
-	<asp:ListView ID="AchievementsList" runat="server">
-		<LayoutTemplate>
-			<div class="Achievements">
-				<asp:PlaceHolder runat="server" ID="itemPlaceholder"></asp:PlaceHolder>
-		</LayoutTemplate>
-		<ItemTemplate>
-			<div class='<%# Eval("Achieved")%>'>
-			<asp:Image ID="AchievementImage" runat="server" Visible="false" />
-				<strong>
-					<%# Eval("Title")%></strong> -
-				<%# Eval("Description")%></div>
-		</ItemTemplate>
-		<EmptyDataTemplate>
-			Nothing to review yet, please check back shortly. I'm picking each article out by
-			hand.
-		</EmptyDataTemplate>
-	</asp:ListView>
 </asp:Content>

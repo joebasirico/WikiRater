@@ -149,5 +149,14 @@ namespace WikiRaterWeb.Properties {
                 return ((string)(this["AchievementFormatNoIcon"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AllowLegacyHash {
+            get {
+                return ((bool)(this["AllowLegacyHash"]));
+            }
+        }
     }
 }

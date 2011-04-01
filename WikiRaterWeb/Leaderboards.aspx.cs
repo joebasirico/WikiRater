@@ -5,14 +5,17 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using WikiRaterWeb.Properties;
 
 namespace WikiRaterWeb
 {
 	public partial class Leaderboards : System.Web.UI.Page
 	{
+		DataClassesDataContext dc = new DataClassesDataContext();
+		AchievementValidator av = new AchievementValidator();
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			DataClassesDataContext dc = new DataClassesDataContext();
+			
 			var uniqueusers = (from u in dc.Ratings
 							   select u.UserID).Distinct();
 
@@ -23,15 +26,17 @@ namespace WikiRaterWeb
 
 			foreach (int uid in uniqueusers)
 			{
-				DataRow dr = dt.NewRow();
-				dr["UserID"] = uid;
-				//already validated, but encode anyway
-				dr["UserName"] = Server.HtmlEncode(Auth.LookupUserName(uid)); 
-				dr["Count"] =  (from c in dc.Ratings
-								where c.UserID == uid
-							select c.Value).Count();
+				string username = Auth.LookupUserName(uid);
+				if (username != Settings.Default.WikiRaterName)
+				{
+					DataRow dr = dt.NewRow();
+					dr["UserID"] = uid;
+					//already validated, but encode anyway
+					dr["UserName"] = Server.HtmlEncode(username);
+					dr["Count"] = av.GetPoints(uid);
 
-				dt.Rows.Add(dr);
+					dt.Rows.Add(dr);
+				}
 			}
 			dt.DefaultView.Sort = "Count DESC";
 			LeaderboardList.DataSource = dt.DefaultView;

@@ -5,6 +5,11 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 	<div class="content">
+		<h1>
+			Leaderboards</h1>
+		The Leaderboards show the users on the system with the most points. Points are awarded
+		by rating more articles and winning achievements. To find out more about a user
+		check out their user page by clicking their name.
 		<asp:ListView ID="LeaderboardList" runat="server">
 			<LayoutTemplate>
 				<table border="0" cellpadding="0" cellspacing="0" class="leaderboard">
@@ -22,7 +27,8 @@
 			<ItemTemplate>
 				<tr>
 					<td>
-						<%# Eval("Username")%>
+						<a href='User.aspx?Username=<%# Eval("Username")%>'>
+							<%# Eval("Username")%></a>
 					</td>
 					<td>
 						<%# Eval("Count")%>

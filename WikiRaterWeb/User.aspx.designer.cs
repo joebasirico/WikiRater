@@ -13,15 +13,6 @@ namespace WikiRaterWeb {
     public partial class User1 {
         
         /// <summary>
-        /// UserName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label UserName;
-        
-        /// <summary>
         /// Points control.
         /// </summary>
         /// <remarks>
@@ -31,6 +22,15 @@ namespace WikiRaterWeb {
         protected global::System.Web.UI.WebControls.Label Points;
         
         /// <summary>
+        /// UserName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label UserName;
+        
+        /// <summary>
         /// MemberSince control.
         /// </summary>
         /// <remarks>
@@ -38,6 +38,15 @@ namespace WikiRaterWeb {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label MemberSince;
+        
+        /// <summary>
+        /// UniqueRatings control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label UniqueRatings;
         
         /// <summary>
         /// AchievementsList control.

@@ -40,14 +40,14 @@
 						<asp:TextBox runat="server" ID="PasswordBox" TextMode="Password" />
 					</td>
 				</tr>
-				<tr>
+<%--				<tr>
 					<td>
 						Registration Code:
 					</td>
 					<td>
 						<asp:TextBox runat="server" ID="RegCode" />
 					</td>
-				</tr>
+				</tr>--%>
 				<tr>
 					<td colspan="2" align="right">
 						<asp:Button Text="Register" ID="DoLogin" runat="server" OnClick="DoRegister_Click" />

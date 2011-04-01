@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using WikiRaterWeb;
+using System.Text.RegularExpressions;
+using System.Text;
+using WikiRaterWeb.Properties;
 
 
 /// <summary>
@@ -19,19 +22,40 @@ public static class Auth
 					 where u.Active == true &&
 					 u.UserName == username &&
 					 u.PasswordHash == password
-					 select u.UserID;
+					 select u;
 
 		int usersFound = 0;
 		int foundUserID = 0;
-		foreach (int id in userID)
+		foreach (User u in userID)
 		{
-			foundUserID = id;
+			foundUserID = u.UserID;
 			usersFound++;
 		}
+
 		if (usersFound == 1)
 			return foundUserID;
 		else
 			return 0;
+	}
+
+	public static string ByteToHex(byte[] input)
+	{
+		string StringVersion = "";
+
+		foreach (byte b in input)
+		{
+			string hexChar = b.ToString("x");
+			if (hexChar.Length == 1)
+				hexChar = "0" + hexChar;
+			StringVersion += hexChar;
+		}
+		return StringVersion;
+	}
+
+	public static void UpdatePassword(int userID, string password)
+	{
+		DataClassesDataContext dc = new DataClassesDataContext();
+		dc.UpdatePassword(userID, password);
 	}
 
 	public static bool UserExists(string username)

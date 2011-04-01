@@ -153,7 +153,7 @@ namespace WikiRaterWeb
 				AchievementPanel.Visible = true;
 			foreach (Achievement a in newAchievements)
 			{
-				if(!string.IsNullOrEmpty(a.Icon))
+				if (!string.IsNullOrEmpty(a.Icon))
 					sb.AppendFormat(Settings.Default.AchievementFormat, a.Icon, a.Name, a.Description);
 				else
 					sb.AppendFormat(Settings.Default.AchievementFormatNoIcon, a.Name, a.Description);

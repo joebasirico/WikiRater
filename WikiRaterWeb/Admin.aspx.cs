@@ -28,6 +28,8 @@ namespace WikiRaterWeb
 						Response.Redirect("Login.aspx");
 					}
 				}
+				else
+					Response.Redirect("Login.aspx");
 			}
 			catch (ThreadAbortException)
 			{
@@ -35,6 +37,7 @@ namespace WikiRaterWeb
 			}
 			catch (Exception ex)
 			{
+				Response.Redirect("Login.aspx");
 				Auth.CreateEvent("Unauthorized All Ratings Attempt:" + ex.Message, ex.ToString(), Request.UserHostAddress);
 			}
 		}
@@ -48,11 +51,18 @@ namespace WikiRaterWeb
 
 		protected void AddAchievement_Click(object sender, EventArgs e)
 		{
+			//check if the achievement already exists, if it does overwrite, otherwise add it
 			int value = 0;
 			int.TryParse(AchValue.Text, out value);
 			dc.AddAchievement(AchShortName.Text, AchTitle.Text, AchDescription.Text, value, AchIcon.Text);
 			AchShortName.Text = AchTitle.Text = AchDescription.Text = AchValue.Text = AchIcon.Text = "";
 			Message.Text = "Achievement Text created, make sure this is represented in the code";
+		}
+
+		protected void logEverybodyOut_Click(object sender, EventArgs e)
+		{
+			dc.Sessions.DeleteAllOnSubmit(from s in dc.Sessions select s);
+			dc.SubmitChanges();
 		}
 	}
 }

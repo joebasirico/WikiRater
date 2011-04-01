@@ -34,5 +34,10 @@
 				Height="150px"></asp:TextBox><br />
 			<asp:Button ID="AddAchievement" runat="server" Text="Add Achievement" OnClick="AddAchievement_Click" />
 		</div>
+		<div class="section">
+		<h2>Log everybody out!</h2>
+			<asp:Button Text="Log Everybody Out!" ID="logEverybodyOut" runat="server" 
+				onclick="logEverybodyOut_Click" />
+		</div>
 	</div>
 </asp:Content>

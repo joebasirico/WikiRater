@@ -44,5 +44,8 @@
     <Setting Name="AchievementFormatNoIcon" Type="System.String" Scope="Application">
       <Value Profile="(Default)">&lt;div class="Achievement"&gt;&lt;strong&gt;{0}&lt;/strong&gt; - {1}&lt;/div&gt;</Value>
     </Setting>
+    <Setting Name="AllowLegacyHash" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

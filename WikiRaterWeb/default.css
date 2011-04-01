@@ -4,7 +4,7 @@
 	font-family: Calibri, Verdana;
 	line-height: 200%;
 	font-size: 10pt;
-	color: #828282;
+	color: #444;
 }
 
 code
@@ -43,12 +43,12 @@ h3
 
 a:link
 {
-	color: #000066;
+	color: #006;
 }
 
 a:visited
 {
-	color: #828282;
+	color: #222;
 }
 
 .header
@@ -69,7 +69,7 @@ a:visited
 
 .betatag
 {
-	color: #AAA;
+	color: #DDD;
 	padding-left: 150px;
 	font-style: italic;
 }
@@ -229,4 +229,30 @@ img
 .NotRated
 {
 	background-color: #ECC;
+}
+
+.AccomplishedAchievement
+{
+	font-size: 110%;
+}
+
+.UnaccomplishedAchievement
+{
+	color: #CCC;
+}
+
+.PointValue
+{
+	font-size: 200%;
+	font-family: Serif;
+}
+
+.Points
+{
+	width: 80px;
+	float: right;
+	border: 5px solid #555;
+	margin: 10px;
+	padding: 10px;
+	text-align: center;
 }

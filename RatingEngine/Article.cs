@@ -35,7 +35,7 @@ namespace RatingEngine
 		/// <param name="url"></param>
 		public Article(string t)
 		{
-			url = "http://en.wikipedia.org/wiki/" + t;
+			url = "http://en.wikipedia.org/w/index.php?action=render&title=/" + t;
 			GetBody();
 			title = t;
 			Rate();
@@ -188,7 +188,7 @@ namespace RatingEngine
 			string linkPages = "http://en.wikipedia.org/w/index.php?title=Special:WhatLinksHere&target={0}&namespace=0&limit=50000";
 			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(string.Format(linkPages, title));
 			request.Method = "GET";
-			request.UserAgent = "IE";
+			request.UserAgent = "WikiRater(whoisjoe.com)/0.8";
 
 			request.AllowAutoRedirect = true;
 			WebResponse response = request.GetResponse();

@@ -13,6 +13,12 @@ code
 	color: #000;
 }
 
+input
+{
+	padding: 5px;
+	margin: 5px;
+	font-size: 110%;
+}
 .siteTitle a:link
 {
 	width: 600px;

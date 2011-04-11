@@ -49,7 +49,7 @@
   </Table>
   <Table Name="dbo.Achievements" Member="Achievements">
     <Type Name="Achievement">
-      <Column Name="ShortName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ShortName" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(512) NOT NULL" CanBeNull="false" />
       <Column Name="Description" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
       <Column Name="Value" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -59,7 +59,7 @@
   </Table>
   <Table Name="dbo.AchievementMap" Member="AchievementMaps">
     <Type Name="AchievementMap">
-      <Column Name="AchievementShortName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="AchievementShortName" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="AchievementMap_Achievement" Member="Achievements" ThisKey="AchievementShortName" OtherKey="ShortName" Type="Achievement" />
       <Association Name="User_AchievementMap" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />

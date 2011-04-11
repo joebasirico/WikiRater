@@ -22,7 +22,9 @@ namespace WikiRaterWeb
 				if(userID > 0)
 					isLoggedIn = true;
 			}
-
+			//Todo: possibly use BA for rating weights instead of straight average.
+			//possibly do this calculation on vote instead of request of this page for performance?
+			//BA = ((AvgNumOfRatingsForAll * AvgRatingForAll) + TotalRating) / (RateCount + AvgNumOfRatingsForAll)
 			DataClassesDataContext dc = new DataClassesDataContext();
 			var allRatings = from rating in dc.Ratings 
 						 where rating.IsLatest == true

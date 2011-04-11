@@ -42,6 +42,12 @@ namespace WikiRaterWeb
     partial void InsertRating(Rating instance);
     partial void UpdateRating(Rating instance);
     partial void DeleteRating(Rating instance);
+    partial void InsertAchievement(Achievement instance);
+    partial void UpdateAchievement(Achievement instance);
+    partial void DeleteAchievement(Achievement instance);
+    partial void InsertAchievementMap(AchievementMap instance);
+    partial void UpdateAchievementMap(AchievementMap instance);
+    partial void DeleteAchievementMap(AchievementMap instance);
     #endregion
 		
 		public DataClassesDataContext() : 
@@ -551,6 +557,8 @@ namespace WikiRaterWeb
 		
 		private EntitySet<Rating> _Ratings;
 		
+		private EntitySet<AchievementMap> _AchievementMaps;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -571,6 +579,7 @@ namespace WikiRaterWeb
 		{
 			this._Sessions = new EntitySet<Session>(new Action<Session>(this.attach_Sessions), new Action<Session>(this.detach_Sessions));
 			this._Ratings = new EntitySet<Rating>(new Action<Rating>(this.attach_Ratings), new Action<Rating>(this.detach_Ratings));
+			this._AchievementMaps = new EntitySet<AchievementMap>(new Action<AchievementMap>(this.attach_AchievementMaps), new Action<AchievementMap>(this.detach_AchievementMaps));
 			OnCreated();
 		}
 		
@@ -700,6 +709,19 @@ namespace WikiRaterWeb
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_AchievementMap", Storage="_AchievementMaps", ThisKey="UserID", OtherKey="UserID")]
+		public EntitySet<AchievementMap> AchievementMaps
+		{
+			get
+			{
+				return this._AchievementMaps;
+			}
+			set
+			{
+				this._AchievementMaps.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -739,6 +761,18 @@ namespace WikiRaterWeb
 		}
 		
 		private void detach_Ratings(Rating entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_AchievementMaps(AchievementMap entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_AchievementMaps(AchievementMap entity)
 		{
 			this.SendPropertyChanging();
 			entity.User = null;
@@ -1032,8 +1066,10 @@ namespace WikiRaterWeb
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Achievements")]
-	public partial class Achievement
+	public partial class Achievement : INotifyPropertyChanging, INotifyPropertyChanged
 	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private string _ShortName;
 		
@@ -1045,11 +1081,31 @@ namespace WikiRaterWeb
 		
 		private string _Icon;
 		
+		private EntityRef<AchievementMap> _AchievementMap;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnShortNameChanging(string value);
+    partial void OnShortNameChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnValueChanging(int value);
+    partial void OnValueChanged();
+    partial void OnIconChanging(string value);
+    partial void OnIconChanged();
+    #endregion
+		
 		public Achievement()
 		{
+			this._AchievementMap = default(EntityRef<AchievementMap>);
+			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ShortName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ShortName", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
 		public string ShortName
 		{
 			get
@@ -1060,7 +1116,15 @@ namespace WikiRaterWeb
 			{
 				if ((this._ShortName != value))
 				{
+					if (this._AchievementMap.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnShortNameChanging(value);
+					this.SendPropertyChanging();
 					this._ShortName = value;
+					this.SendPropertyChanged("ShortName");
+					this.OnShortNameChanged();
 				}
 			}
 		}
@@ -1076,7 +1140,11 @@ namespace WikiRaterWeb
 			{
 				if ((this._Name != value))
 				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
 					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
 				}
 			}
 		}
@@ -1092,7 +1160,11 @@ namespace WikiRaterWeb
 			{
 				if ((this._Description != value))
 				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
 					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
 				}
 			}
 		}
@@ -1108,7 +1180,11 @@ namespace WikiRaterWeb
 			{
 				if ((this._Value != value))
 				{
+					this.OnValueChanging(value);
+					this.SendPropertyChanging();
 					this._Value = value;
+					this.SendPropertyChanged("Value");
+					this.OnValueChanged();
 				}
 			}
 		}
@@ -1124,25 +1200,102 @@ namespace WikiRaterWeb
 			{
 				if ((this._Icon != value))
 				{
+					this.OnIconChanging(value);
+					this.SendPropertyChanging();
 					this._Icon = value;
+					this.SendPropertyChanged("Icon");
+					this.OnIconChanged();
 				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AchievementMap_Achievement", Storage="_AchievementMap", ThisKey="ShortName", OtherKey="AchievementShortName", IsForeignKey=true)]
+		public AchievementMap AchievementMap
+		{
+			get
+			{
+				return this._AchievementMap.Entity;
+			}
+			set
+			{
+				AchievementMap previousValue = this._AchievementMap.Entity;
+				if (((previousValue != value) 
+							|| (this._AchievementMap.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._AchievementMap.Entity = null;
+						previousValue.Achievements.Remove(this);
+					}
+					this._AchievementMap.Entity = value;
+					if ((value != null))
+					{
+						value.Achievements.Add(this);
+						this._ShortName = value.AchievementShortName;
+					}
+					else
+					{
+						this._ShortName = default(string);
+					}
+					this.SendPropertyChanged("AchievementMap");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AchievementMap")]
-	public partial class AchievementMap
+	public partial class AchievementMap : INotifyPropertyChanging, INotifyPropertyChanged
 	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private string _AchievementShortName;
 		
 		private int _UserID;
 		
+		private EntitySet<Achievement> _Achievements;
+		
+		private EntityRef<User> _User;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnAchievementShortNameChanging(string value);
+    partial void OnAchievementShortNameChanged();
+    partial void OnUserIDChanging(int value);
+    partial void OnUserIDChanged();
+    #endregion
+		
 		public AchievementMap()
 		{
+			this._Achievements = new EntitySet<Achievement>(new Action<Achievement>(this.attach_Achievements), new Action<Achievement>(this.detach_Achievements));
+			this._User = default(EntityRef<User>);
+			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AchievementShortName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AchievementShortName", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
 		public string AchievementShortName
 		{
 			get
@@ -1153,7 +1306,11 @@ namespace WikiRaterWeb
 			{
 				if ((this._AchievementShortName != value))
 				{
+					this.OnAchievementShortNameChanging(value);
+					this.SendPropertyChanging();
 					this._AchievementShortName = value;
+					this.SendPropertyChanged("AchievementShortName");
+					this.OnAchievementShortNameChanged();
 				}
 			}
 		}
@@ -1169,9 +1326,96 @@ namespace WikiRaterWeb
 			{
 				if ((this._UserID != value))
 				{
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUserIDChanging(value);
+					this.SendPropertyChanging();
 					this._UserID = value;
+					this.SendPropertyChanged("UserID");
+					this.OnUserIDChanged();
 				}
 			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AchievementMap_Achievement", Storage="_Achievements", ThisKey="AchievementShortName", OtherKey="ShortName")]
+		public EntitySet<Achievement> Achievements
+		{
+			get
+			{
+				return this._Achievements;
+			}
+			set
+			{
+				this._Achievements.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_AchievementMap", Storage="_User", ThisKey="UserID", OtherKey="UserID", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.AchievementMaps.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.AchievementMaps.Add(this);
+						this._UserID = value.UserID;
+					}
+					else
+					{
+						this._UserID = default(int);
+					}
+					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Achievements(Achievement entity)
+		{
+			this.SendPropertyChanging();
+			entity.AchievementMap = this;
+		}
+		
+		private void detach_Achievements(Achievement entity)
+		{
+			this.SendPropertyChanging();
+			entity.AchievementMap = null;
 		}
 	}
 	

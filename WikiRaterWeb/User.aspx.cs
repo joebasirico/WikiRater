@@ -29,7 +29,7 @@ namespace WikiRaterWeb
 
 			UniqueRatings.Text = dc.Ratings.Count(r => r.User.UserName == username && r.IsLatest).ToString();
 
-			Points.Text = av.GetPoints(currentUser.UserID).ToString();
+			Points.Text = av.GetPoints(currentUser.UserID, false).ToString();
 
 			GenerateAchievementList(currentUser.UserID);
 		}

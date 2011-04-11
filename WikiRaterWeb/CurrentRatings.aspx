@@ -4,6 +4,9 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+	<div class="subnavbar">
+		<a href="CurrentRatings.aspx">Articles by Rating</a> | <a href="Trending.aspx">Trending
+			Articles</a></div>
 	<div class="content">
 		<h1>
 			Article Ratings</h1>

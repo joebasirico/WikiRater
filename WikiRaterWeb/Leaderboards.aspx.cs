@@ -16,7 +16,7 @@ namespace WikiRaterWeb
 		protected void Page_Load(object sender, EventArgs e)
 		{
 			
-			var uniqueusers = (from u in dc.Ratings
+			var uniqueusers = (from u in dc.Users
 							   select u.UserID).Distinct();
 
 			DataTable dt = new DataTable();
@@ -33,9 +33,10 @@ namespace WikiRaterWeb
 					dr["UserID"] = uid;
 					//already validated, but encode anyway
 					dr["UserName"] = Server.HtmlEncode(username);
-					dr["Count"] = av.GetPoints(uid);
-
-					dt.Rows.Add(dr);
+					int points = av.GetPoints(uid, false);
+					dr["Count"] = points;
+					if(points > 0)
+						dt.Rows.Add(dr);
 				}
 			}
 			dt.DefaultView.Sort = "Count DESC";

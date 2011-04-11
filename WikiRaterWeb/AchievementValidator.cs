@@ -205,16 +205,28 @@ namespace WikiRaterWeb
 			return newAchievements;
 		}
 
-		internal int GetPoints(int userID)
+		internal int GetPoints(int userID, bool calculate)
 		{
 			int totalPoints = 0;
 			totalPoints += dc.Ratings.Count(r => r.IsLatest && r.UserID == userID);
 
-			foreach (Achievement a in CheckAchievements(userID))
+			if (calculate)
 			{
-				totalPoints += a.Value;
+				foreach (Achievement a in CheckAchievements(userID))
+				{
+					totalPoints += a.Value;
+				}
 			}
-
+			else
+			{
+				var pointList = (from a in dc.Achievements
+								 where a.AchievementMap.UserID == userID
+								 select a.Value);
+				foreach (int p in pointList)
+				{
+					totalPoints += p;
+				}
+			}
 			return totalPoints;
 		}
 	}

@@ -58,18 +58,18 @@
         <elementListCompartment Id="6fcfbd2b-b920-4a94-8b9a-bb734828db85" absoluteBounds="1.5150000000000001, 6.71, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(3.5 : 6.84699625651042); (4.25 : 6.84699625651042)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/DataClassesDataContext/AchievementMap/AchievementMap_Achievement" />
-      <nodes>
-        <classShapeMoniker Id="4df7eb83-b6e0-4234-8ba8-56ce9465acde" />
-        <classShapeMoniker Id="de51b049-ae18-442a-998f-351cf05f31da" />
-      </nodes>
-    </associationConnector>
     <associationConnector edgePoints="[(2.125 : 3.77089680989583); (2.125 : 6.25)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/DataClassesDataContext/User/User_AchievementMap" />
       <nodes>
         <classShapeMoniker Id="c7c49eb9-3947-427a-890b-af61c0e72e80" />
         <classShapeMoniker Id="4df7eb83-b6e0-4234-8ba8-56ce9465acde" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(3.5 : 6.84699625651042); (4.25 : 6.84699625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/DataClassesDataContext/AchievementMap/AchievementMap_Achievement" />
+      <nodes>
+        <classShapeMoniker Id="4df7eb83-b6e0-4234-8ba8-56ce9465acde" />
+        <classShapeMoniker Id="de51b049-ae18-442a-998f-351cf05f31da" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

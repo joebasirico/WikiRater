@@ -18,7 +18,7 @@
 							<strong>Username</strong>
 						</td>
 						<td>
-							<strong>Number of articles rated</strong>
+							<strong>Points Accumulated</strong>
 						</td>
 					</tr>
 					<asp:PlaceHolder runat="server" ID="itemPlaceholder"></asp:PlaceHolder>

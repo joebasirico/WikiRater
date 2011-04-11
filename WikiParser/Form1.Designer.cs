@@ -37,6 +37,8 @@
 			this.HeaderCount = new System.Windows.Forms.Label();
 			this.ImageCount = new System.Windows.Forms.Label();
 			this.ExternalLinks = new System.Windows.Forms.Label();
+			this.RefreshWikiText = new System.Windows.Forms.Button();
+			this.WordsPerParagraph = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// textBox1
@@ -126,11 +128,33 @@
 			this.ExternalLinks.TabIndex = 8;
 			this.ExternalLinks.Text = "External Link Count: ";
 			// 
+			// RefreshWikiText
+			// 
+			this.RefreshWikiText.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.RefreshWikiText.Location = new System.Drawing.Point(344, 13);
+			this.RefreshWikiText.Name = "RefreshWikiText";
+			this.RefreshWikiText.Size = new System.Drawing.Size(50, 23);
+			this.RefreshWikiText.TabIndex = 9;
+			this.RefreshWikiText.Text = "refresh";
+			this.RefreshWikiText.UseVisualStyleBackColor = true;
+			this.RefreshWikiText.Click += new System.EventHandler(this.RefreshWikiText_Click);
+			// 
+			// WordsPerParagraph
+			// 
+			this.WordsPerParagraph.AutoSize = true;
+			this.WordsPerParagraph.Location = new System.Drawing.Point(228, 452);
+			this.WordsPerParagraph.Name = "WordsPerParagraph";
+			this.WordsPerParagraph.Size = new System.Drawing.Size(115, 13);
+			this.WordsPerParagraph.TabIndex = 10;
+			this.WordsPerParagraph.Text = "Words Per Paragraph: ";
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(834, 511);
+			this.Controls.Add(this.WordsPerParagraph);
+			this.Controls.Add(this.RefreshWikiText);
 			this.Controls.Add(this.ExternalLinks);
 			this.Controls.Add(this.ImageCount);
 			this.Controls.Add(this.HeaderCount);
@@ -158,6 +182,8 @@
 		private System.Windows.Forms.Label HeaderCount;
 		private System.Windows.Forms.Label ImageCount;
 		private System.Windows.Forms.Label ExternalLinks;
+		private System.Windows.Forms.Button RefreshWikiText;
+		private System.Windows.Forms.Label WordsPerParagraph;
 	}
 }
 

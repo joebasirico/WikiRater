@@ -7,64 +7,71 @@
 	<div class="content">
 		<h1>
 			Welcome to WikiRater</h1>
-		<div class="paragraph">
-			Thank you for your interest in WikiRater. I created WikiRater as a project to help
-			me create an algorithm to automatically rate the quality of a Wikipedia article.
-			I'd love to be able to request a random, high quality article from Wikipedia, read
-			the top 100 best articles or to help the Wikimedia foundation out by highlighting
-			the bottom 100 articles that need help. If you register and rate articles you'll
-			be helping me do that. Each time you rate an article I'll let you know what WikiRater
-			would have rated, so sign up and join the fun!</div>
-		<div class="paragraph">
-			Getting setup is pretty easy, just <a href="Register.aspx">register</a> or <a href="Login.aspx">
-				login</a> and add the bookmarklet below to your browser. When you're on a wikipedia
-			article you'd like to rate just click the bookmarklet and a little window will popup
-			that will let you rate that article, simple and easy!</div>
-		<div class="paragraph">
-			Or <a href="ImprovementProgram.aspx">Join the Improvement Program</a> to help make
-			WikiRater better.
-		</div>
-		<div class="paragraph">
-			Try it out on a <a href="http://en.wikipedia.org/wiki/Special:Random">Random Wikipedia
-				Article</a>
-		</div>
-		<div class="paragraph">
+		<div class="section">
 			<h2>
-				Get the Bookmarklet</h2>
-			<asp:HyperLink runat="server" ID="RateOnWikiRater" />
+				What is WikiRater?</h2>
+			WikiRater is a project to help you learn about new and interesting things by rating
+			wikipedia articles. If you're really interested in the backstory of this website
+			check out the <a href="About.aspx">about page</a>.
+			<br />
+			<br />
+			The idea is pretty simple:
+			<ol>
+				<li>People Rate Wikipedia articles by how interesting they find them</li>
+				<li>You browse the artcicles and find something that's interesting</li>
+				<li>Profit?</li>
+			</ol>
 		</div>
-		<div class="paragraph">
+		<div class="section">
 			<h2>
-				What's New</h2>
-			I've been hard at work! Since the last update I've added quite a few features that
-			I think you'll like.<br />
+				Get Started</h2>
+			You can help the WikiRater Project by <a href="Register.aspx">signing up</a> and
+			rating articles.<br />
 			<br />
-			<strong>#1 Achievements!</strong> – Hopefully this will make rating Wikipedia articles
-			even more fun. As you rate articles you'll win achievements and badges that will
-			show how awesome you are. Things like the number of ratings, or the types of ratings
-			will all give you achievements. When you win an Achievement you'll be notified immediately
-			on the vote page, but you can also check in on your progress on your own user page,
-			just click the <a href="/User.aspx">About Me</a> link in the navigation bar<br />
+			Or see what other people think are the most interesting articles on wikipedia by
+			looking at what other people think:
+			<table class="callToActionTable">
+				<tr>
+					<td>
+						<a href="Trending.aspx">Browse Trending Articles</a>
+					</td>
+					<td>
+						<a href="CurrentRatings.aspx">See All Articles</a>
+					</td>
+					<td>
+						<a href="RandomPage.aspx?lowerBound=8">Read a Random, Interesting Article</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="section">
+			<h2>
+				What's New (April 15th 2011)</h2>
+			I've tried to make the site easier and more fun to use this time around.
 			<br />
-			<strong>#2 Points</strong> – Instead of ranking people by the number of articles
-			they've rated I've decided to implement a point system. Points are simply Total
-			number of articles rated + total value of your achievements, but this should get
-			you excited about competing with your friends!<br />
 			<br />
-			<strong>#3 User pages</strong> – Each user now has a <a href="/User.aspx">User page</a>
-			where you can find out their total point score, how many articles they've rated
-			and the Achievements they've accomplished. You can see your accomplishments on your
-			user page by clicking the About Me link above, or anybody else's by going to the
-			<a href="/CurrentRatings.aspx">Current Ratings</a> page and clicking on a user you're
-			interested in.<br />
+			<strong><a href="Trending.aspx">Trending Articles</a></strong> – You can now see
+			the articles that are most often rated by other users on the trending page. If you
+			are familiar with <a href="http://reddit.com">reddit</a> or <a href="http://news.ycombinator.com">
+				hacker news</a> this page works very similarly. As an article is rated more
+			often it will organically make its way in the top.
 			<br />
-			<strong>#4 Faster</strong> – If you rate an article that WikiRater has already seen
-			it'll look up its last rating instead of trying to rate it every time. This should
-			make you power users much happier<br />
 			<br />
-			<strong>#5 Much better design</strong> – I heard from a few people they didn't like
-			my light grey on dark grey color scheme, so I've bumped up the contrast a bit. Hopefully
-			this will make you happier :-)
+			<strong><a href="RandomPage.aspx">Random Interesting Article</a></strong> – The
+			whole point of this site was for me to be able to set my homepage to the random
+			wikipedia article and learn about new and interesting things. If you set your homepage
+			to the random page you will get a page that has been randomly selected from all
+			the articles that have already been rated. If you'd like you can set a lower or
+			upper bound to get more or less interesting articles. Do this by using the lowerBound
+			and upperBound parameters: <a href="RandomPage.aspx?lowerBound=4&upperBound=8">RandomPage.aspx?lowerBound=4&upperBound=8</a>
+			would give you a random article that has an average rating of something between
+			four and eight.<br />
+			<br />
+			<strong>Bug Fixes and Usability</strong> – There have been lots of little bug fixes
+			around, so hopefully you either didn't notice before or you'll notice a little more
+			polish to the site. As with any (very) beta site, things are always in flux, but
+			hopefully trending to the better.<br />
+			<br />
 		</div>
 	</div>
 </asp:Content>

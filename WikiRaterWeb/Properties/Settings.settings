@@ -47,5 +47,8 @@
     <Setting Name="AllowLegacyHash" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="WikipediaBaseURL" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://en.wikipedia.org/wiki/</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

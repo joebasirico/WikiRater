@@ -64,6 +64,7 @@
     <Content Include="Help\InstallOnIE.aspx" />
     <Content Include="Help\Mobile.aspx" />
     <Content Include="Help\ShowBookmarksBar.aspx" />
+    <Content Include="History.aspx" />
     <Content Include="images\DragBookmarklet.png" />
     <Content Include="images\error.jpg" />
     <Content Include="images\FinishedRating.PNG" />
@@ -78,6 +79,7 @@
     <Content Include="Leaderboards.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Logout.aspx" />
+    <Content Include="RandomPage.aspx" />
     <Content Include="Register.aspx" />
     <Content Include="Trending.aspx" />
     <Content Include="User.aspx" />
@@ -205,6 +207,13 @@
     <Compile Include="Help\ShowBookmarksBar.aspx.designer.cs">
       <DependentUpon>ShowBookmarksBar.aspx</DependentUpon>
     </Compile>
+    <Compile Include="History.aspx.cs">
+      <DependentUpon>History.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="History.aspx.designer.cs">
+      <DependentUpon>History.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ImprovementProgram.aspx.cs">
       <DependentUpon>ImprovementProgram.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -239,7 +248,14 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="RatingEngine.cs" />
+    <Compile Include="RandomPage.aspx.cs">
+      <DependentUpon>RandomPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RandomPage.aspx.designer.cs">
+      <DependentUpon>RandomPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RatingHelper.cs" />
     <Compile Include="Register.aspx.cs">
       <DependentUpon>Register.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

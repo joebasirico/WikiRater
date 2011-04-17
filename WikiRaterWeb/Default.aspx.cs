@@ -12,8 +12,8 @@ namespace WikiRaterWeb
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			RateOnWikiRater.Text = Settings.Default.RateOnWikiRaterText;
-			RateOnWikiRater.NavigateUrl = String.Format(Settings.Default.Bookmarklet, Settings.Default.CurrentDomain);
+			//RateOnWikiRater.Text = Settings.Default.RateOnWikiRaterText;
+			//RateOnWikiRater.NavigateUrl = String.Format(Settings.Default.Bookmarklet, Settings.Default.CurrentDomain);
 		}
 	}
 }

@@ -44,9 +44,14 @@ namespace WikiRaterWeb
 						{
 							if (urlmatch.Length > 0)
 							{
-								url.Text = Server.HtmlEncode(urlmatch);
+								url.Text = FormatTitle(urlmatch);
 								if (Settings.Default.LogAllURLs)
 									Auth.CreateEvent("URL to Match", "by: " + Auth.LookupUserName(userID) + " \r\n" + Request["Article"], Request.UserHostAddress);
+							}
+							else if(Server.UrlDecode(Request["Article"]).Contains(Settings.Default.CurrentDomain))
+							{
+								VotePanel.Visible = false;
+								stillOnWikiRater.Visible = true;
 							}
 							else
 							{
@@ -77,6 +82,11 @@ namespace WikiRaterWeb
 				}
 			}
 		}
+
+		private string FormatTitle(string title)
+		{
+			return Regex.Replace(title, "[^a-z0-9]", " ", RegexOptions.IgnoreCase);
+		}
 		private void MakeVote(int votes)
 		{
 			try
@@ -90,24 +100,29 @@ namespace WikiRaterWeb
 					{
 						try
 						{
+							Regex reg = new Regex(Settings.Default.WikiTitleRegex);
+							string urlmatch = reg.Match(Request["Article"]).Groups[2].Value;
+							if (urlmatch.EndsWith("noui"))
+								urlmatch = urlmatch.Substring(0, urlmatch.Length - 4);
+
 							DataClassesDataContext dc = new DataClassesDataContext();
-							dc.AddRating(userID, url.Text, votes, DateTime.Now);
-							Auth.CreateEvent("New Vote Added", Auth.LookupUserName(userID) + " rated " + url.Text + " a " + votes, Request.UserHostAddress);
+							dc.AddRating(userID, urlmatch, votes, DateTime.Now);
+							Auth.CreateEvent("New Vote Added", Auth.LookupUserName(userID) + " rated " + urlmatch + " a " + votes, Request.UserHostAddress);
 							UserRating.Text = votes.ToString();
-							if (RatingExists(url.Text))
+							if (RatingExists(urlmatch))
 							{
-								int rating = LookupRating(url.Text);
+								int rating = LookupRating(urlmatch);
 								WikiRaterRating.Text = "WikiRater would have rated this article: " + rating + "<br />";
 							}
 							else
 							{
 								try
 								{
-									Article art = new Article(url.Text);
+									Article art = new Article(urlmatch);
 									if (art.rating > 0)
 									{
 										WikiRaterRating.Text = "WikiRater would have rated this article: " + art.rating.ToString() + "<br />";
-										SaveRating(url.Text, art.rating);
+										SaveRating(urlmatch, art.rating);
 									}
 									else
 										WikiRaterRating.Visible = false;

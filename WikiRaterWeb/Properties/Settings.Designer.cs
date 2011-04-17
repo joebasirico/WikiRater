@@ -158,5 +158,14 @@ namespace WikiRaterWeb.Properties {
                 return ((bool)(this["AllowLegacyHash"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://en.wikipedia.org/wiki/")]
+        public string WikipediaBaseURL {
+            get {
+                return ((string)(this["WikipediaBaseURL"]));
+            }
+        }
     }
 }

@@ -38,7 +38,8 @@
 						New Achievements Awarded!</h2>
 					Nice work, you! You've won some new achievements! That means I think you're awesome!
 					<br />
-					<h3>Achievements:</h3>
+					<h3>
+						Achievements:</h3>
 					<asp:Literal ID="AchievementList" runat="server"></asp:Literal>
 				</div>
 			</asp:Panel>
@@ -49,6 +50,17 @@
 			<strong>Couldn't find a wiki article</strong><br />
 			Sorry, it doesn't look like you're on a wikipedia article. If you think you've arrived
 			on this page in error <a href="mailto:wikirater@whoisjoe.com">please let me know</a>.
+		</div>
+	</asp:Panel>
+	<asp:Panel runat="server" ID="stillOnWikiRater" Visible="false">
+		<div class="contentNarrow">
+			<strong>Oops!</strong><br />
+			Looks like you may have clicked the link instead of saving it as a bookmarklet (common
+			mistake).<br />
+			<br />
+			Instead, drag and drop the link to the bookmarks bar. I've also written some pretty
+			good <a href="Help/Default.aspx">help pages</a> on the main page that walk you through
+			this process very closely.
 		</div>
 	</asp:Panel>
 </asp:Content>

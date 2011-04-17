@@ -13,26 +13,61 @@ namespace WikiParser
 {
 	public partial class Form1 : Form
 	{
+		double numSentences = 0;
+		double numWords = 0;
+		double numSyllables = 0;
+		int numParagraphs = 0;
+		double flesch = 0;
+		double readingLevel = 0;
+
 		public Form1()
 		{
 			InitializeComponent();
 			if (File.Exists("wikiText.txt"))
-				textBox1.Text = File.ReadAllText("wikiText.txt");
+				textBox1.Text = File.ReadAllText("wikiText.txt", Encoding.ASCII);
 		}
 
 		private void textBox1_TextChanged(object sender, EventArgs e)
 		{
+			numSentences = 0;
+			numWords = 0;
+			numSyllables = 0;
+			numParagraphs = 0;
+			
 			string input = textBox1.Text;
+			if (input.Length > 2 && 
+				input[input.Length - 1] != ' ' &&
+				input[input.Length - 2] == '.')
+				input += " ";
+
+			if (input.Length > 1 && 
+				input[input.Length - 1] == '.')
+				input += " ";
+
+			if (input.Length > 2 && 
+				input[input.Length - 1] != '.' &&
+				input[input.Length - 2] != '.')
+				input += ". ";
+
+
 			string textOnly = ParseWiki(input);
 
-			int words = CountWords(textOnly);
-			int paragraphs = CountParagraphs(input);
-			WordCount.Text = "Word Count: " + words;
-			ParagraphCount.Text = "Paragraph Count: " + paragraphs;
-			WordsPerParagraph.Text = String.Format("{0:0.00}", ((double)words / (double)paragraphs));
-			FleschScore.Text = "Flesch Score: " + GetFlesch(input);
-			ReadingLevel.Text = "Flesch Kincade Reading Level: " + GetReadingLevel(input);
-			
+
+
+			//
+			GetFlesch(input);
+			FleschScore.Text = "Flesch Score: " + flesch;
+			ReadingLevel.Text = "Reading Level: " + readingLevel;
+			numParagraphs = CountParagraphs(input);
+			WordCount.Text = "Word Count: " + numWords;
+			SentenceCount.Text = "Sentence Count: " + numSentences;
+			SyllableCount.Text = "Syllable Count: " + numSyllables;
+			SyllablesPerWord.Text = "Syllables Per Word: " + numSyllables / numWords;
+			WordsPerSentence.Text = "Words Per Sentence: " + numWords / numSentences;
+			ParagraphCount.Text = "Paragraph Count: " + numParagraphs;
+			WordsPerParagraph.Text = String.Format("{0:0.00}", ((double)numWords / (double)numParagraphs));
+
+
 			textBox2.Text = textOnly;
 		}
 
@@ -47,18 +82,8 @@ namespace WikiParser
 			return count;
 		}
 
-		private string GetReadingLevel(string input)
+		private void GetFlesch(string input)
 		{
-			return "Not Implemented";
-		}
-
-		private double GetFlesch(string input)
-		{
-			double numSentences = 0;
-			double numWords = 0;
-			double numSyllables = 0;
-			double flesch = 0;
-
 			Regex sentences = new Regex(@".+?\. ");
 			foreach (Match s in sentences.Matches(input))
 			{
@@ -72,47 +97,74 @@ namespace WikiParser
 				}
 			}
 
-			return 206.835 - 1.015 * (numWords / numSentences) - 84.6 * (numSyllables / numWords);
+			flesch = 206.835 - 1.015 * (numWords / numSentences) - 84.6 * (numSyllables / numWords);
+			readingLevel = 0.39 * (numWords / numSentences) + 11.8 * (numSyllables / numWords) - 15.59;
 		}
 
 		/// <summary>
-		/// How To Find Syllables:
+		/// How I am Finding Syllables:
 		///Count the number of vowels (a, e, i, o, u, and sometimes y) in the word.
 		///Subtract any silent vowels (like the silent 'e' at the end of a word).
 		///Subtract 1 vowel from every diphthong.
 		///A diphthong is when two volwels make only 1 sound (oi, oy, ou, ow, au, aw, oo, ...).
 		///The number you are left with should be the number of vowels in the word.
 		///http://www.howmanysyllables.com/howtocountsyllables.html
+		///
+		/// This method is inaccurate, but pretty close. It screws up on challenging 
+		/// words like "hyphenation" and "invisible"
+		/// 
+		/// I'd like to return to this and implement something more accurate as was discussed in
+		/// this 1983 NLP thesis: http://www.tug.org/docs/liang/
+		/// 
 		/// </summary>
 		/// <param name="word"></param>
 		/// <returns></returns>
 		private int CountSyllables(string word)
 		{
-			char[] vowels = { 'a', 'e', 'i', 'o', 'u' };
-
-			//get rid of spaces etc.
+			char[] vowels = { 'a', 'e', 'i', 'o', 'u', 'y' };
 			string currentWord = word;
-			//get rid of silent e
-			if(currentWord != "e" && currentWord[currentWord.Length-1] == 'e')
-				currentWord = currentWord.Substring(0, currentWord.Length-2);
-			//count vowels
 			int numVowels = 0;
-			foreach (char v in vowels)
+			bool lastWasVowel = false;
+			foreach (char wc in currentWord)
 			{
-				bool lastWasVowel = false;
-				foreach (char wc in currentWord)
+				bool foundVowel = false;
+				foreach (char v in vowels)
 				{
-					//don't add it if we're in a diphthong
-					if(v==wc && !lastWasVowel)
+					//don't count diphthongs
+					if (v == wc && lastWasVowel)
+					{
+						foundVowel = true;
+						lastWasVowel = true;
+						break;
+					}
+					else if (v == wc && !lastWasVowel)
 					{
 						numVowels++;
+						foundVowel = true;
 						lastWasVowel = true;
+						break;
 					}
-					else
-						lastWasVowel = false;
 				}
+
+				//if full cycle and no vowel found, set lastWasVowel to false;
+				if (!foundVowel)
+					lastWasVowel = false;
 			}
+			//remove es, it's _usually? silent
+			if (currentWord.Length > 2 && 
+				currentWord.Substring(currentWord.Length - 2) == "es")
+				numVowels--;
+			// remove silent e
+			else if (currentWord.Length > 1 &&
+				currentWord.Substring(currentWord.Length - 1) == "e")
+				numVowels--;
+
 			return numVowels;
+		}
+
+		private int hardCodedWords(string word)
+		{
+			return 0;
 		}
 
 		private int CountWords(string input)
@@ -174,7 +226,7 @@ namespace WikiParser
 					ImageCount.Text = "Image Count: " + twocount;
 			}
 			output = output.Replace("\\r", "\r\n");
-			
+
 			return output;
 		}
 

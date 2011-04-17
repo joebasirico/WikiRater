@@ -39,6 +39,10 @@
 			this.ExternalLinks = new System.Windows.Forms.Label();
 			this.RefreshWikiText = new System.Windows.Forms.Button();
 			this.WordsPerParagraph = new System.Windows.Forms.Label();
+			this.SentenceCount = new System.Windows.Forms.Label();
+			this.SyllableCount = new System.Windows.Forms.Label();
+			this.SyllablesPerWord = new System.Windows.Forms.Label();
+			this.WordsPerSentence = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// textBox1
@@ -68,7 +72,7 @@
 			// WordCount
 			// 
 			this.WordCount.AutoSize = true;
-			this.WordCount.Location = new System.Drawing.Point(13, 426);
+			this.WordCount.Location = new System.Drawing.Point(502, 426);
 			this.WordCount.Name = "WordCount";
 			this.WordCount.Size = new System.Drawing.Size(67, 13);
 			this.WordCount.TabIndex = 2;
@@ -148,11 +152,51 @@
 			this.WordsPerParagraph.TabIndex = 10;
 			this.WordsPerParagraph.Text = "Words Per Paragraph: ";
 			// 
+			// SentenceCount
+			// 
+			this.SentenceCount.AutoSize = true;
+			this.SentenceCount.Location = new System.Drawing.Point(502, 439);
+			this.SentenceCount.Name = "SentenceCount";
+			this.SentenceCount.Size = new System.Drawing.Size(90, 13);
+			this.SentenceCount.TabIndex = 11;
+			this.SentenceCount.Text = "Sentence Count: ";
+			// 
+			// SyllableCount
+			// 
+			this.SyllableCount.AutoSize = true;
+			this.SyllableCount.Location = new System.Drawing.Point(502, 452);
+			this.SyllableCount.Name = "SyllableCount";
+			this.SyllableCount.Size = new System.Drawing.Size(80, 13);
+			this.SyllableCount.TabIndex = 12;
+			this.SyllableCount.Text = "Syllable Count: ";
+			// 
+			// SyllablesPerWord
+			// 
+			this.SyllablesPerWord.AutoSize = true;
+			this.SyllablesPerWord.Location = new System.Drawing.Point(502, 465);
+			this.SyllablesPerWord.Name = "SyllablesPerWord";
+			this.SyllablesPerWord.Size = new System.Drawing.Size(145, 13);
+			this.SyllablesPerWord.TabIndex = 13;
+			this.SyllablesPerWord.Text = "Average Syllables Per Word: ";
+			// 
+			// WordsPerSentence
+			// 
+			this.WordsPerSentence.AutoSize = true;
+			this.WordsPerSentence.Location = new System.Drawing.Point(502, 478);
+			this.WordsPerSentence.Name = "WordsPerSentence";
+			this.WordsPerSentence.Size = new System.Drawing.Size(155, 13);
+			this.WordsPerSentence.TabIndex = 14;
+			this.WordsPerSentence.Text = "Average Words Per Sentence: ";
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(834, 511);
+			this.Controls.Add(this.WordsPerSentence);
+			this.Controls.Add(this.SyllablesPerWord);
+			this.Controls.Add(this.SyllableCount);
+			this.Controls.Add(this.SentenceCount);
 			this.Controls.Add(this.WordsPerParagraph);
 			this.Controls.Add(this.RefreshWikiText);
 			this.Controls.Add(this.ExternalLinks);
@@ -184,6 +228,10 @@
 		private System.Windows.Forms.Label ExternalLinks;
 		private System.Windows.Forms.Button RefreshWikiText;
 		private System.Windows.Forms.Label WordsPerParagraph;
+		private System.Windows.Forms.Label SentenceCount;
+		private System.Windows.Forms.Label SyllableCount;
+		private System.Windows.Forms.Label SyllablesPerWord;
+		private System.Windows.Forms.Label WordsPerSentence;
 	}
 }
 

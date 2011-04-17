@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using WikiRaterWeb.Properties;
 
 namespace WikiRaterWeb
 {
@@ -27,7 +28,8 @@ namespace WikiRaterWeb
 			//BA = ((AvgNumOfRatingsForAll * AvgRatingForAll) + TotalRating) / (RateCount + AvgNumOfRatingsForAll)
 			DataClassesDataContext dc = new DataClassesDataContext();
 			var allRatings = from rating in dc.Ratings 
-						 where rating.IsLatest == true
+						 where rating.IsLatest == true &&
+							rating.User.UserName != Settings.Default.WikiRaterName
 						 group rating by rating.Article into result
 						 select new
 						 {

@@ -29,7 +29,7 @@
 			<asp:HyperLink ID="TitleLink" runat="server">WikiRater</asp:HyperLink>
 		</h1><span class="betatag">beta</span></div>
 		<div class="navbar">
-			<a href="/Default.aspx">Home</a> | <a href="/Trending.aspx">Trending Articles</a>
+			<a href="/Default.aspx">Home</a> | <a href="/Trending.aspx">Articles</a>
 	| <a href="/ImprovementProgram.aspx">Improvement Program</a> | <a href="/Leaderboards.aspx">
 		Leaderboards</a> | <a href="About.aspx">About</a> | <a href="/Help/Default.aspx">Help</a>
 			<asp:Label ID="loginlogout" runat="server" /></div>

@@ -13,6 +13,33 @@ namespace WikiRaterWeb {
     public partial class CurrentRatings {
         
         /// <summary>
+        /// lowerBoundBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox lowerBoundBox;
+        
+        /// <summary>
+        /// upperBoundBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox upperBoundBox;
+        
+        /// <summary>
+        /// filter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button filter;
+        
+        /// <summary>
         /// RatingsListView control.
         /// </summary>
         /// <remarks>

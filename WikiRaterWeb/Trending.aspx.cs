@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using WikiRaterWeb.Properties;
 
 namespace WikiRaterWeb
 {
@@ -40,9 +41,11 @@ namespace WikiRaterWeb
 			DataTable dt = new DataTable();
 			dt.Columns.Add(new DataColumn("Article"));
 			dt.Columns.Add(new DataColumn("Points", System.Type.GetType("System.Double")));
+			dt.Columns.Add(new DataColumn("Description"));
 			dt.Columns.Add(new DataColumn("RatedStyle"));
 
 			var uniqueRating = (from a in dc.Ratings
+								where a.DateCreated.CompareTo(DateTime.Now.Subtract(new TimeSpan(24*7, 0, 0))) > 0
 								select a.Article).Distinct();
 			foreach (string article in uniqueRating)
 			{
@@ -59,8 +62,12 @@ namespace WikiRaterWeb
 				int hours = DateTime.Now.Subtract(firstOcc).Hours;
 
 				DataRow dr = dt.NewRow();
-				dr["Article"] = article;
-				dr["Points"] = ((double)votes - 1.0) / System.Math.Pow(((double)hours + 2), 1.5);
+				if (article.Length > Settings.Default.TruncateArticleLength)
+					dr["Article"] = Server.HtmlEncode(article.Substring(0, Settings.Default.TruncateArticleLength-3)) + "...";
+				else
+					dr["Article"] = Server.HtmlEncode(article);
+				dr["Points"] = (int)Math.Round(((double)votes - 1.0) / System.Math.Pow(((double)hours + 2), 1.5)*100);
+				dr["Description"] = votes + " votes in " + hours + " hours.";
 				if (!isLoggedIn)
 					dr["RatedStyle"] = "none";
 				else if (hasBeenRated(currentUserID, article))

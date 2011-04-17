@@ -46,8 +46,8 @@ namespace WikiRaterWeb
 
 			foreach (var ratingValue in allRatings)
 			{
-				if (ratingValue.Average > lowerBound &&
-					ratingValue.Average < upperBound)
+				if (ratingValue.Average >= lowerBound &&
+					ratingValue.Average <= upperBound)
 				{
 					if (userID > 0)
 					{
@@ -129,8 +129,8 @@ namespace WikiRaterWeb
 
 			foreach (var ratingValue in allRatings)
 			{
-				if (ratingValue.Average > lowerBound &&
-					ratingValue.Average < upperBound)
+				if (ratingValue.Average >= lowerBound &&
+					ratingValue.Average <= upperBound)
 				{
 					if (userID > 0)
 					{
@@ -150,8 +150,10 @@ namespace WikiRaterWeb
 							}
 						}
 						if (!found)
-							allArticles.Add(new Tuple<string, double, bool>(ratingValue.Article, ratingValue.Average, true));
+							allArticles.Add(new Tuple<string, double, bool>(ratingValue.Article, ratingValue.Average, false));
 					}
+					else //user is not logged in return a list of all articles that satisfy the range
+						allArticles.Add(new Tuple<string, double, bool>(ratingValue.Article, ratingValue.Average, false));
 				}
 			}
 			return allArticles;

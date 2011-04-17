@@ -12,15 +12,21 @@ namespace WikiRaterWeb
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			double lowerBound = 0;
+			double lowerBound = Settings.Default.defaultLowerBound;
+			double upperBound = Settings.Default.defaultUpperBound;
+			bool hasLower = false;
+			bool hasUpper = false;
+
 			if (Request["lowerBound"] != null
 				&& !string.IsNullOrEmpty(Request["lowerBound"]))
-				double.TryParse(Request["lowerBound"], out lowerBound);
-			double upperBound = 10;
+				hasLower = double.TryParse(Request["lowerBound"], out lowerBound);
+
 			if (Request["upperBound"] != null
 				&& !string.IsNullOrEmpty(Request["upperBound"]))
-				double.TryParse(Request["upperBound"], out upperBound);
+				hasUpper = double.TryParse(Request["upperBound"], out upperBound);
 
+			//if (hasLower || hasUpper)
+			//{
 			int userID = 0;
 			Guid session = new Guid();
 			//we've never seen this user before or they've cleared their cookies
@@ -30,7 +36,7 @@ namespace WikiRaterWeb
 			List<Tuple<string, double>> unratedArticles = RatingHelper.GetAllRatedArticles(userID, "unrated", lowerBound, upperBound);
 
 			Response.Redirect(Settings.Default.WikipediaBaseURL + unratedArticles[new Random().Next(unratedArticles.Count)].Item1);
-
+			//}
 		}
 	}
 }

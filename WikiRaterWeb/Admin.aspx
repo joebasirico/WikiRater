@@ -39,13 +39,5 @@
 			<asp:Button Text="Log Everybody Out!" ID="logEverybodyOut" runat="server" 
 				onclick="logEverybodyOut_Click" />
 		</div>
-		<div class="section">
-			<h2>
-				Find More Articles</h2>
-				Clicking this will start a thread that will run indefinately. It will pull a new wikipedia 
-				article every minute. 
-			<asp:Button ID="FindMore" runat="server" Text="Find More" 
-				onclick="FindMore_Click" />
-		</div>
 	</div>
 </asp:Content>

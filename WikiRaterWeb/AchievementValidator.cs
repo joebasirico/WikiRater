@@ -229,5 +229,12 @@ namespace WikiRaterWeb
 			}
 			return totalPoints;
 		}
+
+		internal Achievement GetAchievementByShortName(string shortName)
+		{
+			return (from a in dc.Achievements
+							  where a.ShortName == shortName
+							  select a).FirstOrDefault();
+		}
 	}
 }

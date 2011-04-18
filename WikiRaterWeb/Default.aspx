@@ -8,25 +8,10 @@
 		<h1>
 			Welcome to WikiRater</h1>
 		<div class="section">
-			<h2>
-				What is WikiRater?</h2>
 			WikiRater is a project to help you learn about new and interesting things by rating
 			wikipedia articles. If you're really interested in the backstory of this website
-			check out the <a href="About.aspx">about page</a>.
-			<br />
-			<br />
-			The idea is pretty simple:
-			<ol>
-				<li>People Rate Wikipedia articles by how interesting they find them</li>
-				<li>You browse the artcicles and find something that's interesting</li>
-				<li>Profit?</li>
-			</ol>
-		</div>
-		<div class="section">
-			<h2>
-				Get Started</h2>
-			You can help the WikiRater Project by <a href="Register.aspx">signing up</a> and
-			rating articles.<br />
+			check out the <a href="About.aspx">about page</a>. You can help the WikiRater Project
+			by <a href="Register.aspx">signing up</a> and rating articles.<br />
 			<br />
 			Or see what other people think are the most interesting articles on wikipedia by
 			looking at what other people think:
@@ -39,7 +24,7 @@
 						<a href="CurrentRatings.aspx">See All Articles</a>
 					</td>
 					<td>
-						<a href="RandomPage.aspx?lowerBound=8">Read a Random, Interesting Article</a>
+						<a href="RandomPage.aspx">Read a Random, Interesting Article</a>
 					</td>
 				</tr>
 			</table>
@@ -61,11 +46,7 @@
 			whole point of this site was for me to be able to set my homepage to the random
 			wikipedia article and learn about new and interesting things. If you set your homepage
 			to the random page you will get a page that has been randomly selected from all
-			the articles that have already been rated. If you'd like you can set a lower or
-			upper bound to get more or less interesting articles. Do this by using the lowerBound
-			and upperBound parameters: <a href="RandomPage.aspx?lowerBound=4&upperBound=8">RandomPage.aspx?lowerBound=4&upperBound=8</a>
-			would give you a random article that has an average rating of something between
-			four and eight.<br />
+			the articles that have already been rated. <a href="RandomPage.aspx">Try it out here</a><br />
 			<br />
 			<strong>Bug Fixes and Usability</strong> – There have been lots of little bug fixes
 			around, so hopefully you either didn't notice before or you'll notice a little more

@@ -77,24 +77,23 @@ namespace WikiRaterWeb
 			{
 				case "all":
 					return allArticles;
-					break;
 				case "rated":
-					if (userID < 0)
+					if (userID > 0)
 						return ratedArticles;
 					else
 						return allArticles;
-					break;
 				case "unrated":
-					if (userID < 0)
+					if (userID > 0)
 						return unRatedArticles;
 					else
 						return allArticles;
-					break;
 				default:
 					return allArticles;
-					break;
 			}
 		}
+
+
+
 		/// <summary>
 		/// Use this method if you want all articles and whether they've been rated in one list.
 		/// </summary>

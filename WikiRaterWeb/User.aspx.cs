@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using System.Threading;
+using WikiRaterWeb.Properties;
 
 namespace WikiRaterWeb
 {
@@ -13,6 +14,8 @@ namespace WikiRaterWeb
 	{
 		DataClassesDataContext dc = new DataClassesDataContext();
 		AchievementValidator av = new AchievementValidator();
+		Guid session = new Guid();
+		int userID = 0;
 
 		protected void Page_Load(object sender, EventArgs e)
 		{
@@ -21,6 +24,14 @@ namespace WikiRaterWeb
 				username = Request["Username"];
 			else
 				username = GetCurrentUser();
+
+			if (userID > 0 && (from u in dc.Users
+								   where u.UserID == userID
+								   select u.UserName).First() == username)
+			{
+				RatedArticlePanel.Visible = true;
+				PopulateViewedArticles();
+			}
 
 			UserName.Text = Server.HtmlEncode(username);
 
@@ -33,15 +44,41 @@ namespace WikiRaterWeb
 
 			GenerateAchievementList(currentUser.UserID);
 		}
+
+		private void PopulateViewedArticles()
+		{
+			var articles = from a in dc.Ratings
+						   where a.UserID == userID &&
+						   a.IsLatest == true
+						   select a;
+
+			DataTable dt = new DataTable();
+			dt.Columns.Add("Article");
+			dt.Columns.Add("Rating", System.Type.GetType("System.Double"));
+
+			foreach (Rating a in articles)
+			{
+				DataRow dr = dt.NewRow();
+				//encode
+				if (a.Article.Length > Settings.Default.TruncateArticleLength)
+					dr["Article"] = Server.HtmlEncode(a.Article.Substring(0, Settings.Default.TruncateArticleLength - 3)) + "...";
+				else
+					dr["Article"] = Server.HtmlEncode(a.Article);
+				dr["Rating"] = a.Value;
+
+				dt.Rows.Add(dr);
+			}
+			RatingsListView.DataSource = dt;
+			RatingsListView.DataBind();
+		}
 		
 		private string GetCurrentUser()
 		{
 			try
 			{
-				Guid session = new Guid();
 				if (Request.Cookies["session"] != null && Guid.TryParse(Request.Cookies["session"].Value, out session))
 				{
-					int userID = Auth.checkSession(session);
+					userID = Auth.checkSession(session);
 					if (userID != 0)
 						return Auth.LookupUserName(userID);
 				}

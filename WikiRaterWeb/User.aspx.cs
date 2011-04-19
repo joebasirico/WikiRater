@@ -103,7 +103,9 @@ namespace WikiRaterWeb
 			dt.Columns.Add("Icon");
 			dt.Columns.Add("HasIcon");
 
-			List<Achievement> accomplished = av.CheckAchievements(userID);
+			var accomplished = from a in dc.Achievements
+							   where a.AchievementMap.UserID == userID
+							   select a;
 
 			foreach (Achievement a in dc.Achievements.ToList())
 			{

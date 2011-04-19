@@ -48,6 +48,11 @@
 			to the random page you will get a page that has been randomly selected from all
 			the articles that have already been rated. <a href="RandomPage.aspx">Try it out here</a><br />
 			<br />
+			<strong><a href="User.aspx">Better User Page</a></strong> – Now you can see the
+			articles you've already rated. No sorting or anything fancy like that (that's still
+			to come), but you can see what you've rated and what you rated each article.
+			<br />
+			<br />
 			<strong>Bug Fixes and Usability</strong> – There have been lots of little bug fixes
 			around, so hopefully you either didn't notice before or you'll notice a little more
 			polish to the site. As with any (very) beta site, things are always in flux, but

@@ -36,7 +36,8 @@
 							<%# Eval("Article")%></a>
 					</td>
 					<td class="leaderboardRight">
-						<%# Eval("Points")%>
+						<%# Eval("Points")%><br />
+						<span class="trendingDescription"><%# Eval("Description")%></span>
 					</td>
 				</tr>
 			</ItemTemplate>

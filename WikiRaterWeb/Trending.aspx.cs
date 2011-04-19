@@ -45,7 +45,7 @@ namespace WikiRaterWeb
 			dt.Columns.Add(new DataColumn("RatedStyle"));
 
 			var uniqueRating = (from a in dc.Ratings
-								where a.DateCreated.CompareTo(DateTime.Now.Subtract(new TimeSpan(24*7, 0, 0))) > 0
+								where a.DateCreated.CompareTo(DateTime.Now.Subtract(new TimeSpan(24 * 7, 0, 0))) > 0
 								select a.Article).Distinct();
 			foreach (string article in uniqueRating)
 			{
@@ -59,15 +59,33 @@ namespace WikiRaterWeb
 									 where r.Article == article
 									 select r.DateCreated).OrderBy(ra => ra).FirstOrDefault();
 
-				int hours = DateTime.Now.Subtract(firstOcc).Hours;
+				int hours = (int)DateTime.Now.Subtract(firstOcc).TotalHours;
 
 				DataRow dr = dt.NewRow();
 				if (article.Length > Settings.Default.TruncateArticleLength)
-					dr["Article"] = Server.HtmlEncode(article.Substring(0, Settings.Default.TruncateArticleLength-3)) + "...";
+					dr["Article"] = Server.HtmlEncode(article.Substring(0, Settings.Default.TruncateArticleLength - 3)) + "...";
 				else
 					dr["Article"] = Server.HtmlEncode(article);
-				dr["Points"] = (int)Math.Round(((double)votes - 1.0) / System.Math.Pow(((double)hours + 2), 1.5)*100);
-				dr["Description"] = votes + " votes in " + hours + " hours.";
+				//subtract one for the initial vote
+				votes--;
+				double averageValue = RatingHelper.GetWeightedAverage(article);
+				dr["Points"] = (int)Math.Round(((double)votes) / System.Math.Pow(((double)hours + 2), 1.5) * 100 * averageValue);
+					
+				string description = "";
+				if (votes < 2)
+					description += votes + " vote";
+				else
+					description += votes + " votes";
+
+				if (hours < 1)
+					description += " just now.";
+				else
+					description += " in " + hours + " hours.";
+
+				description += "<br/>Average: " + Math.Round(averageValue, 2);
+
+				dr["Description"] = description;
+
 				if (!isLoggedIn)
 					dr["RatedStyle"] = "none";
 				else if (hasBeenRated(currentUserID, article))

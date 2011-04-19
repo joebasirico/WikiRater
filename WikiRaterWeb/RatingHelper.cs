@@ -157,5 +157,33 @@ namespace WikiRaterWeb
 			}
 			return allArticles;
 		}
+
+		public static double GetWeightedAverage(string article)
+		{
+			DataClassesDataContext dc = new DataClassesDataContext();
+			var votes = from a in dc.Ratings
+						where a.Article == article &&
+						a.IsLatest == true
+						select a;
+
+			double total = 0;
+			double count = 0;
+			foreach (Rating a in votes)
+			{
+				if (a.Article == Settings.Default.WikiRaterName)
+				{
+					for (int i = 0; i < 9; i++)
+					{
+						total += a.Value;
+						count++;
+					}
+				}
+				total += a.Value;
+				count++;
+			}
+
+			return total / count;
+		}
+
 	}
 }

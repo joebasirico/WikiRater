@@ -200,6 +200,11 @@ a:visited
 	line-height: normal;
 }
 
+.leaderboard
+{
+	width:100%
+}
+
 .leaderboard td
 {
 	padding: 5px;
@@ -209,6 +214,13 @@ a:visited
 .leaderboardRight
 {
 	text-align: right;
+}
+
+.trendingDescription
+{
+	font-size: small;
+	color:#444;
+	line-height: 100%;
 }
 
 img

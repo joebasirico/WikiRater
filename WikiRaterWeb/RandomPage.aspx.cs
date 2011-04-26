@@ -33,7 +33,26 @@ namespace WikiRaterWeb
 			if (Request.Cookies["session"] != null && Guid.TryParse(Request.Cookies["session"].Value, out session))
 				userID = Auth.checkSession(session);
 
-			List<Tuple<string, double>> unratedArticles = RatingHelper.GetAllRatedArticles(userID, "unrated", lowerBound, upperBound);
+			//DataClassesDataContext dc = new DataClassesDataContext();
+			//Random rand = new Random();
+			//int ratingCount = dc.Ratings.Count();
+			//List<Rating> allRatings = (from r in dc.Ratings
+			//                          select r).ToList();
+			//string title = "";
+			//Rating searchRating = null;
+			//while (searchRating == null)
+			//{
+			//    searchRating = dc.Ratings.FirstOrDefault(r1 => r1.RatingID == rand.Next(ratingCount) && r1.UserID != userID);
+			//}
+			//double value = RatingHelper.GetWeightedAverage(searchRating.Article, allRatings);
+			//if (value > lowerBound && value < upperBound)
+			//{
+			//    title = searchRating.Article;
+			//}
+			//Response.Redirect(Settings.Default.WikipediaBaseURL + title);
+
+
+			List<Tuple<string, double, bool>> unratedArticles = RatingHelper.GetAllRatedArticles(userID, lowerBound, upperBound);
 
 			Response.Redirect(Settings.Default.WikipediaBaseURL + unratedArticles[new Random().Next(unratedArticles.Count)].Item1);
 			//}

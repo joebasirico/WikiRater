@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Net;
 
 namespace WikiParser
 {
@@ -236,6 +237,30 @@ namespace WikiParser
 				textBox1.Text = File.ReadAllText("wikiText.txt");
 			else
 				MessageBox.Show("Couldn't find 'wikiText.txt'", "Couldn't find 'wikiText.txt'", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+		}
+
+		private void random_Click(object sender, EventArgs e)
+		{
+			string url = "";
+			string body = "";
+			try
+			{
+				HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+				request.Method = "GET";
+				request.UserAgent = "IE";
+
+				request.AllowAutoRedirect = true;
+				WebResponse response = request.GetResponse();
+				StreamReader inStream = new StreamReader(response.GetResponseStream());
+				body = inStream.ReadToEnd();
+			}
+			catch (WebException)
+			{
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
 		}
 	}
 }

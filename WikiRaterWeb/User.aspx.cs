@@ -25,27 +25,71 @@ namespace WikiRaterWeb
 			else
 				username = GetCurrentUser();
 
+			UserName.Text = Server.HtmlEncode(username);
+
+			User currentUser = dc.Users.First(u => u.UserName == username);
+
+			int points = av.GetPoints(currentUser.UserID, false);
+			Points.Text = points.ToString();
+			if(points > 1)
+				PointOrPoints.Text = "Points";
+			else
+				PointOrPoints.Text = "Point";
+
+			GenerateAchievementList(currentUser.UserID);
+
+
 			if (userID > 0 && (from u in dc.Users
 								   where u.UserID == userID
 								   select u.UserName).First() == username)
 			{
 				RatedArticlePanel.Visible = true;
-				PopulateViewedArticles();
+				PopulateViewedArticles("");
+				IntroText.Text = CreateIntroText(currentUser, true);
 			}
-
-			UserName.Text = Server.HtmlEncode(username);
-
-			User currentUser = dc.Users.First(u => u.UserName == username);
-			MemberSince.Text = currentUser.TimeCreated.ToLongDateString();
-
-			UniqueRatings.Text = dc.Ratings.Count(r => r.User.UserName == username && r.IsLatest).ToString();
-
-			Points.Text = av.GetPoints(currentUser.UserID, false).ToString();
-
-			GenerateAchievementList(currentUser.UserID);
+			else
+				IntroText.Text = CreateIntroText(currentUser, false);
 		}
 
-		private void PopulateViewedArticles()
+		private string CreateIntroText(WikiRaterWeb.User currentUser, bool isHome)
+		{
+			string introString = "";
+			DateTime timeCreated = currentUser.TimeCreated;
+			int ratingCount = dc.Ratings.Count(r => r.UserID == currentUser.UserID && r.IsLatest == true);
+			if (isHome)
+			{
+
+				introString += "You have been a member since " + timeCreated.ToLongDateString() +
+					", ";
+				if (ratingCount > 1)
+					introString += "during which time you have rated <strong>" + ratingCount +
+						"</strong> wikipedia articles. ";
+				else if (ratingCount == 1)
+					introString += "during which time you have rating a single article. I appreciate you signing up, but go get rating! ;-)";
+			}
+			else
+			{
+
+				introString += currentUser.UserName + " has been a member since " + timeCreated.ToLongDateString() +
+					", ";
+				if (ratingCount > 1)
+					introString += "during which time they have rated <strong>" + ratingCount +
+						"</strong> wikipedia articles. ";
+				else if (ratingCount == 1)
+					introString += "during which time they rated one article";
+					
+			}
+			int ratingsPerDay = (int)Math.Round((double)ratingCount / DateTime.Now.Subtract(timeCreated).TotalDays);
+			if (ratingsPerDay > 1)
+				introString += "Which is an average of " + ratingsPerDay + " articles per day, nice!";
+			else if (ratingsPerDay == 1)
+				introString += "Which is an average of one rating per day. ";
+			return introString;
+				
+		}
+
+
+		private void PopulateViewedArticles(string sort)
 		{
 			var articles = from a in dc.Ratings
 						   where a.UserID == userID &&
@@ -68,7 +112,8 @@ namespace WikiRaterWeb
 
 				dt.Rows.Add(dr);
 			}
-			RatingsListView.DataSource = dt;
+			dt.DefaultView.Sort = sort;
+			RatingsListView.DataSource = dt.DefaultView;
 			RatingsListView.DataBind();
 		}
 		
@@ -113,13 +158,6 @@ namespace WikiRaterWeb
 				dr["Title"] = a.Name;
 				dr["Description"] = a.Description;
 				dr["Value"] = a.Value;
-				if (!string.IsNullOrEmpty(a.Icon))
-				{
-					dr["Icon"] = a.Icon;
-					dr["HasIcon"] = "inherit";
-				}
-				else
-					dr["HasIcon"] = "none";
 				
 				bool found = false;
 				foreach (Achievement b in accomplished)
@@ -128,17 +166,41 @@ namespace WikiRaterWeb
 					{
 						dr["Achieved"] = "AccomplishedAchievement";
 						found = true;
+						if (!string.IsNullOrEmpty(a.Icon))
+						{
+							dr["Icon"] = a.Icon;
+							dr["HasIcon"] = "inherit";
+						}
+						else
+						{
+							dr["Icon"] = Settings.Default.DefaultAchievementIcon;
+							dr["HasIcon"] = "inherit";
+						}
 						break;
 					}
 				}
-				if(!found)
+				if (!found)
+				{
 					dr["Achieved"] = "UnaccomplishedAchievement";
+						dr["Icon"] = Settings.Default.DefaultAchievementIcon;
+						dr["HasIcon"] = "inherit";
+				}
 
 				dt.Rows.Add(dr);
 			}
 
 			AchievementsList.DataSource = dt;
 			AchievementsList.DataBind();
+		}
+
+		protected void RatingSort_Click(object sender, EventArgs e)
+		{
+			PopulateViewedArticles("Rating DESC");
+		}
+
+		protected void ArticleSort_Click(object sender, EventArgs e)
+		{
+			PopulateViewedArticles("Article");
 		}
 	}
 }

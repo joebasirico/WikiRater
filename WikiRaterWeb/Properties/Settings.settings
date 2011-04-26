@@ -59,5 +59,8 @@
     <Setting Name="defaultUpperBound" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">10</Value>
     </Setting>
+    <Setting Name="DefaultAchievementIcon" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">/Images/Achievements/Default_Large.png</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

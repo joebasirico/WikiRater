@@ -22,6 +22,15 @@ namespace WikiRaterWeb {
         protected global::System.Web.UI.WebControls.Label Points;
         
         /// <summary>
+        /// PointOrPoints control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label PointOrPoints;
+        
+        /// <summary>
         /// UserName control.
         /// </summary>
         /// <remarks>
@@ -31,22 +40,13 @@ namespace WikiRaterWeb {
         protected global::System.Web.UI.WebControls.Label UserName;
         
         /// <summary>
-        /// MemberSince control.
+        /// IntroText control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label MemberSince;
-        
-        /// <summary>
-        /// UniqueRatings control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label UniqueRatings;
+        protected global::System.Web.UI.WebControls.Label IntroText;
         
         /// <summary>
         /// AchievementsList control.

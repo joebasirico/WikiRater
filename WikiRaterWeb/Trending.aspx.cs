@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using WikiRaterWeb.Properties;
+using System.Data.Linq;
 
 namespace WikiRaterWeb
 {
@@ -14,6 +15,7 @@ namespace WikiRaterWeb
 		DataClassesDataContext dc = new DataClassesDataContext();
 		protected void Page_Load(object sender, EventArgs e)
 		{
+
 			int currentUserID = 0;
 			bool isLoggedIn = false;
 			Guid session = new Guid();
@@ -25,16 +27,11 @@ namespace WikiRaterWeb
 			}
 
 			//Hacker News Formula: 
-
 			//(p - 1) / (t + 2)^1.5
-
 			//Description: 
-
 			//Votes divided by age factor
-
 			//p = votes (points) from users.
 			//t = time since submission in hours.
-
 			//p is subtracted by 1 to negate submitters vote.
 			//age factor is (time since submission in hours plus two) to the power of 1.5.
 
@@ -44,13 +41,20 @@ namespace WikiRaterWeb
 			dt.Columns.Add(new DataColumn("Description"));
 			dt.Columns.Add(new DataColumn("RatedStyle"));
 
-			var uniqueRating = (from a in dc.Ratings
+			DataLoadOptions dlo = new DataLoadOptions();
+			dlo.LoadWith<Rating>(rating => rating.User);
+			dc.LoadOptions = dlo;
+
+			var allRatings = from rating in dc.Ratings
+							 select rating;
+
+			var uniqueRating = (from a in allRatings
 								where a.DateCreated.CompareTo(DateTime.Now.Subtract(new TimeSpan(24 * 7, 0, 0))) > 0
 								select a.Article).Distinct();
 			foreach (string article in uniqueRating)
 			{
 
-				int votes = (from r in dc.Ratings
+				int votes = (from r in allRatings
 							 where r.Article == article
 							 && r.IsLatest == true
 							 select r).Count();
@@ -68,7 +72,7 @@ namespace WikiRaterWeb
 					dr["Article"] = Server.HtmlEncode(article);
 				//subtract one for the initial vote
 				votes--;
-				double averageValue = RatingHelper.GetWeightedAverage(article);
+				double averageValue = RatingHelper.GetWeightedAverage(article, allRatings.ToList());
 				dr["Points"] = (int)Math.Round(((double)votes) / System.Math.Pow(((double)hours + 2), 1.5) * 100 * averageValue);
 					
 				string description = "";
@@ -88,7 +92,7 @@ namespace WikiRaterWeb
 
 				if (!isLoggedIn)
 					dr["RatedStyle"] = "none";
-				else if (hasBeenRated(currentUserID, article))
+				else if (RatingHelper.hasBeenRated(currentUserID, article, allRatings.ToList()))
 					dr["RatedStyle"] = "Rated";
 				else
 					dr["RatedStyle"] = "NotRated";
@@ -99,25 +103,6 @@ namespace WikiRaterWeb
 			dt.DefaultView.RowFilter = "Points > 0";
 			TrendingListView.DataSource = dt.DefaultView;
 			TrendingListView.DataBind();
-		}
-
-		private bool hasBeenRated(int userID, string Article)
-		{
-			var RatedArticles = from rArt in dc.Ratings
-								where rArt.UserID == userID
-									&& rArt.IsLatest == true
-								select rArt.Article;
-			bool found = false;
-
-			foreach (string ratedArticle in RatedArticles)
-			{
-				if (Article == ratedArticle)
-				{
-					found = true;
-					break;
-				}
-			}
-			return found;
 		}
 	}
 }

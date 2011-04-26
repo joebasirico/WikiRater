@@ -194,5 +194,14 @@ namespace WikiRaterWeb.Properties {
                 return ((int)(this["defaultUpperBound"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("/Images/Achievements/Default_Large.png")]
+        public string DefaultAchievementIcon {
+            get {
+                return ((string)(this["DefaultAchievementIcon"]));
+            }
+        }
     }
 }

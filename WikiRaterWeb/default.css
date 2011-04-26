@@ -5,6 +5,8 @@
 	line-height: 200%;
 	font-size: 11pt;
 	color: #222;
+	background-image: url(/Images/body.png);
+	background-repeat: repeat;
 }
 
 code
@@ -66,6 +68,10 @@ a:visited
 	margin: 0 auto;
 	padding: 50px;
 	padding-bottom: 30px;
+	background-image: url(/Images/header.png);
+	border-left: 5px solid #666;
+	border-right: 5px solid #666;
+	border-top: 5px solid #666;
 }
 .headerNarrow
 {
@@ -88,6 +94,8 @@ a:visited
 	background-color: #ffffff;
 	margin: 0 auto;
 	padding: 10px 50px 10px 50px;
+	border-left: 5px solid #666;
+	border-right: 5px solid #666;
 }
 
 .contentNarrow
@@ -104,6 +112,8 @@ a:visited
 	margin: 0 auto;
 	background-color: #DDD;
 	padding: 10px 50px 10px 50px;
+	border-left: 5px solid #666;
+	border-right: 5px solid #666;
 }
 
 .navbarNarrow
@@ -120,6 +130,8 @@ a:visited
 	margin: 0 auto;
 	background-color: #DDD;
 	padding: 0px 0px 10px 100px;
+	border-left: 5px solid #666;
+	border-right: 5px solid #666;
 }
 
 .footer
@@ -202,7 +214,7 @@ a:visited
 
 .leaderboard
 {
-	width:100%
+	width: 100%;
 }
 
 .leaderboard td
@@ -219,7 +231,7 @@ a:visited
 .trendingDescription
 {
 	font-size: small;
-	color:#444;
+	color: #444;
 	line-height: 100%;
 }
 
@@ -259,11 +271,19 @@ img
 .AccomplishedAchievement
 {
 	font-size: 110%;
+	min-height: 120px;
 }
 
 .UnaccomplishedAchievement
 {
 	color: #CCC;
+	min-height: 120px;
+}
+
+.achievementIcon
+{
+	float: left;
+	margin-right: 10px;
 }
 
 .PointValue
@@ -280,4 +300,21 @@ img
 	margin: 10px;
 	padding: 10px;
 	text-align: center;
+}
+
+.bookmarkletTag
+{
+	text-align: center;
+	font-size: 120%;
+	font-weight: bold;
+	border-bottom: 1px solid #555;
+	min-height: 70px;
+}
+
+.bookmarklet
+{
+	border: 2px solid #AAA;
+	background-color: #F1F1F1;
+	padding: 5px;
+	margin: 5px;
 }

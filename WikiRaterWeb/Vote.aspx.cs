@@ -107,7 +107,8 @@ namespace WikiRaterWeb
 
 							DataClassesDataContext dc = new DataClassesDataContext();
 							dc.AddRating(userID, urlmatch, votes, DateTime.Now);
-							Auth.CreateEvent("New Vote Added", Auth.LookupUserName(userID) + " rated " + urlmatch + " a " + votes, Request.UserHostAddress);
+							Auth.CreateEvent("New Vote Added", Auth.LookupUserName(userID) + " rated " +
+								urlmatch + " a " + votes, Request.UserHostAddress);
 							UserRating.Text = votes.ToString();
 							if (RatingExists(urlmatch))
 							{

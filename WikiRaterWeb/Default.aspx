@@ -13,8 +13,8 @@
 			check out the <a href="About.aspx">about page</a>. You can help the WikiRater Project
 			by <a href="Register.aspx">signing up</a> and rating articles.<br />
 			<br />
-			Or see what other people think are the most interesting articles on wikipedia by
-			looking at what other people think:
+			See what other people think are the most interesting articles on wikipedia by looking
+			at what other people think:
 			<table class="callToActionTable">
 				<tr>
 					<td>
@@ -28,6 +28,11 @@
 					</td>
 				</tr>
 			</table>
+		</div>
+		<div class="bookmarkletTag">
+			Get the Bookmarklet<br />
+			<asp:HyperLink ID="RateOnWikiRater" runat="server" CssClass="bookmarklet" />
+			&#8662; Drag this to your bookmarks bar
 		</div>
 		<div class="section">
 			<h2>

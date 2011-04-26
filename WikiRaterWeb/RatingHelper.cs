@@ -35,25 +35,20 @@ namespace WikiRaterWeb
 			List<Tuple<string, double>> allArticles = new List<Tuple<string, double>>();
 
 			var allRatings = from rating in dc.Ratings
-							 where rating.IsLatest == true &&
-								rating.User.UserName != Settings.Default.WikiRaterName
-							 group rating by rating.Article into result
-							 select new
-							 {
-								 Article = result.Key,
-								 Average = result.Average(i => (Double)i.Value)
-							 };
+							 where rating.IsLatest == true
+							 select rating;
 
 			foreach (var ratingValue in allRatings)
 			{
-				if (ratingValue.Average >= lowerBound &&
-					ratingValue.Average <= upperBound)
+				double average = GetWeightedAverage(ratingValue.Article, allRatings.ToList());
+				if (average >= lowerBound &&
+					average <= upperBound)
 				{
 					if (userID > 0)
 					{
-						var RatedArticles = from rArt in dc.Ratings
+						var RatedArticles = from rArt in allRatings
 											where rArt.UserID == userID
-												&& rArt.IsLatest == true
+											    && rArt.IsLatest == true
 											select rArt.Article;
 						bool found = false;
 
@@ -61,15 +56,15 @@ namespace WikiRaterWeb
 						{
 							if (ratingValue.Article == ratedArticle)
 							{
-								ratedArticles.Add(new Tuple<string, double>(ratingValue.Article, ratingValue.Average));
+								ratedArticles.Add(new Tuple<string, double>(ratingValue.Article, average));
 								found = true;
 								break;
 							}
 						}
 						if (!found)
-							unRatedArticles.Add(new Tuple<string, double>(ratingValue.Article, ratingValue.Average));
+							unRatedArticles.Add(new Tuple<string, double>(ratingValue.Article, average));
 					}
-					allArticles.Add(new Tuple<string, double>(ratingValue.Article, ratingValue.Average));
+					allArticles.Add(new Tuple<string, double>(ratingValue.Article, average));
 				}
 			}
 
@@ -117,23 +112,18 @@ namespace WikiRaterWeb
 			List<Tuple<string, double, bool>> allArticles = new List<Tuple<string, double, bool>>();
 
 			var allRatings = from rating in dc.Ratings
-							 where rating.IsLatest == true &&
-								rating.User.UserName != Settings.Default.WikiRaterName
-							 group rating by rating.Article into result
-							 select new
-							 {
-								 Article = result.Key,
-								 Average = result.Average(i => (Double)i.Value)
-							 };
+							 where rating.IsLatest == true
+							 select rating;
 
 			foreach (var ratingValue in allRatings)
 			{
-				if (ratingValue.Average >= lowerBound &&
-					ratingValue.Average <= upperBound)
+				double average = GetWeightedAverage(ratingValue.Article, allRatings.ToList());
+				if (average >= lowerBound &&
+					average <= upperBound)
 				{
 					if (userID > 0)
 					{
-						var RatedArticles = from rArt in dc.Ratings
+						var RatedArticles = from rArt in allRatings
 											where rArt.UserID == userID
 												&& rArt.IsLatest == true
 											select rArt.Article;
@@ -143,25 +133,25 @@ namespace WikiRaterWeb
 						{
 							if (ratingValue.Article == ratedArticle)
 							{
-								allArticles.Add(new Tuple<string, double, bool>(ratingValue.Article, ratingValue.Average, true));
+								allArticles.Add(new Tuple<string, double, bool>(ratingValue.Article, average, true));
 								found = true;
 								break;
 							}
 						}
 						if (!found)
-							allArticles.Add(new Tuple<string, double, bool>(ratingValue.Article, ratingValue.Average, false));
+							allArticles.Add(new Tuple<string, double, bool>(ratingValue.Article, average, false));
 					}
 					else //user is not logged in return a list of all articles that satisfy the range
-						allArticles.Add(new Tuple<string, double, bool>(ratingValue.Article, ratingValue.Average, false));
+						allArticles.Add(new Tuple<string, double, bool>(ratingValue.Article, average, false));
 				}
 			}
 			return allArticles;
 		}
 
-		public static double GetWeightedAverage(string article)
+		public static double GetWeightedAverage(string article, List<Rating> allRatings)
 		{
 			DataClassesDataContext dc = new DataClassesDataContext();
-			var votes = from a in dc.Ratings
+			var votes = from a in allRatings
 						where a.Article == article &&
 						a.IsLatest == true
 						select a;
@@ -185,5 +175,23 @@ namespace WikiRaterWeb
 			return total / count;
 		}
 
+		public static bool hasBeenRated(int userID, string Article, List<Rating> allRatings)
+		{
+			var RatedArticles = from rArt in allRatings
+								where rArt.UserID == userID
+									&& rArt.IsLatest == true
+								select rArt.Article;
+			bool found = false;
+
+			foreach (string ratedArticle in RatedArticles)
+			{
+				if (Article == ratedArticle)
+				{
+					found = true;
+					break;
+				}
+			}
+			return found;
+		}
 	}
 }

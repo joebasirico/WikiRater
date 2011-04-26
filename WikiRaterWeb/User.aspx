@@ -8,15 +8,11 @@
 		<div class="Points">
 			<div class="PointValue">
 				<asp:Label ID="Points" runat="server"></asp:Label></div>
-			Points
+				<asp:Label ID="PointOrPoints" runat="server"></asp:Label>
 		</div>
 		<h1>
 			<asp:Label ID="UserName" runat="server"></asp:Label></h1>
-		Has been a member since
-		<asp:Label ID="MemberSince" runat="server"></asp:Label>. During which time they
-		have rated <strong>
-			<asp:Label ID="UniqueRatings" runat="server"></asp:Label></strong> unique articles
-		articles.
+		<asp:Label ID="IntroText" runat="server"></asp:Label>
 		<h2>
 			Achievements</h2>
 		<asp:ListView ID="AchievementsList" runat="server">
@@ -27,7 +23,7 @@
 			</LayoutTemplate>
 			<ItemTemplate>
 				<div class='<%# Eval("Achieved")%>'>
-					<img src='<%# Eval("Icon")%>' style='display: <%# Eval("HasIcon")%>' alt='<%# Eval("Title")%>' />
+					<img src='<%# Eval("Icon")%>' style='display: <%# Eval("HasIcon")%>' alt='<%# Eval("Title")%>' class="achievementIcon" />
 					<strong>
 						<%# Eval("Title")%></strong> (worth
 					<%# Eval("Value")%>
@@ -47,10 +43,11 @@
 					<table border="0" cellpadding="0" cellspacing="0" class="leaderboard" width="100%">
 						<tr>
 							<td>
-								<strong>Wikipedia Article</strong>
+								<strong>
+									<asp:LinkButton Text="Wikipedia Article" runat="server" ID="ArticleSort" OnClick="ArticleSort_Click" /></strong>
 							</td>
 							<td class="leaderboardRight">
-								<strong>Your Rating</strong>
+								<strong><asp:LinkButton Text="Your Rating" runat="server" ID="RatingSort" OnClick="RatingSort_Click" /></strong>
 							</td>
 						</tr>
 						<asp:PlaceHolder runat="server" ID="itemPlaceholder"></asp:PlaceHolder>

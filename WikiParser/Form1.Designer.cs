@@ -43,6 +43,7 @@
 			this.SyllableCount = new System.Windows.Forms.Label();
 			this.SyllablesPerWord = new System.Windows.Forms.Label();
 			this.WordsPerSentence = new System.Windows.Forms.Label();
+			this.random = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// textBox1
@@ -188,11 +189,23 @@
 			this.WordsPerSentence.TabIndex = 14;
 			this.WordsPerSentence.Text = "Average Words Per Sentence: ";
 			// 
+			// random
+			// 
+			this.random.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.random.Location = new System.Drawing.Point(762, 426);
+			this.random.Name = "random";
+			this.random.Size = new System.Drawing.Size(60, 52);
+			this.random.TabIndex = 15;
+			this.random.Text = "Retrieve Random Article";
+			this.random.UseVisualStyleBackColor = true;
+			this.random.Click += new System.EventHandler(this.random_Click);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(834, 511);
+			this.Controls.Add(this.random);
 			this.Controls.Add(this.WordsPerSentence);
 			this.Controls.Add(this.SyllablesPerWord);
 			this.Controls.Add(this.SyllableCount);
@@ -232,6 +245,7 @@
 		private System.Windows.Forms.Label SyllableCount;
 		private System.Windows.Forms.Label SyllablesPerWord;
 		private System.Windows.Forms.Label WordsPerSentence;
+		private System.Windows.Forms.Button random;
 	}
 }
 

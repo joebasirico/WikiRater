@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -41,50 +40,32 @@ namespace WikiRaterWeb
 			dt.Columns.Add(new DataColumn("Description"));
 			dt.Columns.Add(new DataColumn("RatedStyle"));
 
-			DataLoadOptions dlo = new DataLoadOptions();
-			dlo.LoadWith<Rating>(rating => rating.User);
-			dc.LoadOptions = dlo;
+			List<Tuple<string, double>> userRatings = RatingHelper.GetAllRatedArticles(currentUserID, "rated", 0, 10);
 
-			var allRatings = from rating in dc.Ratings
-							 select rating;
-
-			var uniqueRating = (from a in allRatings
-								where a.DateCreated.CompareTo(DateTime.Now.Subtract(new TimeSpan(24 * 7, 0, 0))) > 0
-								select a.Article).Distinct();
-			foreach (string article in uniqueRating)
+			foreach (Tuple<string, int, DateTime, double> article in RatingHelper.GetTrendingValues())
 			{
-
-				int votes = (from r in allRatings
-							 where r.Article == article
-							 && r.IsLatest == true
-							 select r).Count();
-
-				DateTime firstOcc = (from r in dc.Ratings
-									 where r.Article == article
-									 select r.DateCreated).OrderBy(ra => ra).FirstOrDefault();
-
-				int hours = (int)DateTime.Now.Subtract(firstOcc).TotalHours;
+				int hours = (int)DateTime.Now.Subtract(article.Item3).TotalHours;
 
 				DataRow dr = dt.NewRow();
-				if (article.Length > Settings.Default.TruncateArticleLength)
-					dr["Article"] = Server.HtmlEncode(article.Substring(0, Settings.Default.TruncateArticleLength - 3)) + "...";
+				if (article.Item1.Length > Settings.Default.TruncateArticleLength)
+					dr["Article"] = Server.HtmlEncode(article.Item1.Substring(0, Settings.Default.TruncateArticleLength - 3)) + "...";
 				else
-					dr["Article"] = Server.HtmlEncode(article);
+					dr["Article"] = Server.HtmlEncode(article.Item1);
 				//subtract one for the initial vote
-				votes--;
-				double averageValue = RatingHelper.GetWeightedAverage(article, allRatings.ToList());
-				dr["Points"] = (int)Math.Round(((double)votes) / System.Math.Pow(((double)hours + 2), 1.5) * 100 * averageValue);
-					
+				int votes = article.Item2 - 1;
+				double averageValue = article.Item4;
+				int points = (int)Math.Round(((double)votes) / System.Math.Pow(((double)hours + 2), 1.5) * 100 * averageValue);
+				if (points == 0)
+					continue;
+
+				dr["Points"] = points;
 				string description = "";
 				if (votes < 2)
 					description += votes + " vote";
 				else
 					description += votes + " votes";
 
-				if (hours < 1)
-					description += " just now.";
-				else
-					description += " in " + hours + " hours.";
+				description += GetSaneTime(hours);
 
 				description += "<br/>Average: " + Math.Round(averageValue, 2);
 
@@ -92,7 +73,7 @@ namespace WikiRaterWeb
 
 				if (!isLoggedIn)
 					dr["RatedStyle"] = "none";
-				else if (RatingHelper.hasBeenRated(currentUserID, article, allRatings.ToList()))
+				else if (RatingHelper.Contains(userRatings, article.Item1))
 					dr["RatedStyle"] = "Rated";
 				else
 					dr["RatedStyle"] = "NotRated";
@@ -100,9 +81,46 @@ namespace WikiRaterWeb
 				dt.Rows.Add(dr);
 			}
 			dt.DefaultView.Sort = "Points DESC";
-			dt.DefaultView.RowFilter = "Points > 0";
 			TrendingListView.DataSource = dt.DefaultView;
 			TrendingListView.DataBind();
+		}
+
+		private static string GetSaneTime(int hours)
+		{
+			string time = "";
+			if (hours < 1)
+				time = " just now.";
+			else
+			{
+				if (hours < 24)
+					time = " in " + hours + " hours.";
+				else if (hours < 24 * 7)
+				{
+					int days = (int)Math.Floor((float)hours / 24);
+					if (days == 1)
+						time = " in about a day.";
+					else
+						time = " in about " + days + " days.";
+				}
+				else if (hours < 24 * 30)
+				{
+					int weeks = (int)Math.Floor((float)hours / (24 * 7));
+					if (weeks == 1)
+						time = " in about a week.";
+					else
+						time = " in about " + weeks + " weeks.";
+				}
+				else
+				{
+					int months = (int)Math.Floor((float)hours / (24 * 30));
+					if (months == 1)
+						time = " in about a month.";
+					else
+						time = " in about " + months + " months.";
+				}
+			}
+
+			return time;
 		}
 	}
 }

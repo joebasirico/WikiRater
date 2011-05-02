@@ -29,10 +29,12 @@
 				</tr>
 			</table>
 		</div>
-		<div class="bookmarkletTag">
-			Get the Bookmarklet<br />
-			<asp:HyperLink ID="RateOnWikiRater" runat="server" CssClass="bookmarklet" />
-			&#8662; Drag this to your bookmarks bar
+		<div class="bookmarkletTagSection">
+
+			<span class="bookmarkletHeader">Get the Bookmarklet</span><br />
+			<span class="bookmarkletLink"><asp:HyperLink ID="RateOnWikiRater" runat="server" CssClass="bookmarklet" /></span>
+			<span class="bookmarkletText">&#8662; Drag this to your bookmarks bar ...<br />
+			 then click it to rate Wikipedia articles!</span>
 		</div>
 		<div class="section">
 			<h2>

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -56,14 +56,9 @@ namespace WikiRaterWeb
 				int userID = Auth.checkSession(session);
 				if (userID != 0)
 				{
-					DataClassesDataContext dc = new DataClassesDataContext();
-					var IPList = from art in dc.ImprovementProgramLists
-								 select art.Title;
+					List<string> IPList = RatingHelper.GetImprovementProgramList();
 
-					var RatedArticles = from rArt in dc.Ratings
-										where rArt.UserID == userID
-											&& rArt.IsLatest == true
-										select rArt.Article;
+					List<Tuple<string, double>> RatedArticles = RatingHelper.GetAllRatedArticles(userID, "rated", 0, 10);
 
 
 					DataTable dt = new DataTable();
@@ -74,9 +69,9 @@ namespace WikiRaterWeb
 					foreach (string article in IPList)
 					{
 						bool found = false;
-						foreach (string ratedArt in RatedArticles)
+						foreach (Tuple<string, double> ratedArt in RatedArticles)
 						{
-							if (article == ratedArt)
+							if (article == ratedArt.Item1)
 							{
 								DataRow dr = dt.NewRow();
 								//encode

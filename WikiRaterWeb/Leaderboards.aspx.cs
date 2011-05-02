@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Data.SqlClient;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using WikiRaterWeb.Properties;
+using System.Configuration;
 
 namespace WikiRaterWeb
 {
@@ -15,34 +16,37 @@ namespace WikiRaterWeb
 		AchievementValidator av = new AchievementValidator();
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			
-			var uniqueusers = (from u in dc.Users
-							   select u.UserID).Distinct();
 
 			DataTable dt = new DataTable();
 			dt.Columns.Add("UserID");
 			dt.Columns.Add("UserName");
 			dt.Columns.Add("Count", System.Type.GetType("System.Int32"));
 
-			foreach (int uid in uniqueusers)
+			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["WikiVoterConnectionString"].ConnectionString))
 			{
-				string username = Auth.LookupUserName(uid);
-				if (username != Settings.Default.WikiRaterName)
+				conn.Open();
+				SqlCommand command = new SqlCommand("SELECT UserID, UserName, TimeCreated FROM [User] WHERE Active = 1;", conn);
+				SqlDataReader reader = command.ExecuteReader();
+				while (reader.Read())
 				{
-					DataRow dr = dt.NewRow();
-					dr["UserID"] = uid;
-					//already validated, but encode anyway
-					dr["UserName"] = Server.HtmlEncode(username);
-					int points = av.GetPoints(uid, false);
-					dr["Count"] = points;
-					if(points > 0)
-						dt.Rows.Add(dr);
+					int userID = reader.GetInt32(0);
+					string username = reader.GetString(1);
+					if (username != Settings.Default.WikiRaterName)
+					{
+						DataRow dr = dt.NewRow();
+						dr["UserID"] = userID;
+						//already validated, but encode anyway
+						dr["UserName"] = Server.HtmlEncode(username);
+						int points = av.GetPoints(userID, false);
+						dr["Count"] = points;
+						if (points > 0)
+							dt.Rows.Add(dr);
+					}
 				}
 			}
 			dt.DefaultView.Sort = "Count DESC";
 			LeaderboardList.DataSource = dt.DefaultView;
 			LeaderboardList.DataBind();
-
 		}
 	}
 }

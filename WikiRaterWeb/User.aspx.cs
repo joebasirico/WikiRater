@@ -91,24 +91,21 @@ namespace WikiRaterWeb
 
 		private void PopulateViewedArticles(string sort)
 		{
-			var articles = from a in dc.Ratings
-						   where a.UserID == userID &&
-						   a.IsLatest == true
-						   select a;
+			List<Tuple<string, double>> articles = RatingHelper.GetUserRatings(userID);
 
 			DataTable dt = new DataTable();
 			dt.Columns.Add("Article");
 			dt.Columns.Add("Rating", System.Type.GetType("System.Double"));
 
-			foreach (Rating a in articles)
+			foreach (Tuple<string, double> a in articles)
 			{
 				DataRow dr = dt.NewRow();
 				//encode
-				if (a.Article.Length > Settings.Default.TruncateArticleLength)
-					dr["Article"] = Server.HtmlEncode(a.Article.Substring(0, Settings.Default.TruncateArticleLength - 3)) + "...";
+				if (a.Item1.Length > Settings.Default.TruncateArticleLength)
+					dr["Article"] = Server.HtmlEncode(a.Item1.Substring(0, Settings.Default.TruncateArticleLength - 3)) + "...";
 				else
-					dr["Article"] = Server.HtmlEncode(a.Article);
-				dr["Rating"] = a.Value;
+					dr["Article"] = Server.HtmlEncode(a.Item1);
+				dr["Rating"] = a.Item2;
 
 				dt.Rows.Add(dr);
 			}

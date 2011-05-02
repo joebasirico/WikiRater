@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Data.SqlClient;
 using System.Web;
 using System.Web.UI;
 using System.Data;
 using WikiRaterWeb.Properties;
+using System.Configuration;
 
 namespace WikiRaterWeb
 {
@@ -28,63 +29,65 @@ namespace WikiRaterWeb
 		/// <returns>a list of Tuples (article, rating)</returns>
 		public static List<Tuple<string, double>> GetAllRatedArticles(int userID, string hasRated, double lowerBound, double upperBound)
 		{
-			DataClassesDataContext dc = new DataClassesDataContext();
+			List<Tuple<string, double>> articles = new List<Tuple<string, double>>();
 
-			List<Tuple<string, double>> ratedArticles = new List<Tuple<string, double>>();
-			List<Tuple<string, double>> unRatedArticles = new List<Tuple<string, double>>();
-			List<Tuple<string, double>> allArticles = new List<Tuple<string, double>>();
-
-			var allRatings = from rating in dc.Ratings
-							 where rating.IsLatest == true
-							 select rating;
-
-			foreach (var ratingValue in allRatings)
+			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["WikiVoterConnectionString"].ConnectionString))
 			{
-				double average = GetWeightedAverage(ratingValue.Article, allRatings.ToList());
-				if (average >= lowerBound &&
-					average <= upperBound)
-				{
-					if (userID > 0)
-					{
-						var RatedArticles = from rArt in allRatings
-											where rArt.UserID == userID
-											    && rArt.IsLatest == true
-											select rArt.Article;
-						bool found = false;
+				List<Tuple<string, double>> ratedArticleList = GetUserRatings(userID);
 
-						foreach (string ratedArticle in RatedArticles)
-						{
-							if (ratingValue.Article == ratedArticle)
-							{
-								ratedArticles.Add(new Tuple<string, double>(ratingValue.Article, average));
-								found = true;
-								break;
-							}
-						}
-						if (!found)
-							unRatedArticles.Add(new Tuple<string, double>(ratingValue.Article, average));
-					}
-					allArticles.Add(new Tuple<string, double>(ratingValue.Article, average));
+				conn.Open();
+				SqlCommand command = new SqlCommand("GetCurrentRatingsAverages", conn);
+				command.CommandType = CommandType.StoredProcedure;
+				command.Parameters.Add(new SqlParameter("@LowerBound", lowerBound));
+				command.Parameters.Add(new SqlParameter("@UpperBound", upperBound));
+				SqlDataReader reader = command.ExecuteReader();
+				while (reader.Read())
+				{
+					string article = reader.GetString(0);
+					double average = reader.GetDouble(1);
+
+					if (Contains(ratedArticleList, article) && hasRated == "rated")
+						articles.Add(new Tuple<string, double>(article, average));
+					else if (hasRated == "unrated")
+						articles.Add(new Tuple<string, double>(article, average));
+					else if (hasRated == "all")
+						articles.Add(new Tuple<string, double>(article, average));
+				}
+				reader.Close();
+			}
+
+			return articles;
+		}
+
+		public static bool Contains(List<Tuple<string, double>> userRatings, string p)
+		{
+			bool found = false;
+			foreach (Tuple<string, double> a in userRatings)
+			{
+				if (a.Item1 == p)
+				{
+					found = true;
+					break;
 				}
 			}
+			return found;
+		}
 
-			switch (hasRated.ToLower())
+		public static List<Tuple<string, double>> GetUserRatings(int userID)
+		{
+			List<Tuple<string, double>> ratedArticleList = new List<Tuple<string, double>>();
+			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["WikiVoterConnectionString"].ConnectionString))
 			{
-				case "all":
-					return allArticles;
-				case "rated":
-					if (userID > 0)
-						return ratedArticles;
-					else
-						return allArticles;
-				case "unrated":
-					if (userID > 0)
-						return unRatedArticles;
-					else
-						return allArticles;
-				default:
-					return allArticles;
+				conn.Open();
+				SqlCommand getUserRatings = new SqlCommand("GetUserRatings", conn);
+				getUserRatings.CommandType = CommandType.StoredProcedure;
+				getUserRatings.Parameters.Add(new SqlParameter("UserID", userID));
+				SqlDataReader getRatingsReader = getUserRatings.ExecuteReader();
+				while (getRatingsReader.Read())
+					ratedArticleList.Add(new Tuple<string,double>(getRatingsReader.GetString(0), getRatingsReader.GetDouble(1)));
+				conn.Close();
 			}
+			return ratedArticleList;
 		}
 
 
@@ -107,91 +110,116 @@ namespace WikiRaterWeb
 		/// <returns>a list of Tuples (article, rating, whether this has been rated)</returns>
 		public static List<Tuple<string, double, bool>> GetAllRatedArticles(int userID, double lowerBound, double upperBound)
 		{
-			DataClassesDataContext dc = new DataClassesDataContext();
+			List<Tuple<string, double, bool>> articles = new List<Tuple<string, double, bool>>();
 
-			List<Tuple<string, double, bool>> allArticles = new List<Tuple<string, double, bool>>();
-
-			var allRatings = from rating in dc.Ratings
-							 where rating.IsLatest == true
-							 select rating;
-
-			foreach (var ratingValue in allRatings)
+			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["WikiVoterConnectionString"].ConnectionString))
 			{
-				double average = GetWeightedAverage(ratingValue.Article, allRatings.ToList());
-				if (average >= lowerBound &&
-					average <= upperBound)
-				{
-					if (userID > 0)
-					{
-						var RatedArticles = from rArt in allRatings
-											where rArt.UserID == userID
-												&& rArt.IsLatest == true
-											select rArt.Article;
-						bool found = false;
+				conn.Open();
 
-						foreach (string ratedArticle in RatedArticles)
-						{
-							if (ratingValue.Article == ratedArticle)
-							{
-								allArticles.Add(new Tuple<string, double, bool>(ratingValue.Article, average, true));
-								found = true;
-								break;
-							}
-						}
-						if (!found)
-							allArticles.Add(new Tuple<string, double, bool>(ratingValue.Article, average, false));
-					}
-					else //user is not logged in return a list of all articles that satisfy the range
-						allArticles.Add(new Tuple<string, double, bool>(ratingValue.Article, average, false));
+				List<string> ratedArticleList = new List<string>();
+				SqlCommand getUserRatings = new SqlCommand("GetUserRatings", conn);
+				getUserRatings.CommandType = CommandType.StoredProcedure;
+				getUserRatings.Parameters.Add(new SqlParameter("@UserID", userID));
+				SqlDataReader getRatingsReader = getUserRatings.ExecuteReader();
+				while (getRatingsReader.Read())
+					ratedArticleList.Add(getRatingsReader.GetString(0));
+				conn.Close();
+
+				conn.Open();
+				SqlCommand command = new SqlCommand("GetCurrentRatingsAverages", conn);
+				command.CommandType = CommandType.StoredProcedure;
+				command.Parameters.Add(new SqlParameter("@LowerBound", lowerBound));
+				command.Parameters.Add(new SqlParameter("@UpperBound", upperBound));
+				SqlDataReader reader = command.ExecuteReader();
+				while (reader.Read())
+				{
+					string article = reader.GetString(0);
+					double average = reader.GetDouble(1);
+
+					if (ratedArticleList.Contains(article))
+						articles.Add(new Tuple<string, double, bool>(article, average, true));
+					else
+						articles.Add(new Tuple<string, double, bool>(article, average, false));
 				}
+				reader.Close();
 			}
-			return allArticles;
+			return articles;
 		}
 
-		public static double GetWeightedAverage(string article, List<Rating> allRatings)
+		public static List<Tuple<string, int, DateTime, double>> GetTrendingValues()
 		{
-			DataClassesDataContext dc = new DataClassesDataContext();
-			var votes = from a in allRatings
-						where a.Article == article &&
-						a.IsLatest == true
-						select a;
+			List<Tuple<string, int, DateTime, double>> articles = new List<Tuple<string, int, DateTime, double>>();
 
-			double total = 0;
-			double count = 0;
-			foreach (Rating a in votes)
+			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["WikiVoterConnectionString"].ConnectionString))
 			{
-				if (a.Article == Settings.Default.WikiRaterName)
+				conn.Open();
+				SqlCommand command = new SqlCommand("GetTrendValues", conn);
+				command.CommandType = CommandType.StoredProcedure;
+				SqlDataReader reader = command.ExecuteReader();
+				while (reader.Read())
 				{
-					for (int i = 0; i < 9; i++)
-					{
-						total += a.Value;
-						count++;
-					}
+					articles.Add(new Tuple<string, int, DateTime, double>(reader.GetString(0), reader.GetInt32(1), reader.GetDateTime(2), reader.GetDouble(3)));
 				}
-				total += a.Value;
-				count++;
+				reader.Close();
 			}
-
-			return total / count;
+			return articles;
 		}
 
-		public static bool hasBeenRated(int userID, string Article, List<Rating> allRatings)
+		public static double GetWeightedAverage(string article)
 		{
-			var RatedArticles = from rArt in allRatings
-								where rArt.UserID == userID
-									&& rArt.IsLatest == true
-								select rArt.Article;
+			double average = 0.0;
+			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["WikiVoterConnectionString"].ConnectionString))
+			{
+				conn.Open();
+				SqlCommand command = new SqlCommand("GetArticleAverage", conn);
+				command.CommandType = CommandType.StoredProcedure;
+				command.Parameters.Add(new SqlParameter("@Article", article));
+				SqlDataReader reader = command.ExecuteReader();
+				while (reader.Read())
+					average = reader.GetDouble(1);
+				reader.Close();
+			}
+			return average;
+		}
+
+		public static bool hasBeenRated(int userID, string article)
+		{
 			bool found = false;
-
-			foreach (string ratedArticle in RatedArticles)
+			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["WikiVoterConnectionString"].ConnectionString))
 			{
-				if (Article == ratedArticle)
+				conn.Open();
+				SqlCommand command = new SqlCommand("HasBeenRated", conn);
+				command.CommandType = CommandType.StoredProcedure;
+				command.Parameters.Add(new SqlParameter("@Article", article));
+				command.Parameters.Add(new SqlParameter("@UserID", userID));
+
+				SqlDataReader reader = command.ExecuteReader();
+				while (reader.Read())
 				{
 					found = true;
 					break;
 				}
+				reader.Close();
 			}
 			return found;
+		}
+
+		internal static List<string> GetImprovementProgramList()
+		{
+			List<string> articles = new List<string>();
+
+			using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["WikiVoterConnectionString"].ConnectionString))
+			{
+				conn.Open();
+				SqlCommand command = new SqlCommand("SELECT Title FROM ImprovementProgramList", conn);
+				SqlDataReader reader = command.ExecuteReader();
+				while (reader.Read())
+				{
+					articles.Add(reader.GetString(0));
+				}
+				reader.Close();
+			}
+			return articles;
 		}
 	}
 }

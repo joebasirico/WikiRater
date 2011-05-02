@@ -248,8 +248,7 @@ namespace WikiRaterWeb
 
 		private void SaveRating(string title, int value)
 		{
-			if (!dc.Users.Any(u => u.UserName == Settings.Default.WikiRaterName))
-				dc.CreateUser(Settings.Default.WikiRaterName, "DNE", DateTime.Now, false, "wikirater@example.com");
+			
 			dc.AddRating(dc.Users.First(u => u.UserName == Settings.Default.WikiRaterName).UserID,
 				title, value, DateTime.Now);
 		}

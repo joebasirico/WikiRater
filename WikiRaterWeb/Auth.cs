@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Data.SqlClient;
 using System.Web;
 using WikiRaterWeb;
 using System.Text.RegularExpressions;
 using System.Text;
 using WikiRaterWeb.Properties;
+using System.Configuration;
+using System.Data;
 
 
 /// <summary>
@@ -17,23 +19,24 @@ public static class Auth
 
 	public static int checkCredentials(string username, string password)
 	{
-		DataClassesDataContext dc = new DataClassesDataContext();
-		var userID = from u in dc.Users
-					 where u.Active == true &&
-					 u.UserName == username &&
-					 u.PasswordHash == password
-					 select u;
-
-		int usersFound = 0;
-		int foundUserID = 0;
-		foreach (User u in userID)
+		int count = 0;
+		int userID = 0;
+		using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["WikiVoterConnectionString"].ConnectionString))
 		{
-			foundUserID = u.UserID;
-			usersFound++;
+			conn.Open();
+			SqlCommand command = new SqlCommand("CheckUser", conn);
+			SqlDataReader reader = command.ExecuteReader();
+			count = 0;
+			userID = 0;
+			while (reader.Read())
+			{
+				userID = reader.GetInt32(0);
+				count++;
+			}
 		}
 
-		if (usersFound == 1)
-			return foundUserID;
+		if (count == 1)
+			return userID;
 		else
 			return 0;
 	}
@@ -82,20 +85,24 @@ public static class Auth
 
 	public static int checkSession(Guid session)
 	{
-		DataClassesDataContext dc = new DataClassesDataContext();
-		var userID = from u in dc.Sessions
-					 where u.SessionID == session
-					 select u.UserID;
-
-		int usersFound = 0;
-		int foundUserID = 0;
-		foreach (int id in userID)
+		int userID = 0;
+		int count = 0;
+		using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["WikiVoterConnectionString"].ConnectionString))
 		{
-			foundUserID = id;
-			usersFound++;
+			conn.Open();
+			SqlCommand command = new SqlCommand("GetUserIDBySession", conn);
+			command.CommandType = CommandType.StoredProcedure;
+			command.Parameters.AddWithValue("@SessionID", session);
+			SqlDataReader reader = command.ExecuteReader();
+			while (reader.Read())
+			{
+				userID = reader.GetInt32(0);
+				count++;
+			}
 		}
-		if (usersFound == 1)
-			return foundUserID;
+
+		if (count == 1)
+			return userID;
 		else
 			return 0;
 	}
@@ -119,20 +126,24 @@ public static class Auth
 
 	public static string LookupUserName(int userID)
 	{
-		DataClassesDataContext dc = new DataClassesDataContext();
-		var userName = from u in dc.Users
-					   where u.UserID == userID
-					   select u.UserName;
-
-		int usersFound = 0;
-		string foundUsername = "";
-		foreach (string name in userName)
+		string username = "";
+		int count = 0;
+		using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["WikiVoterConnectionString"].ConnectionString))
 		{
-			foundUsername = name;
-			usersFound++;
+			conn.Open();
+			SqlCommand command = new SqlCommand("GetUserByID", conn);
+			command.CommandType = CommandType.StoredProcedure;
+			command.Parameters.AddWithValue("@UserID", userID);
+			SqlDataReader reader = command.ExecuteReader();
+			while (reader.Read())
+			{
+				username = reader.GetString(0);
+				count++;
+			}
 		}
-		if (usersFound == 1)
-			return foundUsername;
+
+		if (count == 1)
+			return username;
 		else
 			return "";
 	}

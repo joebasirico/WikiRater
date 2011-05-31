@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="WikiVoter" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=.\SQLExpress;Initial Catalog=WikiVoter;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="WikiVoterConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=seaweed.arvixe.com;Initial Catalog=WikiRater;User ID=WikiRater" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="WikiVoterConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.EventLog" Member="EventLogs">
     <Type Name="EventLog">
       <Column Name="LogID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -24,6 +24,7 @@
       <Column Name="PasswordHash" Type="System.String" DbType="Char(128) NOT NULL" CanBeNull="false" />
       <Column Name="TimeCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="Active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="email" Type="System.String" DbType="NVarChar(500) NULL" CanBeNull="false" />
       <Association Name="User_Session" Member="Sessions" ThisKey="UserID" OtherKey="UserID" Type="Session" />
       <Association Name="User_Rating" Member="Ratings" ThisKey="UserID" OtherKey="UserID" Type="Rating" />
       <Association Name="User_AchievementMap" Member="AchievementMaps" ThisKey="UserID" OtherKey="UserID" Type="AchievementMap" />

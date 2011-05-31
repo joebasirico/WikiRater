@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using WikiRaterWeb.Properties;
+using System.Threading;
 
 namespace WikiRaterWeb
 {
@@ -20,7 +21,7 @@ namespace WikiRaterWeb
 				if (!string.IsNullOrEmpty(username))
 				{
 					footerStuff.Text = "You are currently logged in as: " + username + " <a href=\"/Logout.aspx\">click here to logout</a>";
-					loginlogout.Text = "| <a href=\"/User.aspx\">About You</a> | <a href=\"/Logout.aspx\">Logout</a>";
+					loginlogout.Text = "| <a href=\"/User.aspx\">About Me</a> | <a href=\"/Logout.aspx\">Logout</a>";
 				}
 				else
 				{

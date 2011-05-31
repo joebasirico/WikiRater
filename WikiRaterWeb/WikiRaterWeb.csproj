@@ -60,6 +60,7 @@
     <Content Include="default.css" />
     <Content Include="errors\GeneralError.aspx" />
     <Content Include="EventLog.aspx" />
+    <Content Include="Forgot.aspx" />
     <Content Include="Help\Default.aspx" />
     <Content Include="Help\InstallOnIE.aspx" />
     <Content Include="Help\Mobile.aspx" />
@@ -106,6 +107,7 @@
     <Content Include="RandomPage.aspx" />
     <Content Include="Register.aspx" />
     <Content Include="Trending.aspx" />
+    <Content Include="UpdateMyInfo.aspx" />
     <Content Include="User.aspx" />
     <Content Include="Vote.aspx" />
     <Content Include="Web.config">
@@ -195,6 +197,13 @@
     </Compile>
     <Compile Include="EventLog.aspx.designer.cs">
       <DependentUpon>EventLog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Forgot.aspx.cs">
+      <DependentUpon>Forgot.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forgot.aspx.designer.cs">
+      <DependentUpon>Forgot.aspx</DependentUpon>
     </Compile>
     <Compile Include="Help\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -293,6 +302,13 @@
     </Compile>
     <Compile Include="Trending.aspx.designer.cs">
       <DependentUpon>Trending.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateMyInfo.aspx.cs">
+      <DependentUpon>UpdateMyInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UpdateMyInfo.aspx.designer.cs">
+      <DependentUpon>UpdateMyInfo.aspx</DependentUpon>
     </Compile>
     <Compile Include="User.aspx.cs">
       <DependentUpon>User.aspx</DependentUpon>

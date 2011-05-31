@@ -19,36 +19,52 @@ namespace WikiRaterWeb
 
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			string username = "";
-			if (!(string.IsNullOrWhiteSpace(Request["Username"])))
-				username = Request["Username"];
-			else
-				username = GetCurrentUser();
-
-			UserName.Text = Server.HtmlEncode(username);
-
-			User currentUser = dc.Users.First(u => u.UserName == username);
-
-			int points = av.GetPoints(currentUser.UserID, false);
-			Points.Text = points.ToString();
-			if(points > 1)
-				PointOrPoints.Text = "Points";
-			else
-				PointOrPoints.Text = "Point";
-
-			GenerateAchievementList(currentUser.UserID);
-
-
-			if (userID > 0 && (from u in dc.Users
-								   where u.UserID == userID
-								   select u.UserName).First() == username)
+			try
 			{
-				RatedArticlePanel.Visible = true;
-				PopulateViewedArticles("");
-				IntroText.Text = CreateIntroText(currentUser, true);
+				string username = "";
+				if (!(string.IsNullOrWhiteSpace(Request["Username"])))
+					username = Request["Username"];
+				else
+					username = GetCurrentUser();
+
+				UserName.Text = Server.HtmlEncode(username);
+
+				User currentUser = dc.Users.FirstOrDefault(u => u.UserName == username);
+				if (null != currentUser)
+				{
+					int points = av.GetPoints(currentUser.UserID, false);
+					Points.Text = points.ToString();
+					if (points > 1)
+						PointOrPoints.Text = "Points";
+					else
+						PointOrPoints.Text = "Point";
+
+					GenerateAchievementList(currentUser.UserID);
+
+
+					if (userID > 0 && (from u in dc.Users
+									   where u.UserID == userID
+									   select u.UserName).First() == username)
+					{
+						RatedArticlePanel.Visible = true;
+						PopulateViewedArticles("");
+						IntroText.Text = CreateIntroText(currentUser, true);
+					}
+					else
+						IntroText.Text = CreateIntroText(currentUser, false);
+				}
+				else
+				{
+					Default.Visible = false;
+					NoUser.Visible = true;
+				}
 			}
-			else
-				IntroText.Text = CreateIntroText(currentUser, false);
+			catch (Exception ex)
+			{
+				Auth.CreateEvent("UserPage wierdness", ex.ToString(), Request.UserHostAddress);
+				Default.Visible = false;
+				NoUser.Visible = true;
+			}
 		}
 
 		private string CreateIntroText(WikiRaterWeb.User currentUser, bool isHome)

@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="CurrentDomain" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://localhost:13800</Value>
+      <Value Profile="(Default)">http://localhost:2223</Value>
     </Setting>
     <Setting Name="RateOnWikiRaterText" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Rate on WikiRater</Value>
@@ -61,6 +61,15 @@
     </Setting>
     <Setting Name="DefaultAchievementIcon" Type="System.String" Scope="Application">
       <Value Profile="(Default)">/Images/Achievements/Default_Large.png</Value>
+    </Setting>
+    <Setting Name="emailUser" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">support@wikirater.net</Value>
+    </Setting>
+    <Setting Name="emailPass" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">X$@ca6va</Value>
+    </Setting>
+    <Setting Name="NoEmailAddressMessage" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">It looks like you didn't specify an e-mail address when you signed up. This is probably because you were a super-awesome early adopter. If you give me an address I can reset your password if you lose it. Why not head on over to the &lt;a href="UpdateMyInfo.aspx"&gt;Update&lt;/a&gt; page and put one in?</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -8,6 +8,7 @@ using System.Text;
 using WikiRaterWeb.Properties;
 using System.Configuration;
 using System.Data;
+using System.Linq;
 
 
 /// <summary>
@@ -25,6 +26,9 @@ public static class Auth
 		{
 			conn.Open();
 			SqlCommand command = new SqlCommand("CheckUser", conn);
+			command.Parameters.AddWithValue("@UserName", username);
+			command.Parameters.AddWithValue("@PasswordHash", password);
+			command.CommandType = CommandType.StoredProcedure;
 			SqlDataReader reader = command.ExecuteReader();
 			count = 0;
 			userID = 0;
@@ -146,6 +150,72 @@ public static class Auth
 			return username;
 		else
 			return "";
+	}
+
+	public static void CreateResetValue(User currentUser, Guid resetValue)
+	{
+		using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["WikiVoterConnectionString"].ConnectionString))
+		{
+			conn.Open();		
+			SqlCommand command = new SqlCommand("AddPasswordReset", conn);
+			command.CommandType = CommandType.StoredProcedure;
+			command.Parameters.AddWithValue("@UserID", currentUser.UserID);
+			command.Parameters.AddWithValue("@ResetValue", resetValue);
+			command.Parameters.AddWithValue("@TimeCreated", System.DateTime.Now);
+
+			command.ExecuteNonQuery();
+		}
+	}
+
+	public static int CheckResetValue(Guid resetValue)
+	{
+		int userID = 0;
+		int count = 0;
+		using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["WikiVoterConnectionString"].ConnectionString))
+		{
+			conn.Open();
+			SqlCommand command = new SqlCommand("LookupResetValue", conn);
+			command.CommandType = CommandType.StoredProcedure;
+			command.Parameters.AddWithValue("@ResetValue", resetValue);
+			command.Parameters.AddWithValue("@TimeOut", DateTime.Now.Subtract(new TimeSpan(7, 0, 0, 0)));
+			SqlDataReader reader = command.ExecuteReader();
+			while (reader.Read())
+			{
+				userID = reader.GetInt32(0);
+				count++;
+			}
+		}
+
+		if (count == 1)
+			return userID;
+		else
+			return 0;
+	}
+
+	public static void DeleteResetValue(Guid resetValue)
+	{
+		using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["WikiVoterConnectionString"].ConnectionString))
+		{
+			conn.Open();
+			SqlCommand command = new SqlCommand("DeleteResetValue", conn);
+			command.CommandType = CommandType.StoredProcedure;
+			command.Parameters.AddWithValue("@ResetValue", resetValue);
+			command.ExecuteNonQuery();
+		}
+	}
+
+	internal static void UpdateEmail(int userID, string newEmail)
+	{
+		using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["WikiVoterConnectionString"].ConnectionString))
+		{
+			conn.Open();
+			SqlCommand command = new SqlCommand("UpdateEmail", conn);
+			command.CommandType = CommandType.StoredProcedure;
+			command.Parameters.AddWithValue("@UserID", userID);
+			command.Parameters.AddWithValue("@NewEmail", newEmail);
+
+			command.ExecuteNonQuery();
+		}
 	}
 
 	public static string GenerateRandomUserName()

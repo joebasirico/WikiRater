@@ -92,8 +92,6 @@ namespace RatingEngine
 				int CurTotalLength = GetTotalLength() - 25000;
 				int CurViewsInLast30Days = GetViewsInLast30Days();
 
-
-
 				int internalRating = (linksToWeight * CurLinksTo) +
 							(linksFromWeight * CurLinksFrom) +
 							(minutesSinceLastEditWeight * CurMinutesSinceLastEdit) +
@@ -126,6 +124,36 @@ namespace RatingEngine
 			}
 		}
 
+		private int GetIsFeatured()
+		{
+			string FeaturedIcon = "14px-Cscr-featured.svg.png";
+			if (Regex.IsMatch(body, FeaturedIcon))
+				return 10;
+			else
+				return 1;
+		}
+
+		public int GetLinksTo()
+		{
+			int linksto = 0;
+			string linkPages = "http://en.wikipedia.org/w/index.php?title=Special:WhatLinksHere&target={0}&namespace=0&limit=50000";
+			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(string.Format(linkPages, title));
+			request.Method = "GET";
+			request.UserAgent = "WikiRater(whoisjoe.com)/0.8";
+
+			request.AllowAutoRedirect = true;
+			WebResponse response = request.GetResponse();
+			StreamReader inStream = new StreamReader(response.GetResponseStream());
+			string linkPage = inStream.ReadToEnd();
+
+			string matchLinks = "<li><a href=\"/wiki/.+\" title=\".+\">.+</a>";
+			Regex linksRegex = new Regex(matchLinks);
+			if (linksRegex.IsMatch(linkPage))
+				linksto = linksRegex.Matches(linkPage).Count;
+
+			return linksto;
+		}
+
 		private int GetViewsInLast30Days()
 		{
 			string trafficStatsPage = "http://stats.grok.se/en/latest/{0}";
@@ -151,15 +179,6 @@ namespace RatingEngine
 			return body.Length;
 		}
 
-		private int GetIsFeatured()
-		{
-			string FeaturedIcon = "14px-Cscr-featured.svg.png";
-			if (Regex.IsMatch(body, FeaturedIcon))
-				return 1;
-			else
-				return 0;
-		}
-
 		private int GetTotalMinEdits()
 		{
 			return 0;
@@ -182,26 +201,7 @@ namespace RatingEngine
 		}
 
 
-		public int GetLinksTo()
-		{
-			int linksto = 0;
-			string linkPages = "http://en.wikipedia.org/w/index.php?title=Special:WhatLinksHere&target={0}&namespace=0&limit=50000";
-			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(string.Format(linkPages, title));
-			request.Method = "GET";
-			request.UserAgent = "WikiRater(whoisjoe.com)/0.8";
 
-			request.AllowAutoRedirect = true;
-			WebResponse response = request.GetResponse();
-			StreamReader inStream = new StreamReader(response.GetResponseStream());
-			string linkPage = inStream.ReadToEnd();
-
-			string matchLinks = "<li><a href=\"/wiki/.+\" title=\".+\">.+</a>";
-			Regex linksRegex = new Regex(matchLinks);
-			if (linksRegex.IsMatch(linkPage))
-				linksto = linksRegex.Matches(linkPage).Count;
-
-			return linksto;
-		}
 
 		void GetBody()
 		{

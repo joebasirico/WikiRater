@@ -5,6 +5,10 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 	<div class="content">
+		<asp:Panel ID="MessagePanel" runat="server" Visible="false" CssClass="mainPageMessage">
+			<asp:Label ID="Message" runat="server">
+			</asp:Label>
+		</asp:Panel>
 		<h1>
 			Welcome to WikiRater</h1>
 		<div class="section">
@@ -30,11 +34,11 @@
 			</table>
 		</div>
 		<div class="bookmarkletTagSection">
-
 			<span class="bookmarkletHeader">Get the Bookmarklet</span><br />
-			<span class="bookmarkletLink"><asp:HyperLink ID="RateOnWikiRater" runat="server" CssClass="bookmarklet" /></span>
+			<span class="bookmarkletLink">
+				<asp:HyperLink ID="RateOnWikiRater" runat="server" CssClass="bookmarklet" /></span>
 			<span class="bookmarkletText">&#8662; Drag this to your bookmarks bar ...<br />
-			 then click it to rate Wikipedia articles!</span>
+				then click it to rate Wikipedia articles!</span>
 		</div>
 		<div class="section">
 			<h2>

@@ -25,7 +25,7 @@ namespace WikiRaterWeb.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:13800")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:2223")]
         public string CurrentDomain {
             get {
                 return ((string)(this["CurrentDomain"]));
@@ -201,6 +201,33 @@ namespace WikiRaterWeb.Properties {
         public string DefaultAchievementIcon {
             get {
                 return ((string)(this["DefaultAchievementIcon"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("support@wikirater.net")]
+        public string emailUser {
+            get {
+                return ((string)(this["emailUser"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("X$@ca6va")]
+        public string emailPass {
+            get {
+                return ((string)(this["emailPass"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"It looks like you didn't specify an e-mail address when you signed up. This is probably because you were a super-awesome early adopter. If you give me an address I can reset your password if you lose it. Why not head on over to the <a href=""UpdateMyInfo.aspx"">Update</a> page and put one in?")]
+        public string NoEmailAddressMessage {
+            get {
+                return ((string)(this["NoEmailAddressMessage"]));
             }
         }
     }

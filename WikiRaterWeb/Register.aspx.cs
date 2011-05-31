@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -30,56 +30,61 @@ namespace WikiRaterWeb
 
 		protected void DoRegister_Click(object sender, EventArgs e)
 		{
-
+			DataClassesDataContext dc = new DataClassesDataContext();
 			try
 			{
 				if (!Auth.UserExists(UsernameBox.Text))
 				{
-					if (!new Regex(Settings.Default.UsernameRegex).IsMatch(UsernameBox.Text))
-						Message.Text = Settings.Default.UsernameFailedMatchMessage;
-					else
+					if (null == dc.Users.FirstOrDefault(u => u.email == email.Text))
 					{
-						if (!new Regex(Settings.Default.emailRegex).IsMatch(email.Text))
-							Message.Text = Settings.Default.EmailFailedMatchMessage;
+						if (!new Regex(Settings.Default.UsernameRegex).IsMatch(UsernameBox.Text))
+							Message.Text = Settings.Default.UsernameFailedMatchMessage;
 						else
 						{
-							//Add the user
-							Auth.registerUser(UsernameBox.Text,
-								Encoding.ASCII.GetString(
-									SHA512Managed.Create().ComputeHash(
-										Encoding.ASCII.GetBytes(UsernameBox.Text + Auth.getSaltyGoo() + PasswordBox.Text))), email.Text);
-							//Log the event
-							Auth.CreateEvent("Created User", "UserName: " + UsernameBox.Text + "\r\n", Request.UserHostAddress);
-
-							//Login the new user 
-							//check the user has been created properly
-							int userID = Auth.checkCredentials(UsernameBox.Text,
-										Encoding.ASCII.GetString(
-											SHA512Managed.Create().ComputeHash(
-												Encoding.ASCII.GetBytes(UsernameBox.Text + Auth.getSaltyGoo() + PasswordBox.Text))));
-
-							//if the user is valid and the creds are still good log them in and give them a cookie
-							if (userID != 0)
-							{
-								Guid session = Guid.NewGuid();
-								Auth.createSession(userID, session);
-								Auth.CreateEvent("Successful Login", "By user: " + UsernameBox.Text, Request.UserHostAddress);
-								Response.Cookies.Add(new HttpCookie("session", session.ToString()));
-
-								//Change the UI to reflect everytihng went well
-								RegisterPanel.Visible = false;
-								RegistrationCompletePanel.Visible = true;
-								Bookmarklet.Text = Settings.Default.RateOnWikiRaterText;
-								Bookmarklet.NavigateUrl = String.Format(Settings.Default.Bookmarklet, Settings.Default.CurrentDomain);
-							}
+							if (!new Regex(Settings.Default.emailRegex).IsMatch(email.Text))
+								Message.Text = Settings.Default.EmailFailedMatchMessage;
 							else
 							{
-								Auth.CreateEvent("Failed Login Attempt", "By user: " + UsernameBox.Text, Request.UserHostAddress);
-								RegisterPanel.Visible = false;
-								ErrorPanel.Visible = true;
+								//Add the user
+								Auth.registerUser(UsernameBox.Text,
+									Encoding.ASCII.GetString(
+										SHA512Managed.Create().ComputeHash(
+											Encoding.ASCII.GetBytes(UsernameBox.Text + Auth.getSaltyGoo() + PasswordBox.Text))), email.Text);
+								//Log the event
+								Auth.CreateEvent("Created User", "UserName: " + UsernameBox.Text + "\r\n", Request.UserHostAddress);
+
+								//Login the new user 
+								//check the user has been created properly
+								int userID = Auth.checkCredentials(UsernameBox.Text,
+											Encoding.ASCII.GetString(
+												SHA512Managed.Create().ComputeHash(
+													Encoding.ASCII.GetBytes(UsernameBox.Text + Auth.getSaltyGoo() + PasswordBox.Text))));
+
+								//if the user is valid and the creds are still good log them in and give them a cookie
+								if (userID != 0)
+								{
+									Guid session = Guid.NewGuid();
+									Auth.createSession(userID, session);
+									Auth.CreateEvent("Successful Login", "By user: " + UsernameBox.Text, Request.UserHostAddress);
+									Response.Cookies.Add(new HttpCookie("session", session.ToString()));
+
+									//Change the UI to reflect everytihng went well
+									RegisterPanel.Visible = false;
+									RegistrationCompletePanel.Visible = true;
+									Bookmarklet.Text = Settings.Default.RateOnWikiRaterText;
+									Bookmarklet.NavigateUrl = String.Format(Settings.Default.Bookmarklet, Settings.Default.CurrentDomain);
+								}
+								else
+								{
+									Auth.CreateEvent("Failed Login Attempt", "By user: " + UsernameBox.Text, Request.UserHostAddress);
+									RegisterPanel.Visible = false;
+									ErrorPanel.Visible = true;
+								}
 							}
 						}
 					}
+					else
+						Message.Text = "That email address is already in use. If you have a user and you forgot your password you can try the <a href=\"Forgot.aspx\"> page to retrieve it.";
 				}
 				else
 					Message.Text = "That username is already in use, please select another. May I suggest: \"" + Auth.GenerateRandomUserName() + "\"?";

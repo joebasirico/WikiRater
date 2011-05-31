@@ -8,6 +8,18 @@
 		<h1>
 			About</h1>
 		<div class="paragraph">
+			Hi, my name is Joe Basirico. At my <a href="http://securityinnovation.com">day job at
+				Security Innovation</a>, I help people ship more secure software by helping
+			them find and fix security vulnerabilities. During my free time I keep myself busy
+			with a million little (and big) projects, like this one. I have a blog at <a href="http://whoisjoe.net">
+				whoisjoe.net</a> and I like to take pictures over there on <a href="http://www.flickr.com/photos/joebasirico">
+					Flickr</a>. Oh yea, I also have a hilarious tumblr account where I list
+			the worst (and funniest) ways Google Voice mis-transcribes my voice mails. It's
+			called <a href="http://mistranscriptions.tumblr.com/">Mistranscriptions</a>, if
+			you have a particularly funny one, feel free to send it over and I'll post it there.
+			Now, enough about me, on to the site!
+		</div>
+		<div class="paragraph">
 			I've started a project to create an algorithm to rate articles on Wikipedia, and
 			you can help! My hope is to take user supplied rating and content and create an
 			algorithm that can reliably rate how interesting an article is.

@@ -10,87 +10,60 @@
 namespace WikiRaterWeb {
     
     
-    public partial class User1 {
+    public partial class UpdateMyInfo {
         
         /// <summary>
-        /// Default control.
+        /// message control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel Default;
+        protected global::System.Web.UI.WebControls.Label message;
         
         /// <summary>
-        /// Points control.
+        /// currentPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Points;
+        protected global::System.Web.UI.WebControls.TextBox currentPassword;
         
         /// <summary>
-        /// PointOrPoints control.
+        /// Password1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label PointOrPoints;
+        protected global::System.Web.UI.WebControls.TextBox Password1;
         
         /// <summary>
-        /// UserName control.
+        /// Password2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label UserName;
+        protected global::System.Web.UI.WebControls.TextBox Password2;
         
         /// <summary>
-        /// IntroText control.
+        /// email control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label IntroText;
+        protected global::System.Web.UI.WebControls.TextBox email;
         
         /// <summary>
-        /// AchievementsList control.
+        /// submit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView AchievementsList;
-        
-        /// <summary>
-        /// RatedArticlePanel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel RatedArticlePanel;
-        
-        /// <summary>
-        /// RatingsListView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView RatingsListView;
-        
-        /// <summary>
-        /// NoUser control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel NoUser;
+        protected global::System.Web.UI.WebControls.Button submit;
     }
 }

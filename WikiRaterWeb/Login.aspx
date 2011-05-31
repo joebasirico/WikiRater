@@ -39,7 +39,10 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2" align="right">
+					<td>
+						<a href="Forgot.aspx">forgot?</a>
+					</td>
+					<td align="right">
 						<asp:Button Text="Login" ID="DoLogin" runat="server" OnClick="DoLogin_Click" />
 					</td>
 				</tr>
